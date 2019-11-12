@@ -25,7 +25,5 @@ function auth() {
 }
 
 const checkAuth = passport.authenticate("jwt", { session: false });
-
-exports.auth = auth;
-
-exports.checkAuth = checkAuth;
+module.exports = auth;
+module.exports - checkAuth;
