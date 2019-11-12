@@ -4,7 +4,7 @@ var connectDB = require("./config/dbConnection");
 const loginService = require("./services/login/loginService");
 const authService = require("./services/passport/authService");
 const signupService = require("./services/signup/signupService");
-const menuItemService = require("./services/menuItems/menuItemService");
+//const menuItemService = require("./services/menuItems/menuItemService");
 
 //MongoDB connection
 connectDB();
