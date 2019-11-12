@@ -1,2 +1,2 @@
 # Twitter
-Twitter - team project repository
+CMPE 273 - Team Project

@@ -34,6 +34,6 @@ const conversationSchema = new schema(
 { versionKey: false }
 );
 
-const List = mongoose.model("List", listSchema);
+const List = mongoose.model("Conversation", conversationSchema);
 
 module.exports = List;

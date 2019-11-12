@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
-const config = require("../config/config");
+const { mongoDBURI } = require("./config");
 
 //Mongo Connection
-const connectDB = async () => {
+const connectMongoDB = async () => {
+
+  const options = {
+    poolSize: 900,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  };
+
   try {
-    await mongoose.connect(config.mongoURI, {
-      poolSize: 900,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false
-    });
-    console.log("MongoDB connected successfully");
+    await mongoose.connect(mongoDBURI, options);
+    console.log("MongoDB connected");
   } catch (err) {
     console.log("Could not connect to MongoDB", err);
   }
 };
 
-module.exports = connectDB;
+module.exports = connectMongoDB;
