@@ -5,16 +5,15 @@ var cors = require("cors");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 
-
-const config = require("./config/config");
+const { frontendURI } = require("./config/config");
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({ origin: config.frontEndURI, credentials: true }));
+app.use(cors({ origin: frontendURI, credentials: true }));
 
 //Allow Access Control
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", config.frontEndURI);
+  res.setHeader("Access-Control-Allow-Origin", frontendURI);
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -29,14 +28,14 @@ app.use(function (req, res, next) {
 });
 
 //use express session to maintain session data
-// app.use(
-//   session({
-//     secret: "cmpe273_kafka_passport_mongo",
-//     resave: false, // Forces the session to be saved back to the session store, even if the session was never modified during the request
-//     saveUninitialized: false, // Force to save uninitialized session to db. A session is uninitialized when it is new but not modified.
-//     duration: 60 * 60 * 1000, // Overall duration of Session : 30 minutes : 1800 seconds
-//     activeDuration: 5 * 60 * 1000
-//   })
-// );
+app.use(
+  session({
+    secret: "cmpe273_kafka_passport_mongo",
+    resave: false, // Forces the session to be saved back to the session store, even if the session was never modified during the request
+    saveUninitialized: false, // Force to save uninitialized session to db. A session is uninitialized when it is new but not modified.
+    duration: 60 * 60 * 1000, // Overall duration of Session : 30 minutes : 1800 seconds
+    activeDuration: 5 * 60 * 1000
+  })
+);
 
 module.exports = app;
