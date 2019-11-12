@@ -5,7 +5,7 @@ var cors = require("cors");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 
-const { frontendURI } = require("./config/config");
+const { frontendURI } = require("./utils/config");
 
 app.use(bodyParser.json());
 app.use(cookieParser());

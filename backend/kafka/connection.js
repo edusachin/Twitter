@@ -1,5 +1,5 @@
 var kafka = require("kafka-node");
-var { kafkaURI } = require("../config/config");
+var { kafkaURI } = require("../utils/config");
 
 function ConnectionProvider() {
     this.getConsumer = function(topic_name) {
