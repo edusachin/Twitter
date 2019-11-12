@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const passport = require('passport')
-const jwt = require('jsonwebtoken')
-require('../config/passport')(passport);
-var kafka = require("../kafka/client");
+const passport = require("passport")
+const jwt = require("jsonwebtoken")
+const { auth } = require("../config/passport");
+auth();
+const kafka = require("../kafka/client");
 const { validateLogin } = require("../validations/loginValidations");
 
 //Login API
