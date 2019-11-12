@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 var kafka = require("../kafka/client");
 
-const { auth, checkAuth } = require("../config/passport");
+const { auth, checkAuth } = require("../utils/passport");
 auth();
 
 const {
