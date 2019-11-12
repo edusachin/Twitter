@@ -1,5 +1,5 @@
 var connection = new require("./kafka/connection");
-var connectMongoDB = require("./config/dbConnection");
+var connectMongoDB = require("./utils/dbConnection");
 
 //import topics files
 //const loginService = require("./services/login/login");
