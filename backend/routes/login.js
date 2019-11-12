@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport")
-const jwt = require("jsonwebtoken")
+const { secret } = require('../utils/config');
+const jwt = require("jsonwebtoken");
 const { auth } = require("../utils/passport");
 auth();
 const kafka = require("../kafka/client");
