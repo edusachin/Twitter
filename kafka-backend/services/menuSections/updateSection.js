@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const { User } = require("../../models/userModel");
 const { Section } = require("../../models/sectionModel");
-const { STATUS_CODE } = require("../../utils/constants");
+const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 async function update_section(req, callback) {
   console.log("Inside received reply in kafka backend");
@@ -40,7 +40,7 @@ async function update_section(req, callback) {
     }
   } catch (error) {
     err.status = STATUS_CODE.INTERNAL_SERVER_ERROR_STATUS;
-    err.message = "Internal Server Error";
+    err.message = MESSAGES.STATUS_500_MESSAGE;
     return callback(err, null);
   }
 }
