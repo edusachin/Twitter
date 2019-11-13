@@ -3,6 +3,7 @@ var connectMongoDB = require("./utils/dbConnection");
 
 //import topics files
 const loginService = require("./services/login/login");
+const signupService = require("./services/signup/signup");
 
 //MongoDB connection
 connectMongoDB();
@@ -46,3 +47,4 @@ function response(data, res, err, producer) {
 
 // Topics
 handleTopicRequest("login", loginService);
+handleTopicRequest("signup", signupService);
