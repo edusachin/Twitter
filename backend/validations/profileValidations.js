@@ -1,22 +1,21 @@
 const Joi = require("joi");
 
-//Validation for Customer Profile API
-function validateCustomerProfile(user) {
+//Validation for Profile API
+function validateProfile(user) {
   const schema = {
-    user_id: Joi.string().required()
+    user_id: Joi.string().required(),
+    user_name: Joi.string().required(),
+    first_name: Joi.string().required(),
+    last_name: Joi.string().required(),
+    email_id: Joi.string().email().required(),
+    user_image: Joi.string(),
+    user_bio: Joi.string(),
+    city: Joi.string(),
+    state: Joi.string(),
+    zip_code: Joi.string()
   };
 
   return Joi.validate(user, schema);
 }
 
-//Validation for Restaurant Profile API
-function validateRestaurantProfile(restaurant) {
-  const schema = {
-    user_id: Joi.string().required()
-  };
-
-  return Joi.validate(restaurant, schema);
-}
-
-exports.validateCustomerProfile = validateCustomerProfile;
-exports.validateRestaurantProfile = validateRestaurantProfile;
+exports.validateProfile = validateProfile;

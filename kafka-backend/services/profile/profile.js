@@ -1,0 +1,15 @@
+const { getProfile } = require("./getProfile");
+const { updateProfile } = require("./updateProfile");
+
+function handle_request(msg, callback) {
+  switch (msg.route) {
+    case "get_profile":
+      getProfile(msg, callback);
+      break;
+    case "update_profile":
+      updateProfile(msg, callback);
+      break;
+  }
+}
+
+exports.handle_request = handle_request;
