@@ -8,7 +8,6 @@ function make_request(queue_name, msg_payload, callback) {
       console.error("Error:", err);
       callback(err, null);
     } else {
-      console.log("Response:", response);
       callback(null, response);
     }
 	});
