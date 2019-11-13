@@ -1,7 +1,7 @@
 const passwordHash = require('password-hash');
 const Users = require('../../models/users');
 const jwt = require('jsonwebtoken');
-const config = require('../../utils/config');
+const { secret } = require('../../utils/config');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 async function handle_request(msg, callback) {
@@ -28,7 +28,7 @@ async function handle_request(msg, callback) {
                     _id: user._id, first_name: user.first_name, last_name: user.last_name,
                     user_name: user.user_name, email_id: user.email_id
                 };
-                const token = jwt.sign(payload, config.secret, {
+                const token = jwt.sign(payload, secret, {
                     expiresIn: 900000 // in seconds
                 });
                 response.status = STATUS_CODE.SUCCESS;

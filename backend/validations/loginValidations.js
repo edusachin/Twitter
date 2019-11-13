@@ -2,9 +2,7 @@ const Joi = require("joi");
 
 function validateLogin(user) {
   const schema = {
-    email_id: Joi.string()
-      .email()
-      .required(),
+    email_id: Joi.string().email().required(),
     password: Joi.string().required()
   };
 

@@ -3,7 +3,6 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const { validateUser } = require("../validations/signupValidations");
 
-//Signup API
 router.post("/", async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) {

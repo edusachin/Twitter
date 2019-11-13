@@ -53,8 +53,7 @@ const userSchema = new schema(
     },
     user_image: {
       type: String,
-      trim: true,
-      default: "userplaceholder.png"
+      trim: true
     },
     conversations: [{
       type: mongoose.Schema.Types.ObjectId,
