@@ -5,7 +5,6 @@ auth();
 const kafka = require("../kafka/client");
 const { validateLogin } = require("../validations/loginValidations");
 
-//Login API
 router.post("/", async (req, res) => {
   const { error } = validateLogin(req.body);
   if (error)

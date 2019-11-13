@@ -9,11 +9,12 @@ module.exports = {
     MESSAGES: {
         INVALID_CREDENTIALS: "Invalid Credentials",
         ALREADY_EXISTS: "User Already Exists",
+        USER_NAME_ALREADY_EXISTS: "User Name already in use",
         INTERNAL_SERVER_ERROR: "Internal Server Error",
         SUCCESS: "Successful",
         CREATE_SUCCESSFUL: "Created Successfully",
         UPDATE_SUCCESSFUL: "Updated Successfully",
         DELETE_SUCCESSFUL: "Deleted Successfully",
-        ACTION_NOT_COMPLETE: "Sorry! please try again later"
+        ACTION_NOT_COMPLETE: "Sorry! Please try again later"
     }
 }

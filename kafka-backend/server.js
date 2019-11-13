@@ -2,8 +2,11 @@ var connection = new require("./kafka/connection");
 var connectMongoDB = require("./utils/dbConnection");
 
 //import topics files
-const loginService = require("./services/login/login");
-const signupService = require("./services/signup/signup");
+const loginService = require("./services/login");
+const authService = require("./services/auth");
+const signupService = require("./services/signup");
+const profileService = require("./services/profile");
+const followService = require("./services/follow");
 
 //MongoDB connection
 connectMongoDB();
@@ -47,4 +50,7 @@ function response(data, res, err, producer) {
 
 // Topics
 handleTopicRequest("login", loginService);
+handleTopicRequest("auth", authService);
 handleTopicRequest("signup", signupService);
+handleTopicRequest("profile", profileService);
+handleTopicRequest("follow", followService);
