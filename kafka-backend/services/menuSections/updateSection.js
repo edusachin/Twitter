@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const { User } = require("../../models/userModel");
 const { Section } = require("../../models/sectionModel");
+const { STATUS_CODE } = require("../../utils/constants");
 
 async function update_section(req, callback) {
   console.log("Inside received reply in kafka backend");
@@ -12,13 +13,13 @@ async function update_section(req, callback) {
       _id: req.user_id
     });
     if (!user) {
-      err.status = 400;
+      err.status = STATUS_CODE.BAD_REQUEST_ERROR_STATUS;
       err.message = "User does not exist";
       return callback(err, null);
     } else {
       const section = user.restaurant.menu_sections.id(req.menu_section_id);
       if (!section) {
-        err.status = 400;
+        err.status = STATUS_CODE.BAD_REQUEST_ERROR_STATUS;
         err.message = "Section does not exist";
         return callback(err, null);
       } else {
@@ -27,18 +28,18 @@ async function update_section(req, callback) {
         let update = await user.save();
 
         if (update) {
-          response.status = 200;
+          response.status = STATUS_CODE.SUCCESS_STATUS;
           response.data = "Menu Section Updated";
           return callback(null, response);
         } else {
-          err.status = 400;
+          err.status = STATUS_CODE.BAD_REQUEST_ERROR_STATUS;
           err.message = "Some thing went wrong";
           return callback(err, null);
         }
       }
     }
   } catch (error) {
-    err.status = 500;
+    err.status = STATUS_CODE.INTERNAL_SERVER_ERROR_STATUS;
     err.message = "Internal Server Error";
     return callback(err, null);
   }
