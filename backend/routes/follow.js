@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
+const { checkAuth } = require("../utils/passport");
 const { validateFollow } = require("../validations/followValidations");
 
 router.post("/", async (req, res) => {

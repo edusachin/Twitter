@@ -12,8 +12,7 @@ function auth() {
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
       const body = jwt_payload;
-
-      kafka.make_request("passport", body, function (err, results) {
+      kafka.make_request("auth", body, function (err, results) {
         if (err) {
           return done(err.data, err.boolean);
         } else {
