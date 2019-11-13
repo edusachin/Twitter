@@ -4,11 +4,11 @@ const Users = require('../../models/users');
 async function handle_request(msg, callback) {
     let response = {};
     let err = {};
-    const email = msg.email;
+    const email_id = msg.email_id;
     const ERROR_MSG = "Invalid Email or Password";
     try {
         let user = await Users.findOne({
-            email_id: email
+            email_id: email_id
         });
 
         if (!user) {
