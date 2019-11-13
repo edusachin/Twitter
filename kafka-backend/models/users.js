@@ -37,13 +37,11 @@ const userSchema = new schema(
     },
     city: {
       type: String,
-      trim: true,
-      required: true
+      trim: true
     },
     state: {
       type: String,
-      trim: true,
-      required: true
+      trim: true
     },
     zip_code: {
       type: String,
