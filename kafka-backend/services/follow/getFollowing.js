@@ -12,11 +12,12 @@ async function getFollowing(msg, callback) {
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         } else {
-            let following = [];
-            for(let i=0; i< user.following.length;i++){
-                let target_user = await Users.findById(user.following[i]);
-                following.push({user_id: target_user._id, first_name: target_user.first_name, user_name: target_user.user_name});
-            }
+            let following = await Users.find(
+                {
+                    '_id': { $in: user.following }
+                },
+                { first_name: 1, user_name: 1 }
+            );
 
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(following);
