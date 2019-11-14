@@ -8,7 +8,7 @@ module.exports = {
     },
     MESSAGES: {
         INVALID_CREDENTIALS: "Invalid Credentials",
-        ALREADY_EXISTS: "User Already Exists",
+        USER_ALREADY_EXISTS: "User Already Exists",
         USER_NAME_ALREADY_EXISTS: "User Name already in use",
         INTERNAL_SERVER_ERROR: "Internal Server Error",
         SUCCESS: "Successful",
