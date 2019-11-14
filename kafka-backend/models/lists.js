@@ -9,6 +9,10 @@ const listSchema = new schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    list_description: {
+      type: String,
+      trim: true
+    },
     members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

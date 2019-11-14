@@ -9,9 +9,10 @@ router.post("/", async (req, res) => {
     if (error) {
         res.status(400).send(error.details[0].message);
     }
-    req.body.route = "follow_user";
+    let msg = req.body;
+    msg.route = "follow_user";
 
-    kafka.make_request("follow", req.body, function (err, results) {
+    kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
@@ -26,9 +27,10 @@ router.post("/unfollow", async (req, res) => {
     if (error) {
         res.status(400).send(error.details[0].message);
     }
-    req.body.route = "unfollow_user";
+    let msg = req.body
+    msg.route = "unfollow_user";
     
-    kafka.make_request("follow", req.body, function (err, results) {
+    kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
@@ -39,10 +41,11 @@ router.post("/unfollow", async (req, res) => {
 });
 
 router.get("/followers/:user_id", async (req, res) => {
-    req.body.route = "get_followers";
-    req.body.user_id = req.params.user_id;
+    let msg = {};
+    msg.route = "get_followers";
+    msg.user_id = req.params.user_id;
     
-    kafka.make_request("follow", req.body, function (err, results) {
+    kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
@@ -53,10 +56,11 @@ router.get("/followers/:user_id", async (req, res) => {
 });
 
 router.get("/following/:user_id", async (req, res) => {
-    req.body.route = "get_following";
-    req.body.user_id = req.params.user_id;
+    let msg = {};
+    msg.route = "get_following";
+    msg.user_id = req.params.user_id;
     
-    kafka.make_request("follow", req.body, function (err, results) {
+    kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }

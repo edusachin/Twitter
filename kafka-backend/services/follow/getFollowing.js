@@ -5,20 +5,13 @@ async function getFollowing(msg, callback) {
     let response = {};
     let err = {};
     try {
-        let user = await Users.findById(msg.user_id);
+        let following = await Users.findById(msg.user_id, { following: 1}).populate("following", "first_name user_name");
 
-        if (!user) {
+        if (!following) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         } else {
-            let following = await Users.find(
-                {
-                    '_id': { $in: user.following }
-                },
-                { first_name: 1, user_name: 1 }
-            );
-
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(following);
             return callback(null, response);

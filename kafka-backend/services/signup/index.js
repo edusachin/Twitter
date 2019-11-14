@@ -12,7 +12,7 @@ async function handle_request(msg, callback) {
         });
         if (user) {
             err.status = STATUS_CODE.BAD_REQUEST;
-            err.data = MESSAGES.ALREADY_EXISTS;
+            err.data = MESSAGES.USER_ALREADY_EXISTS;
             return callback(err, null);
         } else {
             let user = new User({
