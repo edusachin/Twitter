@@ -1,26 +1,24 @@
-const passwordHash = require('password-hash');
+"use strict";
 const User = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-async function handle_request(msg, callback) {
+let handle_request = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        const hashedPassword = passwordHash.generate(msg.password);
         const user = await User.findOne({
             email_id: msg.email_id
         });
         if (user) {
             err.status = STATUS_CODE.BAD_REQUEST;
-            err.data = MESSAGES.ALREADY_EXISTS;
+            err.data = MESSAGES.USER_ALREADY_EXISTS;
             return callback(err, null);
         } else {
             let user = new User({
                 first_name: msg.first_name,
                 last_name: msg.last_name,
                 user_name: msg.user_name,
-                email_id: msg.email_id,
-                password: hashedPassword
+                email_id: msg.email_id
             });
             const usersave = await user.save();
             if (usersave) {

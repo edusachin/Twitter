@@ -1,7 +1,8 @@
+"use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-async function unfollowUser(msg, callback) {
+let unfollowUser = async (msg, callback) => {
     let response = {};
     let err = {};
     let userUpdated;
@@ -16,17 +17,11 @@ async function unfollowUser(msg, callback) {
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         } else {
-            let index = user.following.indexOf(msg.target_user_id);
-            if (index > -1) {
-                user.following.splice(index, 1);
-                userUpdated = await user.save();
-            }
+            user.following.remove(msg.target_user_id);
+            userUpdated = await user.save();
 
-            index = targetUser.followers.indexOf(msg.user_id);
-            if (index > -1) {
-                targetUser.followers.splice(index, 1);
-                targetUserUpdated = await targetUser.save();
-            }
+            targetUser.followers.remove(msg.user_id);
+            targetUserUpdated = await targetUser.save();
 
             if (userUpdated && targetUserUpdated) {
                 response.status = STATUS_CODE.SUCCESS;

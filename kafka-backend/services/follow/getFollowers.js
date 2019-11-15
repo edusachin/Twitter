@@ -1,23 +1,18 @@
+"use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-async function getFollowers(msg, callback) {
+let getFollowers = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let user = await Users.findById(msg.user_id);
+        let followers = await Users.findById(msg.user_id, { followers: 1}).populate("followers", "first_name user_name");
 
-        if (!user) {
+        if (!followers) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         } else {
-            let followers = [];
-            for(let i=0; i< user.followers.length;i++){
-                let follower = await Users.findById(user.followers[i]);
-                followers.push({user_id: follower._id, first_name: follower.first_name, user_name: follower.user_name});
-            }
-
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(followers);
             return callback(null, response);

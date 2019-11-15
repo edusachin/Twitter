@@ -1,3 +1,4 @@
+"use strict";
 var kafka = require("kafka-node");
 const { kafkaURI } = require("../utils/config");
 
