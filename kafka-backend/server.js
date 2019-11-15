@@ -7,6 +7,7 @@ const authService = require("./services/auth");
 const signupService = require("./services/signup");
 const profileService = require("./services/profile");
 const followService = require("./services/follow");
+const tweetService = require("./services/tweets");
 
 //MongoDB connection
 connectMongoDB();
@@ -17,7 +18,7 @@ function handleTopicRequest(topic_name, fname) {
   var producer = connection.getProducer();
   console.log("Kafka Server is running ");
   consumer.on("message", function (message) {
-  console.log("Message received for " + topic_name);
+    console.log("Message received for " + topic_name);
     var data = JSON.parse(message.value);
     fname.handle_request(data.data, (err, res) => {
       response(data, res, err, producer);
@@ -54,3 +55,4 @@ handleTopicRequest("auth", authService);
 handleTopicRequest("signup", signupService);
 handleTopicRequest("profile", profileService);
 handleTopicRequest("follow", followService);
+handleTopicRequest("tweet", tweetService);
