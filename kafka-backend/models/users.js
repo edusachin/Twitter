@@ -10,15 +10,15 @@ const userSchema = new schema(
       required: true
     },
     last_name: {
-        type: String,
-        trim: true,
-        required: true
+      type: String,
+      trim: true,
+      required: true
     },
     user_name: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
+      type: String,
+      trim: true,
+      unique: true,
+      required: true
     },
     email_id: {
       type: String,
@@ -49,7 +49,7 @@ const userSchema = new schema(
     },
     user_bio: {
       type: String,
-      trim : true
+      trim: true
     },
     user_image: {
       type: String,
@@ -60,14 +60,14 @@ const userSchema = new schema(
       ref: "Conversation"
     }],
     tweets: [{
-        tweet: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Tweet"
-        },
-        is_retweeted: {
-            type: Boolean,
-            default: false
-        }
+      tweet: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tweet"
+      },
+      is_retweeted: {
+        type: Boolean,
+        default: false
+      }
     }],
     bookmarks: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -82,13 +82,13 @@ const userSchema = new schema(
       ref: "Tweet"
     }],
     followers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     }],
     following: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
-  }],
+    }],
     subscribed_lists: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "List"

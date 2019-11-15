@@ -7,7 +7,7 @@ let postTweet = async (msg, callback) => {
     let err = {};
     try {
         let user = await Users.findById(msg.user_id);
-        let tweet = new Tweet({
+        let newTweet = new Tweet({
             tweet_owner: msg.user_id,
             tweet_text: msg.tweet_text,
             tweet_date: new Date(Date.now())
@@ -18,19 +18,27 @@ let postTweet = async (msg, callback) => {
             return callback(err, null);
         }
         else {
-            user.tweets.push(tweet);
-            user.save(function (error, updatedUser) {
-                if (error) {
-                    err.status = STATUS_CODE.BAD_REQUEST;
-                    err.data = MESSAGES.ACTION_NOT_COMPLETE;
-                    return callback(err, null);
-                }
-                else {
-                    response.status = STATUS_CODE.SUCCESS;
-                    response.data = tweet._id;
-                    return callback(null, response);
-                }
-            });
+            let addedTweet = await newTweet.save();
+            if (addedTweet) {
+                user.tweets.push(addedTweet._id);
+                user.save(function (error, updatedUser) {
+                    if (error) {
+                        err.status = STATUS_CODE.BAD_REQUEST;
+                        err.data = MESSAGES.ACTION_NOT_COMPLETE;
+                        return callback(err, null);
+                    }
+                    else {
+                        response.status = STATUS_CODE.SUCCESS;
+                        response.data = addedTweet._id;
+                        return callback(null, response);
+                    }
+                });
+            }
+            else {
+                err.status = STATUS_CODE.BAD_REQUEST;
+                err.data = MESSAGES.ACTION_NOT_COMPLETE;
+                return callback(err, null);
+            }
         }
 
     } catch (error) {

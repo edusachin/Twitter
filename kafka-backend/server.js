@@ -55,4 +55,4 @@ handleTopicRequest("auth", authService);
 handleTopicRequest("signup", signupService);
 handleTopicRequest("profile", profileService);
 handleTopicRequest("follow", followService);
-handleTopicRequest("tweet", tweetService);
+handleTopicRequest("tweets", tweetService);
