@@ -1,13 +1,15 @@
+"use strict";
 const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
 const { checkAuth } = require("../utils/passport");
 const { validateFollow } = require("../validations/followValidations");
+const { STATUS_CODE } = require('../utils/constants');
 
 router.post("/", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
-        res.status(400).send(error.details[0].message);
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "follow_user";
@@ -25,7 +27,7 @@ router.post("/", async (req, res) => {
 router.post("/unfollow", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
-        res.status(400).send(error.details[0].message);
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body
     msg.route = "unfollow_user";

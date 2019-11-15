@@ -1,9 +1,8 @@
+"use strict";
 var connection = new require("./kafka/connection");
 var connectMongoDB = require("./utils/dbConnection");
 
 //import topics files
-const loginService = require("./services/login");
-const authService = require("./services/auth");
 const signupService = require("./services/signup");
 const profileService = require("./services/profile");
 const followService = require("./services/follow");
@@ -12,7 +11,7 @@ const followService = require("./services/follow");
 connectMongoDB();
 
 //Handle topic request
-function handleTopicRequest(topic_name, fname) {
+const handleTopicRequest = (topic_name, fname) => {
   var consumer = connection.getConsumer(topic_name);
   var producer = connection.getProducer();
   console.log("Kafka Server is running ");
@@ -24,9 +23,9 @@ function handleTopicRequest(topic_name, fname) {
       return;
     });
   });
-}
+};
 
-function response(data, res, err, producer) {
+const response = (data, res, err, producer) => {
   var payloads = [
     {
       topic: data.replyTo,
@@ -49,8 +48,6 @@ function response(data, res, err, producer) {
 }
 
 // Topics
-handleTopicRequest("login", loginService);
-handleTopicRequest("auth", authService);
 handleTopicRequest("signup", signupService);
 handleTopicRequest("profile", profileService);
 handleTopicRequest("follow", followService);

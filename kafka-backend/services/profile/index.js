@@ -1,7 +1,8 @@
+"use strict";
 const { getProfile } = require("./getProfile");
 const { updateProfile } = require("./updateProfile");
 
-function handle_request(msg, callback) {
+let handle_request = (msg, callback) => {
   switch (msg.route) {
     case "get_profile":
       getProfile(msg, callback);
@@ -10,6 +11,6 @@ function handle_request(msg, callback) {
       updateProfile(msg, callback);
       break;
   }
-}
+};
 
 exports.handle_request = handle_request;

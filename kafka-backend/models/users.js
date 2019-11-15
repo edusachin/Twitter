@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 //Schema
@@ -24,11 +24,6 @@ const userSchema = new schema(
       type: String,
       trim: true,
       unique: true,
-      required: true
-    },
-    password: {
-      type: String,
-      trim: true,
       required: true
     },
     is_active: {
