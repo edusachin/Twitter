@@ -19,13 +19,13 @@ let postTweet = async (msg, callback) => {
         }
         else {
             user.tweets.push(tweet);
-            user.save(function (err, updatedUser) {
-                if (err) {
+            user.save(function (error, updatedUser) {
+                if (error) {
                     err.status = STATUS_CODE.BAD_REQUEST;
                     err.data = MESSAGES.ACTION_NOT_COMPLETE;
                     return callback(err, null);
                 }
-                else if (updatedUser) {
+                else {
                     response.status = STATUS_CODE.SUCCESS;
                     response.data = tweet._id;
                     return callback(null, response);

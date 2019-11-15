@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
-const { validateTweet } = require("../validations/profileValidations");
+const { validateTweet } = require("../validations/tweetValidations");
 
 router.post("/", async (req, res) => {
     const { error } = validateTweet(req.body);
@@ -12,9 +12,11 @@ router.post("/", async (req, res) => {
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            console.log("-------in errrr---------");
             res.status(err.status).send(err.data);
         }
         else {
+            console.log("-------in response---------");
             res.status(results.status).send(results.data);
         }
     });
