@@ -20,7 +20,7 @@ let postTweet = async (msg, callback) => {
         else {
             let addedTweet = await newTweet.save();
             if (addedTweet) {
-                user.tweets.push(addedTweet._id);
+                user.tweets.push({ tweet: addedTweet._id });
                 user.save(function (error, updatedUser) {
                     if (error) {
                         err.status = STATUS_CODE.BAD_REQUEST;
