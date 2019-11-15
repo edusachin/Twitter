@@ -1,3 +1,4 @@
+"use strict";
 const Joi = require("joi");
 
 //Validation for Customer Sign Up API

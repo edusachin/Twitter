@@ -1,9 +1,10 @@
+"use strict";
 const { followUser } = require("./followUser");
 const { unfollowUser } = require("././unfollowUser");
 const { getFollowing } = require("././getFollowing");
 const { getFollowers } = require("././getFollowers");
 
-function handle_request(msg, callback) {
+let handle_request = (msg, callback) => {
   switch (msg.route) {
     case "follow_user":
       followUser(msg, callback);
@@ -18,6 +19,6 @@ function handle_request(msg, callback) {
       getFollowers(msg, callback);
       break;
   }
-}
+};
 
 exports.handle_request = handle_request;

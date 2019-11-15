@@ -10,11 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security",
-    "jsonwebtoken": "^8.5.1",
     "kafka-node": "^5.0.0",
     "mongoose": "^5.7.9",
-    "multer": "^1.4.2",
-    "passport": "^0.4.0",
-    "password-hash": "^1.2.2"
+    "multer": "^1.4.2"
   }
 }

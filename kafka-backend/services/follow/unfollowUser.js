@@ -1,7 +1,8 @@
+"use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-async function unfollowUser(msg, callback) {
+let unfollowUser = async (msg, callback) => {
     let response = {};
     let err = {};
     let userUpdated;
