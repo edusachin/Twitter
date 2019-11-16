@@ -23,12 +23,14 @@ router.post("/", async (req, res) => {
     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0]) {
       if (passwordHash.verify(req.body.password, sqlResult[0][0].password)) {
         const payload = {
-          email_id: req.body.email_id
+          email_id: req.body.email_id,
+          user_id: sqlResult[0][0].user_id
         };
         const token = jwt.sign(payload, secret, {
           expiresIn: 900000 // in seconds
         });
-        res.status(STATUS_CODE.SUCCESS).send(token);
+        let jwtToken = 'JWT ' + token;
+        res.status(STATUS_CODE.SUCCESS).send(jwtToken);
       }
       else {
         res.status(STATUS_CODE.UNAUTHORIZED).send(MESSAGES.INVALID_CREDENTIALS);
