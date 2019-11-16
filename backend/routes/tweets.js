@@ -12,6 +12,7 @@ router.get("/:user_id", async (req, res) => {
 
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            console.log("-------error: tweet:get/:id---------");
             res.status(err.status).send(err.data);
         }
         else {
@@ -24,6 +25,7 @@ router.get("/:user_id", async (req, res) => {
 router.post("/", async (req, res) => {
     const { error } = validateTweet(req.body);
     if (error) {
+        console.log("-------error: tweet:post/---------");
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
@@ -41,6 +43,7 @@ router.post("/", async (req, res) => {
 router.post("/retweet", async (req, res) => {
     const { error } = false;
     if (error) {
+        console.log("-------error: tweet:post/retweet/---------");
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
@@ -59,6 +62,7 @@ router.post("/retweet", async (req, res) => {
 router.post("/delete", async (req, res) => {
     const { error } = false;
     if (error) {
+        console.log("-------error: tweet:post/deletetweet/---------");
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
