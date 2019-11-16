@@ -1,3 +1,4 @@
+"use strict";
 const { postTweet } = require("./postTweet");
 const { getUserTweet } = require("./getUserTweets");
 const { postRetweet } = require("./postRetweet");
