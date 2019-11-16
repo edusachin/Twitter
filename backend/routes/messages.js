@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
 
 
 router.get("/:user_id", async (req, res) => {
-    console.log(`inside get`);
     let msg = {};
     msg.route = "get_conversations";
     msg.user_id = req.params.user_id;
@@ -43,7 +42,6 @@ router.get("/:user_id", async (req, res) => {
 
 
 router.get("/existing/:user_id/:target_id", async (req, res) => {
-    console.log(`inside get`);
     let msg = {};
     msg.route = "get_existingConversation";
     msg.user_id = req.params.user_id;
