@@ -2,8 +2,7 @@
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-let getUserTweet = async (msg, callback) => {
-    console.log("in getUserTweet");
+let getUserTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
@@ -25,4 +24,4 @@ let getUserTweet = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.getUserTweet = getUserTweet;
+exports.getUserTweets = getUserTweets;

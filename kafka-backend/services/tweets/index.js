@@ -1,16 +1,15 @@
 "use strict";
 const { postTweet } = require("./postTweet");
-const { getUserTweet } = require("./getUserTweets");
+const { getUserTweets } = require("./getUserTweets");
 const { postRetweet } = require("./postRetweet");
 const { deleteTweet } = require("./deleteTweet");
 function handle_request(msg, callback) {
-    console.log("----in kafka-backend: tweets-----");
     switch (msg.route) {
         case "post_tweet":
             postTweet(msg, callback);
             break;
-        case "get_user_tweet":
-            getUserTweet(msg, callback);
+        case "get_user_tweets":
+            getUserTweets(msg, callback);
             break;
         case "post_retweet":
             postRetweet(msg, callback);
