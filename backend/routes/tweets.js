@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
 const { validateTweet } = require("../validations/tweetValidations");
+const { STATUS_CODE } = require("../utils/constants");
 
-router.get("/:id", async (req, res) => {
+router.get("/:user_id", async (req, res) => {
     let msg = {
-        user_id: req.params.id,
-        route: "get_user_tweet"
+        user_id: req.params.user_id,
+        route: "get_user_tweets"
     }
-    console.log(msg);
+
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
@@ -24,13 +25,13 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     const { error } = validateTweet(req.body);
     if (error) {
-        res.status(400).send(error.details[0].message);
+        console.log("-------error: tweet:post/---------");
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
-            console.log("-------error: tweet:post/---------");
             res.status(err.status).send(err.data);
         }
         else {
@@ -42,13 +43,13 @@ router.post("/", async (req, res) => {
 router.post("/retweet", async (req, res) => {
     const { error } = false;
     if (error) {
-        res.status(400).send(error.details[0].message);
+        console.log("-------error: tweet:post/retweet/---------");
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_retweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
-            console.log("-------error: tweet:post/retweet/---------");
             res.status(err.status).send(err.data);
         }
         else {
@@ -58,16 +59,16 @@ router.post("/retweet", async (req, res) => {
 });
 
 
-router.post("/deleteTweet", async (req, res) => {
+router.post("/delete", async (req, res) => {
     const { error } = false;
     if (error) {
-        res.status(400).send(error.details[0].message);
+        console.log("-------error: tweet:post/deletetweet/---------");
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "delete_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
-            console.log("-------error: tweet:post/deletetweet/---------");
             res.status(err.status).send(err.data);
         }
         else {
