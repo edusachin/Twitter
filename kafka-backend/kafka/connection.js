@@ -3,19 +3,28 @@ var kafka = require("kafka-node");
 const { kafkaURI } = require("../utils/config");
 
 function ConnectionProvider() {
-  this.getConsumer = function(topic_name) {
-    this.client = new kafka.KafkaClient(kafkaURI);
-    this.kafkaConsumerConnection = new kafka.Consumer(this.client, [
-      {
-        topic: topic_name,
-        partition: 0
-      }
-    ]);
-    this.client.on("ready", function() {
-      console.log("Client ready!");
-    });
+  this.getConsumer = function (topic_name) {
+    var options = {
+      // connect directly to kafka broker (instantiates a KafkaClient)
+      kafkaHost: 'localhost:9092',
+      groupId: topic_name,
+      autoCommit: true,
+      autoCommitIntervalMs: 5000,
+      sessionTimeout: 15000,
+      fetchMaxBytes: 10 * 1024 * 1024, // 10 MB
+      // An array of partition assignment protocols ordered by preference. 'roundrobin' or 'range' string for
+      // built ins (see below to pass in custom assignment protocol)
+      protocol: ['roundrobin'],
+      // Offsets to use for new groups other options could be 'earliest' or 'none'
+      // (none will emit an error if no offsets were saved) equivalent to Java client's auto.offset.reset
+      fromOffset: 'latest',
+      // how to recover from OutOfRangeOffset error (where save offset is past server retention)
+      // accepts same value as fromOffset
+      outOfRangeOffset: 'earliest'
+    };
 
-    return this.kafkaConsumerConnection;
+    var consumer1 = new kafka.ConsumerGroup(options, topic_name);
+    return new Array(consumer1);
   };
 
   //Code will be executed when we start Producer

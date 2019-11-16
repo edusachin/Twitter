@@ -13,17 +13,20 @@ connectMongoDB();
 
 //Handle topic request
 const handleTopicRequest = (topic_name, fname) => {
-  var consumer = connection.getConsumer(topic_name);
+  var consumers = connection.getConsumer(topic_name);
   var producer = connection.getProducer();
-  console.log("Kafka Server is running ");
-  consumer.on("message", function (message) {
-  console.log("Message received for " + topic_name);
-    var data = JSON.parse(message.value);
-    fname.handle_request(data.data, (err, res) => {
-      response(data, res, err, producer);
-      return;
+  var i;
+  for (i = 0; i < consumers.length; i++) {
+    var consumer = consumers[i];
+    consumer.on("message", function (message) {
+      console.log("Message received for " + topic_name);
+      var data = JSON.parse(message.value);
+      fname.handle_request(data.data, (err, res) => {
+        response(data, res, err, producer);
+        return;
+      });
     });
-  });
+  }
 };
 
 const response = (data, res, err, producer) => {
