@@ -1,10 +1,9 @@
-var crypto = require("crypto");
-var conn = require("./connection");
+"use strict";
+const crypto = require("crypto");
+const conn = require("./connection");
 
-var TIMEOUT = 8000; //time to wait for response in ms
+const TIMEOUT = 60000; //time to wait for response in ms
 var self;
-
-exports = module.exports = KafkaRPC;
 
 function KafkaRPC() {
   self = this;
@@ -95,3 +94,5 @@ KafkaRPC.prototype.setupResponseQueue = function (producer, topic_name, next) {
   self.response_queue = true;
   return next();
 };
+
+exports = module.exports = KafkaRPC;

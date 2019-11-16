@@ -1,7 +1,8 @@
+"use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-async function getFollowing(msg, callback) {
+let getFollowing = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
