@@ -17,16 +17,19 @@ router.post("/", async (req, res) => {
             res.status(err.status).send(err.data);
         }
         else {
-            let hashedPassword = passwordHash.generate(req.body.password);
-            let sql = `CALL User_put('${req.body.email_id}', '${hashedPassword}');`
-            pool.query(sql, (err, sqlResult) => {
-                if (err) {
-                    res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
-                }
-                if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_ADDED') {
-                    res.status(results.status).send(results.data);
-                }
-            });
+            if (results.status === 200) {
+                let user_id = results.data;
+                let hashedPassword = passwordHash.generate(req.body.password);
+                let sql = `CALL User_put('${req.body.email_id}', '${user_id}', '${hashedPassword}');`
+                pool.query(sql, (err, sqlResult) => {
+                    if (err) {
+                        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+                    }
+                    if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_ADDED') {
+                        res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                    }
+                });
+            }
         }
     });
 });

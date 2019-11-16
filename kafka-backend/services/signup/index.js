@@ -23,7 +23,7 @@ let handle_request = async (msg, callback) => {
             const usersave = await user.save();
             if (usersave) {
                 response.status = STATUS_CODE.SUCCESS;
-                response.data = MESSAGES.CREATE_SUCCESSFUL;
+                response.data = usersave._id;
                 return callback(null, response);
             } else {
                 err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
