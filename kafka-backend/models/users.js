@@ -60,14 +60,12 @@ const userSchema = new schema(
       ref: "Conversation"
     }],
     tweets: [{
-      tweet: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Tweet"
-      },
-      is_retweeted: {
-        type: Boolean,
-        default: false
-      }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tweet"
+    }],
+    retweeted_tweets: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tweet"
     }],
     bookmarks: [{
       type: mongoose.Schema.Types.ObjectId,
