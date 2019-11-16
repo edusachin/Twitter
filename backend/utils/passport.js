@@ -12,8 +12,8 @@ function auth() {
   opts.secretOrKey = secret;
   passport.use(
     new JwtStrategy(opts, function (jwt_payload, done) {
-      const email_id = jwt_payload;
-      let sql = `CALL User_get('${email_id}')`;
+      const user_id = jwt_payload.user_id;
+      let sql = `CALL User_get('${user_id}')`;
       pool.query(sql, (err, sqlResult) => {
         if (err) {
           return done(err, null);
