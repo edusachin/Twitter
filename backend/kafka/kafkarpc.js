@@ -51,7 +51,7 @@ KafkaRPC.prototype.makeRequest = function (topic_name, content, callback) {
           replyTo: "response_topic",
           data: content
         }),
-       // partition: 0
+        //partition: 0
       }
     ];
     self.producer.send(payloads, function (err, data) {

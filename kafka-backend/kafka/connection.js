@@ -1,14 +1,13 @@
 "use strict";
 var kafka = require("kafka-node");
-//var kafkanode = require("node-rdkafka");
 const { kafkaURI } = require("../utils/config");
 
 function ConnectionProvider() {
-  this.getConsumer = function (topic_name) {
 
+  this.getConsumer = function (topic_name) {
     var options = {
       // connect directly to kafka broker (instantiates a KafkaClient)
-      kafkaHost: 'localhost:9092,localhost:9093,localhost:9094',
+      kafkaHost: kafkaURI,
       groupId: topic_name,
       autoCommit: true,
       autoCommitIntervalMs: 5000,
@@ -24,24 +23,14 @@ function ConnectionProvider() {
       // accepts same value as fromOffset
       outOfRangeOffset: 'earliest'
     };
-
-    var consumer1 = new kafka.ConsumerGroup(options, topic_name);
-    return new Array(consumer1);
-
-    /*
-    var consumer = new kafkanode.KafkaConsumer({
-      //'debug': 'all',
-      'metadata.broker.list': 'localhost:9092',
-      'group.id': topic_name
-    });
-    consumer.subscribe(topic_name);
-    return consumer;*/
+    var consumer = new kafka.ConsumerGroup(options, topic_name);
+    return consumer;
   };
 
   //Code will be executed when we start Producer
-  this.getProducer = function() {
+  this.getProducer = function () {
     if (!this.kafkaProducerConnection) {
-      this.client = new kafka.KafkaClient(kafkaURI);
+      this.client = new kafka.KafkaClient({ kafkaHost: kafkaURI });
       var HighLevelProducer = kafka.HighLevelProducer;
       this.kafkaProducerConnection = new HighLevelProducer(this.client);
       console.log("Producer ready!");
