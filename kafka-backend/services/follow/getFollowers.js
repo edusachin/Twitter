@@ -7,9 +7,13 @@ let getFollowers = async (msg, callback) => {
     let err = {};
     try {
         let followers = await Users.findById(msg.user_id, { followers: 1 }).populate("followers", "first_name user_name", { is_active: true});
-
+        if (followers) {
+            response.data = JSON.stringify(following);
+        }
+        else {
+            response.data = JSON.stringify([]);
+        }
         response.status = STATUS_CODE.SUCCESS;
-        response.data = JSON.stringify(followers);
         return callback(null, response);
 
     } catch (error) {

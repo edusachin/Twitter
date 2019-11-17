@@ -1,6 +1,7 @@
 "use strict";
 const { deactivateAccount } = require("./deactivateAccount");
 const { activateAccount } = require("././activateAccount");
+const { deleteAccount } = require("././deleteAccount");
 
 let handle_request = (msg, callback) => {
   switch (msg.route) {
@@ -9,6 +10,9 @@ let handle_request = (msg, callback) => {
       break;
     case "activate_account":
       activateAccount(msg, callback);
+      break;
+    case "delete_account":
+      deleteAccount(msg, callback);
       break;
   }
 };
