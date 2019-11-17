@@ -4,6 +4,7 @@ const router = express.Router();
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const pool = require('../utils/mysqlConnection');
+const kafka = require("../kafka/client");
 const { secret } = require('../utils/config');
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 const { validateLogin } = require("../validations/loginValidations");
@@ -22,13 +23,26 @@ router.post("/", async (req, res) => {
     }
     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0]) {
       if (passwordHash.verify(req.body.password, sqlResult[0][0].password)) {
-        const payload = {
-          email_id: req.body.email_id
+        let msg = {
+          route: "activate_account",
+          user_id: sqlResult[0][0].user_id
         };
-        const token = jwt.sign(payload, secret, {
-          expiresIn: 900000 // in seconds
+
+        kafka.make_request("account", msg, function (err, results) {
+          if (err) {
+            res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+          } else {
+            const payload = {
+              email_id: req.body.email_id,
+              user_id: sqlResult[0][0].user_id
+            };
+            const token = jwt.sign(payload, secret, {
+              expiresIn: 900000 // in seconds
+            });
+            let jwtToken = 'JWT ' + token;
+            res.status(STATUS_CODE.SUCCESS).send(jwtToken);
+          }
         });
-        res.status(STATUS_CODE.SUCCESS).send(token);
       }
       else {
         res.status(STATUS_CODE.UNAUTHORIZED).send(MESSAGES.INVALID_CREDENTIALS);

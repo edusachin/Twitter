@@ -6,7 +6,11 @@ var connectMongoDB = require("./utils/dbConnection");
 const signupService = require("./services/signup");
 const profileService = require("./services/profile");
 const followService = require("./services/follow");
+const tweetService = require("./services/tweets");
 const messageService = require("./services/messages");
+const bookmarkService = require("./services/bookmark");
+const accountService = require("./services/account");
+const searchService = require("./services/search");
 
 //MongoDB connection
 connectMongoDB();
@@ -16,12 +20,12 @@ const handleTopicRequest = (topic_name, fname) => {
   var consumer = connection.getConsumer(topic_name);
   var producer = connection.getProducer();
   consumer.on("message", function (message) {
-  console.log("Message received for " + topic_name);
-  var data = JSON.parse(message.value);
-  fname.handle_request(data.data, (err, res) => {
-  response(data, res, err, producer);
-    return;
-  });
+    console.log("Message received for " + topic_name);
+    var data = JSON.parse(message.value);
+    fname.handle_request(data.data, (err, res) => {
+      response(data, res, err, producer);
+      return;
+    });
   });
 };
 
@@ -51,4 +55,8 @@ const response = (data, res, err, producer) => {
 handleTopicRequest("signup", signupService);
 handleTopicRequest("profile", profileService);
 handleTopicRequest("follow", followService);
+handleTopicRequest("tweets", tweetService);
 handleTopicRequest("messages", messageService);
+handleTopicRequest("bookmarks", bookmarkService);
+handleTopicRequest("account", accountService);
+handleTopicRequest("search", searchService);

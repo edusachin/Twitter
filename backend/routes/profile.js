@@ -47,7 +47,7 @@ router.post("/password", async (req, res) => {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let hashedPassword = passwordHash.generate(req.body.password);
-    let sql = `CALL Password_update('${req.body.email_id}', '${hashedPassword}');`;
+    let sql = `CALL Password_update('${req.body.user_id}', NULL, '${hashedPassword}');`;
     pool.query(sql, (err, sqlResult) => {
         if (err) {
             res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);

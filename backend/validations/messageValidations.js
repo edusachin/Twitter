@@ -2,14 +2,15 @@
 const Joi = require("joi");
 
 //Validation for Message API
-function validateMessage(user) {
+function validateMessage(message) {
   const schema = {
     sender_id: Joi.string().required(),
     receiver_id: Joi.string().required(),
-    message_content: Joi.string()
+    message_content: Joi.string().required(),
+    conversation_id: Joi.string()
   };
 
-  return Joi.validate(user, schema);
+  return Joi.validate(message, schema);
 }
 
 exports.validateMessage = validateMessage;

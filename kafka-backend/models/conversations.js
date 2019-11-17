@@ -20,20 +20,20 @@ const messages = {
 
 //Schema
 const conversationSchema = new schema(
-  {
-    user1: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+    {
+        user1: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        user2: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        message: [messages]
     },
-    user2: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
-    message: [messages]
-},
-{ versionKey: false }
+    { versionKey: false }
 );
 
-const List = mongoose.model("Conversation", conversationSchema);
+const Conversation = mongoose.model("Conversation", conversationSchema);
 
-module.exports = List;
+module.exports = Conversation;

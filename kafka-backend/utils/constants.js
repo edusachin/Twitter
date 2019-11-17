@@ -15,6 +15,11 @@ module.exports = {
         CREATE_SUCCESSFUL: "Created Successfully",
         UPDATE_SUCCESSFUL: "Updated Successfully",
         DELETE_SUCCESSFUL: "Deleted Successfully",
-        ACTION_NOT_COMPLETE: "Sorry! Please try again later"
+        ACTION_NOT_COMPLETE: "Sorry! Please try again later",
+        INVALID_INPUTS: "Invalid Inputs",
+        DATA_ALREADY_EXISTS: "Data Already Exists",
+        DATA_NOT_FOUND: "Data doesn't Exists"
+
+
     }
 }
