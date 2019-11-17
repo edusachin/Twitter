@@ -3,6 +3,7 @@ const { postTweet } = require("./postTweet");
 const { getUserTweets } = require("./getUserTweets");
 const { postRetweet } = require("./postRetweet");
 const { deleteTweet } = require("./deleteTweet");
+const { postLikes } = require("./postLikes");
 function handle_request(msg, callback) {
     switch (msg.route) {
         case "post_tweet":
@@ -16,6 +17,9 @@ function handle_request(msg, callback) {
             break;
         case "delete_tweet":
             deleteTweet(msg, callback);
+            break;
+        case "post_likes":
+            postLikes(msg, callback);
             break;
     }
 }
