@@ -2,9 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
+const pool = require('../utils/mysqlConnection');
 const { checkAuth } = require("../utils/passport");
 const { validateAccount } = require("../validations/accountValidations");
-const { STATUS_CODE } = require('../utils/constants');
+const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 
 router.post("/deactivate", checkAuth, async (req, res) => {
     const { error } = validateAccount(req.body);
@@ -20,6 +21,37 @@ router.post("/deactivate", checkAuth, async (req, res) => {
         }
         else {
             res.status(results.status).send(results.data);
+        }
+    });
+});
+
+router.post("/delete", checkAuth, async (req, res) => {
+    const { error } = validateAccount(req.body);
+    if (error) {
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+    }
+    let msg = req.body;
+    msg.route = "delete_account";
+
+    kafka.make_request("account", msg, function (err, results) {
+        if (err) {
+            res.status(err.status).send(err.data);
+        }
+        else {
+            if (results.status === 200) {
+                let user_id = req.body.user_id;
+                let sql = `CALL User_delete('${user_id}');`
+                pool.query(sql, (err, sqlResult) => {
+                    console.log(err);
+                    console.log(sqlResult);
+                    if (err) {
+                        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+                    }
+                    if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_DELETED') {
+                        res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                    }
+                });
+            }
         }
     });
 });
