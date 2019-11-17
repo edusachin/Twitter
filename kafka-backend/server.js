@@ -9,6 +9,7 @@ const followService = require("./services/follow");
 const tweetService = require("./services/tweets");
 const messageService = require("./services/messages");
 const accountService = require("./services/account");
+const searchService = require("./services/search");
 
 //MongoDB connection
 connectMongoDB();
@@ -57,3 +58,4 @@ handleTopicRequest("follow", followService);
 handleTopicRequest("tweets", tweetService);
 handleTopicRequest("messages", messageService);
 handleTopicRequest("account", accountService);
+handleTopicRequest("search", searchService);
