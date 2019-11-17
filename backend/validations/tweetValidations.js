@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-//Validation for Profile API
+//Validation for Tweet API
 function validateTweet(user) {
     const schema = {
         user_id: Joi.string().required(),

@@ -1,20 +1,21 @@
 "use strict";
-const Users = require('../../models/users');
+const Tweets = require('../../models/tweets');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-let getUserTweets = async (msg, callback) => {
+let searchTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let userTweets = await Users.findById(msg.user_id, { tweets: 1, retweeted_tweets: 1 }).populate("tweets", "tweet_text tweet_owner").populate("retweeted_tweets", "tweet_text tweet_owner");
-        if (!userTweets) {
+        let tweetRegex = new RegExp(msg.input, 'i')
+        let tweets = await Tweets.find({ $or: [{ "hashtags": tweetRegex }] });
+        if (!tweets) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
         else {
             response.status = STATUS_CODE.SUCCESS;
-            response.data = JSON.stringify(userTweets);
+            response.data = JSON.stringify(tweets);
             return callback(null, response);
         }
     } catch (error) {
@@ -24,4 +25,4 @@ let getUserTweets = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.getUserTweets = getUserTweets;
+exports.searchTweets = searchTweets;
