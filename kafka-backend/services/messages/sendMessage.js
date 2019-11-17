@@ -16,10 +16,15 @@ let sendMessage = async (msg, callback) => {
 
         if (msg.conversation_id) {
             let existingConversation = await Conversation.findById(msg.conversation_id);
+            if (!existingConversation) {
+                err.status = STATUS_CODE.BAD_REQUEST;
+                err.data = MESSAGES.DATA_NOT_FOUND;
+                return callback(err, null);
+            }
 
             existingConversation.message.push(newMessage);
             let conversationUpdate = await existingConversation.save();
-            
+
             if (conversationUpdate) {
                 response.status = STATUS_CODE.CREATED_SUCCESSFULLY;
                 response.data = MESSAGES.CREATE_SUCCESSFUL;
@@ -32,6 +37,15 @@ let sendMessage = async (msg, callback) => {
 
         }
         else {
+            let user1 = Users.findById(msg.sender_id);
+            let user2 = Users.findById(msg.receiver_id);
+
+            if (!user1 || !user2) {
+                err.status = STATUS_CODE.BAD_REQUEST;
+                err.data = MESSAGES.INVALID_INPUTS;
+                return callback(err, null);
+            }
+
             let newConversation = new Conversation({
                 user1: msg.sender_id,
                 user2: msg.receiver_id,

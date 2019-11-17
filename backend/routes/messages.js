@@ -41,9 +41,9 @@ router.get("/:user_id", async (req, res) => {
 });
 
 
-router.get("/existing/:user_id/:target_id", async (req, res) => {
+router.get("/searched/:user_id/:target_id", async (req, res) => {
     let msg = {};
-    msg.route = "get_existingConversation";
+    msg.route = "get_SearchedConversation";
     msg.user_id = req.params.user_id;
     msg.target_id = req.params.target_id;
     

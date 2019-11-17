@@ -8,6 +8,7 @@ const profileService = require("./services/profile");
 const followService = require("./services/follow");
 const tweetService = require("./services/tweets");
 const messageService = require("./services/messages");
+const bookmarkService = require("./services/bookmark");
 
 //MongoDB connection
 connectMongoDB();
@@ -55,3 +56,4 @@ handleTopicRequest("profile", profileService);
 handleTopicRequest("follow", followService);
 handleTopicRequest("tweets", tweetService);
 handleTopicRequest("messages", messageService);
+handleTopicRequest("bookmarks", bookmarkService);
