@@ -1,7 +1,7 @@
 "use strict";
 const { sendMessage } = require("./sendMessage");
 const { getConversations } = require("./getConversations");
-const { getUserConversation } = require("./getUserConversation");
+const { getSearchedConversation } = require("./getSearchedConversation");
 
 
 let handle_request = (msg, callback) => {
@@ -12,8 +12,8 @@ let handle_request = (msg, callback) => {
     case "get_conversations":
       getConversations(msg, callback);
       break;
-    case "get_user_conversation":
-      getUserConversation(msg, callback);
+    case "get_SearchedConversation":
+      getSearchedConversation(msg, callback);
       break;
   }
 };
