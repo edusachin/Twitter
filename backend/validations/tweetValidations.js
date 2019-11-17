@@ -10,7 +10,7 @@ function validateTweet(user) {
     return Joi.validate(user, schema);
 }
 
-//Validation for Tweet API
+//Validation for Likes of Tweets
 function validateLikes(likes) {
     const schema = {
         user_id: Joi.string().required(),
@@ -20,5 +20,16 @@ function validateLikes(likes) {
     return Joi.validate(likes, schema);
 }
 
+function validateReplies(replies) {
+    const schema = {
+        user_id: Joi.string().required(),
+        tweet_id: Joi.string().required(),
+        reply_text: Joi.string().required()
+    };
+
+    return Joi.validate(replies, schema);
+}
+
+exports.validateReplies = validateReplies;
 exports.validateLikes = validateLikes;
 exports.validateTweet = validateTweet;
