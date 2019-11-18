@@ -86,6 +86,10 @@ const userSchema = new schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "List"
     }],
+    membered_lists: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "List"
+    }],
     owned_lists: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "List"

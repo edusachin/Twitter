@@ -40,6 +40,7 @@ const tweetSchema = new schema(
         },
         reply_date: {
             type: Date,
+            default: Date.now(),
             trim: true
         },
     }],
