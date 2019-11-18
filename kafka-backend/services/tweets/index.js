@@ -8,6 +8,8 @@ const { postReplies } = require("./postReplies");
 const { getTweetLikes } = require("./getTweetLikes");
 const { getTweetReplies } = require("./getTweetReplies");
 const { getUserLikedTweets } = require("./getUserLikedTweets");
+const { getFollowersTweets } = require("./getFollowersTweets");
+
 function handle_request(msg, callback) {
     switch (msg.route) {
         case "post_tweet":
@@ -36,6 +38,9 @@ function handle_request(msg, callback) {
             break;
         case "get_user_likes":
             getUserLikedTweets(msg, callback);
+            break;
+        case "get_followers_tweets":
+            getFollowersTweets(msg, callback);
             break;
     }
 }

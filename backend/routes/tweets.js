@@ -4,6 +4,9 @@ const kafka = require("../kafka/client");
 const { validateTweet, validateLikes, validateReplies } = require("../validations/tweetValidations");
 const { STATUS_CODE } = require("../utils/constants");
 
+/**
+ * To get all the tweets of a user
+ */
 router.get("/:user_id", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
@@ -22,6 +25,10 @@ router.get("/:user_id", async (req, res) => {
 
 });
 
+/**
+ * Post a tweet
+ * @param req: user_id,tweet_text
+ */
 router.post("/", async (req, res) => {
     const { error } = validateTweet(req.body);
     if (error) {
@@ -40,6 +47,10 @@ router.post("/", async (req, res) => {
     });
 });
 
+/**
+ * To retweet a tweet
+ * @param req:user_id, tweet_id
+ */
 router.post("/retweet", async (req, res) => {
     const { error } = false;
     if (error) {
@@ -58,7 +69,10 @@ router.post("/retweet", async (req, res) => {
     });
 });
 
-
+/**
+ * To delete a tweet
+ * @param req: user_id, tweet_id
+ */
 router.post("/delete", async (req, res) => {
     const { error } = false;
     if (error) {
@@ -77,6 +91,10 @@ router.post("/delete", async (req, res) => {
     });
 });
 
+/**
+ * To post a reply on a tweet
+ * @param req:  user_id,tweet_id
+ */
 router.post("/likes", async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
@@ -96,6 +114,10 @@ router.post("/likes", async (req, res) => {
     });
 });
 
+/**
+ * To post a reply on a tweet
+ * @param req: user_id, tweet_id, reply_text
+ */
 router.post("/replies", async (req, res) => {
     const { error } = validateReplies(req.body);
     if (error) {
@@ -113,6 +135,9 @@ router.post("/replies", async (req, res) => {
     });
 });
 
+/**
+ * To get all likes in a tweet
+ */
 router.get("/:tweet_id/likes", async (req, res) => {
     let msg = {
         tweet_id: req.params.tweet_id,
@@ -131,6 +156,9 @@ router.get("/:tweet_id/likes", async (req, res) => {
 
 });
 
+/**
+ * To get all the replies posted by a user
+ */
 router.get("/:tweet_id/replies", async (req, res) => {
     let msg = {
         tweet_id: req.params.tweet_id,
@@ -149,6 +177,9 @@ router.get("/:tweet_id/replies", async (req, res) => {
 
 });
 
+/**
+ * To get all the likes done by a user
+ */
 router.get("/:user_id/liked", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
@@ -158,6 +189,27 @@ router.get("/:user_id/liked", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get_user_likes/:id---------");
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+
+});
+
+/**
+ * To get all the tweets of the followers of a user
+ */
+router.get("/:user_id/all", async (req, res) => {
+    let msg = {
+        user_id: req.params.user_id,
+        route: "get_followers_tweets"
+    }
+
+    kafka.make_request("tweets", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get_followers_tweets/:id---------");
             res.status(err.status).send(err.data);
         }
         else {
