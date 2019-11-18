@@ -13,13 +13,13 @@ let deleteAccount = async (msg, callback) => {
             err.data = MESSAGES.INTERNAL_SERVER_ERROR;
             return callback(err, null);
         } else {
-            Tweets.deleteOne({ tweet_owner: msg.user_id }, function (err) {
+            Tweets.deleteMany({ tweet_owner: msg.user_id }, function (err) {
                 if (err) {
                     err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
                     err.data = MESSAGES.INTERNAL_SERVER_ERROR;
                     return callback(err, null);
                 } else {
-                    Conversations.deleteOne({ $or: [{ "user1": msg.user_id }, { "user2": msg.user_id }] }, function (err) {
+                    Conversations.deleteMany({ $or: [{ "user1": msg.user_id }, { "user2": msg.user_id }] }, function (err) {
                         if (err) {
                             err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
                             err.data = MESSAGES.INTERNAL_SERVER_ERROR;
