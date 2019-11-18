@@ -38,7 +38,7 @@ const response = (data, res, err, producer) => {
         data: res,
         err: err
       }),
-      partition: 0
+      //partition: 0
     }
   ];
   producer.send(payloads, function (err, data) {
