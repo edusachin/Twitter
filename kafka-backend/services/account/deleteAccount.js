@@ -2,6 +2,7 @@
 const Users = require('../../models/users');
 const Tweets = require('../../models/tweets');
 const Conversations = require('../../models/conversations');
+const Lists = require('../../models/lists');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 let deleteAccount = async (msg, callback) => {
@@ -25,9 +26,17 @@ let deleteAccount = async (msg, callback) => {
                             err.data = MESSAGES.INTERNAL_SERVER_ERROR;
                             return callback(err, null);
                         } else {
-                            response.status = STATUS_CODE.SUCCESS;
-                            response.data = MESSAGES.SUCCESS;
-                            return callback(null, response);
+                            Lists.deleteMany({ "list_owner": msg.user_id }, function (err) {
+                                if (err) {
+                                    err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
+                                    err.data = MESSAGES.INTERNAL_SERVER_ERROR;
+                                    return callback(err, null);
+                                } else {
+                                    response.status = STATUS_CODE.SUCCESS;
+                                    response.data = MESSAGES.SUCCESS;
+                                    return callback(null, response);
+                                }
+                            });
                         }
                     });
                 }
