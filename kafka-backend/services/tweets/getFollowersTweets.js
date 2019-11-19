@@ -1,5 +1,4 @@
 "use strict";
-const Tweet = require("../../models/tweets");
 const User = require("../../models/users")
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
@@ -12,11 +11,7 @@ let getFollowersTweets = async (msg, callback) => {
             select: "tweets retweeted_tweets",
             match: { "is_active": true },
             populate: {
-                path: "tweets",
-                model: "Tweet"
-            },
-            populate: {
-                path: "retweeted_tweets",
+                path: "tweets retweeted_tweets",
                 model: "Tweet"
             }
         });
