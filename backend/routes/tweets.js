@@ -7,9 +7,10 @@ const { STATUS_CODE } = require("../utils/constants");
 /**
  * To get all the tweets of a user
  */
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id/:page_number", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
+        page_number: req.params.page_number,
         route: "get_user_tweets"
     }
 
