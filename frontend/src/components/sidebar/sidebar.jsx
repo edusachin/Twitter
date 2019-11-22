@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import twitter_icon from "../../twitter_icon.png";
+import "./sidebar.css";
 
 class Sidebar extends Component {
     state = {}
