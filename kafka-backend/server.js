@@ -11,6 +11,7 @@ const messageService = require("./services/messages");
 const bookmarkService = require("./services/bookmark");
 const accountService = require("./services/account");
 const searchService = require("./services/search");
+const listService = require("./services/list");
 
 //MongoDB connection
 connectMongoDB();
@@ -61,3 +62,4 @@ handleTopicRequest("messages", messageService);
 handleTopicRequest("bookmarks", bookmarkService);
 handleTopicRequest("account", accountService);
 handleTopicRequest("search", searchService);
+handleTopicRequest("list", listService);
