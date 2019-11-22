@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 class Userfeed extends Component {
     state = {}
     render() {
-        return (<h2>Home</h2>);
+        return (
+            <div className="row user-feed">
+                <h2 className="content-title col-sm-12">Home</h2>
+            </div>
+        );
     }
 }
 

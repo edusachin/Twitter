@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 class Lists extends Component {
     state = {}
     render() {
-        return (<h2>List</h2>);
+        return (
+            <div className="row lists-section">
+                <h2 className="content-title col-sm-12">List</h2>
+            </div>);
     }
 }
 
