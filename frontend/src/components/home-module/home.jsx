@@ -7,18 +7,19 @@ import Userfeed from "../userfeed-module/userfeed";
 import Messages from "../messages-module/messages";
 import Profile from "../profile-module/profile";
 import Analytics from '../analytics-module/analytics';
+import "./home.css";
 
 class Home extends Component {
     state = {}
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid mx-5 home-page">
                 <div className="row">
                     <BrowserRouter>
                         <div className="col-sm-2">
                             <Sidebar />
                         </div>
-                        <div className="col-sm-10">
+                        <div className="col-sm-10 content-section">
                             <Switch>
                                 <Route
                                     path="/home"
