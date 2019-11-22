@@ -36,6 +36,12 @@ router.post("/", async (req, res) => {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
+    let rx = /(?:^|\s)(#[a-z0-9]\w*)/gi;
+    var m, result = [];
+    while (m = rx.exec(req.body.tweet_text)) {
+        result.push(m[1]);
+    }
+    console.log(result);
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {

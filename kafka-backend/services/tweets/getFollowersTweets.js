@@ -5,18 +5,28 @@ const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 let getFollowersTweets = async (msg, callback) => {
     let response = {};
     let err = {};
+    let allTweets = {};
     try {
-        let tweets = await User.findById(msg.user_id, { following: 1 }).populate({
+        let userTweets = await User.findById(msg.user_id, { following: 1 }).populate({
             path: "following",
-            select: "tweets retweeted_tweets",
+            select: "first_name last_name tweets retweeted_tweets",
             match: { "is_active": true },
             populate: {
                 path: "tweets retweeted_tweets",
-                model: "Tweet"
+                model: "Tweet",
+                populate: {
+                    path: "tweet_owner",
+                    model: "User"
+                }
             }
         });
+        userTweets.following.map(data => {
+            if (!allTweets.hasOwnProperty(data._id)) {
+                allTweets[data._id] = [...data.tweets, ...data.retweeted_tweets, data.first_name, data.last_name];
+            }
+        })
         response.status = STATUS_CODE.SUCCESS;
-        response.data = JSON.stringify(tweets);
+        response.data = JSON.stringify(allTweets);
         return callback(null, response)
     } catch (error) {
         console.log(error);
