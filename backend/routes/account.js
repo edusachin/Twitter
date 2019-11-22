@@ -7,7 +7,11 @@ const { checkAuth } = require("../utils/passport");
 const { validateAccount } = require("../validations/accountValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 
-router.post("/deactivate", checkAuth, async (req, res) => {
+/**
+ * to deactivate an account
+ * @param req: user_id
+ */
+router.post("/deactivate", async (req, res) => {
     const { error } = validateAccount(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -25,7 +29,7 @@ router.post("/deactivate", checkAuth, async (req, res) => {
     });
 });
 
-router.post("/delete", checkAuth, async (req, res) => {
+router.post("/delete", async (req, res) => {
     const { error } = validateAccount(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
