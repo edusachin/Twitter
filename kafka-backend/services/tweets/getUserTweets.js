@@ -7,7 +7,7 @@ let getUserTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     const page_number = msg.page_number;
-    const page_size = 2;
+    const page_size = 10;
     try {
         redisClient.get(msg.user_id, async (err, tweetResults) => {
            if (tweetResults) {
