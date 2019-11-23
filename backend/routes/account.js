@@ -46,13 +46,13 @@ router.post("/delete", async (req, res) => {
                 let user_id = req.body.user_id;
                 let sql = `CALL User_delete('${user_id}');`
                 pool.query(sql, (err, sqlResult) => {
-                    console.log(err);
-                    console.log(sqlResult);
                     if (err) {
                         res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
                     }
                     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_DELETED') {
                         res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                    } else {
+                        res.status(STATUS_CODE.BAD_REQUEST).send(sqlResult[0][0].status);
                     }
                 });
             }

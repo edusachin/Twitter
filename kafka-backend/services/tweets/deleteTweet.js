@@ -18,9 +18,9 @@ let deleteTweet = async (msg, callback) => {
         else {
             if (targetTweet.tweet_owner == user_id) { // using == as type of the Ids are different
                 targetUser.tweets.remove(tweet_id);
-                let updateUser = await targetUser.save();
+                let updatedUser = await targetUser.save();
                 Tweet.findByIdAndRemove(tweet_id, (error, success) => {
-                    if (updateUser && success) {
+                    if (updatedUser && success) {
                         response.status = STATUS_CODE.SUCCESS;
                         response.data = MESSAGES.DELETE_SUCCESSFUL;
                         return callback(null, response);
@@ -35,9 +35,9 @@ let deleteTweet = async (msg, callback) => {
             else {
                 targetUser.retweeted_tweets.remove(tweet_id);
                 targetTweet.retweeters.remove(user_id);
-                let updateUser = await targetUser.save();
-                let updateTweet = await targetTweet.save();
-                if (!updateUser || !updateTweet) {
+                let updatedUser = await targetUser.save();
+                let updatedTweet = await targetTweet.save();
+                if (!updatedUser || !updatedTweet) {
                     err.status = STATUS_CODE.BAD_REQUEST;
                     err.data = MESSAGES.ACTION_NOT_COMPLETE;
                     return callback(err, null);
