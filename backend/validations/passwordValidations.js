@@ -4,7 +4,7 @@ const Joi = require("joi");
 //Validation for Profile API
 function validatePassword(user) {
   const schema = {
-    email_id: Joi.string().email().required(),
+    user_id: Joi.string().required(),
     password: Joi.string().required()
   };
 
