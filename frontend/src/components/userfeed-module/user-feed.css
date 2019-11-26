@@ -1,0 +1,10 @@
+.post-tweet{
+    border-bottom: 1px solid #C0C0C0;
+}
+
+.post-tweet input[type="text"]{
+    border: none;
+}
+.post-tweet .font-icon{
+    font-size: 32px;
+}

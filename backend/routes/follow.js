@@ -6,7 +6,7 @@ const { checkAuth } = require("../utils/passport");
 const { validateFollow } = require("../validations/followValidations");
 const { STATUS_CODE } = require('../utils/constants');
 
-router.post("/", checkAuth, async (req, res) => {
+router.post("/", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -24,14 +24,14 @@ router.post("/", checkAuth, async (req, res) => {
     });
 });
 
-router.post("/unfollow", checkAuth, async (req, res) => {
+router.post("/unfollow", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body
     msg.route = "unfollow_user";
-    
+
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
@@ -42,11 +42,11 @@ router.post("/unfollow", checkAuth, async (req, res) => {
     });
 });
 
-router.get("/followers/:user_id", checkAuth, async (req, res) => {
+router.get("/followers/:user_id", async (req, res) => {
     let msg = {};
     msg.route = "get_followers";
     msg.user_id = req.params.user_id;
-    
+
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
@@ -57,11 +57,11 @@ router.get("/followers/:user_id", checkAuth, async (req, res) => {
     });
 });
 
-router.get("/following/:user_id", checkAuth, async (req, res) => {
+router.get("/following/:user_id", async (req, res) => {
     let msg = {};
     msg.route = "get_following";
     msg.user_id = req.params.user_id;
-    
+
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
