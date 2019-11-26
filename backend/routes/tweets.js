@@ -7,7 +7,7 @@ const { STATUS_CODE } = require("../utils/constants");
 /**
  * To get all the tweets of a user
  */
-router.get("/:user_id/:page_number", async (req, res) => {
+router.get("/user/:user_id/:page_number", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
         page_number: req.params.page_number,
@@ -17,6 +17,27 @@ router.get("/:user_id/:page_number", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+
+});
+
+/**
+ * To get all the tweets of the followers of a user
+ */
+router.get("/following/:user_id", async (req, res) => {
+    let msg = {
+        user_id: req.params.user_id,
+        route: "get_followers_tweets"
+    }
+
+    kafka.make_request("tweets", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get_followers_tweets/:id---------");
             res.status(err.status).send(err.data);
         }
         else {
@@ -196,27 +217,6 @@ router.get("/:user_id/liked", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get_user_likes/:id---------");
-            res.status(err.status).send(err.data);
-        }
-        else {
-            res.status(results.status).send(results.data);
-        }
-    });
-
-});
-
-/**
- * To get all the tweets of the followers of a user
- */
-router.get("/:user_id/all", async (req, res) => {
-    let msg = {
-        user_id: req.params.user_id,
-        route: "get_followers_tweets"
-    }
-
-    kafka.make_request("tweets", msg, function (err, results) {
-        if (err) {
-            console.log("-------error: tweet:get_followers_tweets/:id---------");
             res.status(err.status).send(err.data);
         }
         else {
