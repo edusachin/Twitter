@@ -8,6 +8,50 @@ const { checkAuth } = require("../utils/passport");
 const { validateProfile } = require("../validations/profileValidations");
 const { validatePassword } = require("../validations/passwordValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
+const { awsBucket, awsAccessKey, awsSecretAccessKey, awsPermission } = require('../utils/config');
+const fs = require('fs');
+const AWS = require('aws-sdk');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+
+})
+const upload = multer({ storage });
+express().use(express.static('public'));
+
+const s3 = new AWS.S3({
+    accessKeyId: awsAccessKey,
+    secretAccessKey: awsSecretAccessKey
+});
+
+const uploadFile = (file, user_id) => {
+    const params = {
+        Bucket: awsBucket + '/profile/' + user_id,
+        Key: file.originalname,
+        ContentType: file.mimetype,
+        Body: fs.createReadStream(file.path),
+        ACL: awsPermission
+    };
+    s3.upload(params, function (s3Err, resp) {
+        if (s3Err) {
+            console.log(s3Err);
+        }
+        deleteFile(file);
+    });
+};
+
+const deleteFile = (file) => {
+    fs.unlink(file.path, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }); 
+}
 
 router.get("/:user_id", async (req, res) => {
     let msg = {};
@@ -24,12 +68,15 @@ router.get("/:user_id", async (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single('image'), async (req, res) => {
     const { error } = validateProfile(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
+    if (req.file) {
+        uploadFile(req.file, msg.user_id);
+    }
     msg.route = "update_profile";
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
