@@ -3,6 +3,19 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const { validateTweet, validateLikes, validateReplies } = require("../validations/tweetValidations");
 const { STATUS_CODE } = require("../utils/constants");
+const uploadFileToS3 = require('../utils/awsImageUpload');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+
+})
+const upload = multer({ storage });
+express().use(express.static('public'));
 
 /**
  * To get all the tweets of a user
@@ -51,13 +64,19 @@ router.get("/following/:user_id", async (req, res) => {
  * Post a tweet
  * @param req: user_id,tweet_text
  */
-router.post("/", async (req, res) => {
+router.post("/", upload.any(), async (req, res) => {
     const { error } = validateTweet(req.body);
     if (error) {
         console.log("-------error: tweet:post/---------");
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
+    if (req.files) {
+        req.files.forEach(function (file, index) {
+            // Need Tweet Id here
+            uploadFileToS3(file, 'tweet', msg.user_id);
+        });
+    }
     let rx = /(?:^|\s)(#[a-z0-9]\w*)/gi;
     var m, result = [];
     while (m = rx.exec(req.body.tweet_text)) {
