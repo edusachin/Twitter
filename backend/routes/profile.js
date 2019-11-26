@@ -68,14 +68,14 @@ router.get("/:user_id", async (req, res) => {
     });
 });
 
-router.post("/", upload.single('image'), async (req, res) => {
+router.post("/", upload.any(), async (req, res) => {
     const { error } = validateProfile(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
-    if (req.file) {
-        uploadFile(req.file, msg.user_id);
+    if (req.files) {
+        uploadFile(req.files[0], msg.user_id);
     }
     msg.route = "update_profile";
     kafka.make_request("profile", msg, function (err, results) {
