@@ -10,11 +10,16 @@ class Userfeed extends Component {
     render() {
         return (
             <div className="row user-feed">
-                <h2 className="content-title col-sm-12">Home</h2>
-                <div className="col-sm-12"><PostTweet /></div>
-                {this.state.tweets.map(data => {
-                    return <TweetCard key={data} />
-                })}
+                <div className="col-sm-7">
+                    <div className="row">
+                        <h2 className="content-title col-sm-12">Home</h2>
+                        <div className="col-sm-12"><PostTweet /></div>
+                        {this.state.tweets.map(data => {
+                            return <TweetCard key={data} />
+                        })}
+                    </div>
+                </div>
+                <div className="col-sm-5"></div>
             </div>
         );
     }
