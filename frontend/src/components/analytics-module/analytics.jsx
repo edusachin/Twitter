@@ -24,7 +24,27 @@ class Analytics extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.state = {
             legendPosition: "bottom",
-            chartData: {
+            topTweetsByViews: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            topTweetsByLikes: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            topTweetsByRetweets: {
                 labels: [],
                 datasets: [
                     {
@@ -39,14 +59,13 @@ class Analytics extends Component {
 
     componentDidMount() {
         document.title = "Home / Twitter";
-
-        // TODO: To be replaced with localStorage user_id
+        // TODO: Refactor this to reduce lines of code
         axios.get('http://localhost:3001/api/analytics/topViewedTweets')
             .then(response => {
                 if (response.status === 200) {
                     let tweets = response.data;
                     this.setState({
-                        chartData: {
+                        topTweetsByViews: {
                             labels: Array.from(tweets, tweet => tweet.tweet_text),
                             datasets: [
                                 {
@@ -64,6 +83,56 @@ class Analytics extends Component {
                     console.log(err.response.data);
                 }
             });
+        
+        axios.get('http://localhost:3001/api/analytics/topLikedTweets')
+            .then(response => {
+                if (response.status === 200) {
+                    let tweets = response.data;
+                    console.log(tweets);
+                    this.setState({
+                        topTweetsByLikes: {
+                            labels: Array.from(tweets, tweet => tweet.tweet_text),
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: Array.from(tweets, tweet => tweet.likes_count),
+                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+        
+        axios.get('http://localhost:3001/api/analytics/topRetweetedTweets')
+            .then(response => {
+                if (response.status === 200) {
+                    let tweets = response.data;
+                    this.setState({
+                        topTweetsByRetweets: {
+                            labels: Array.from(tweets, tweet => tweet.tweet_text),
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: Array.from(tweets, tweet => tweet.retweets_count),
+                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+        
     };
 
     handleClick = (event) => {
@@ -86,7 +155,7 @@ class Analytics extends Component {
                         <div className="col-sm-12">
                             <div className="chart">
                                 <Pie
-                                    data={this.state.chartData}
+                                    data={this.state.topTweetsByViews}
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
@@ -102,7 +171,7 @@ class Analytics extends Component {
                                 />
                                 <br/> <br/> <br/>
                                 <Bar
-                                    data={this.state.chartData}
+                                    data={this.state.topTweetsByLikes}
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
@@ -113,12 +182,21 @@ class Analytics extends Component {
                                             display: this.props.displayLegend,
                                             position: this.state.legendPosition
                                         },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true,
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
                                         onClick: this.handleClick
                                     }}
                                 />
                                 <br /> <br /> <br />
                                 <Line
-                                    data={this.state.chartData}
+                                    data={this.state.topTweetsByRetweets}
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
@@ -128,7 +206,16 @@ class Analytics extends Component {
                                         legend: {
                                             display: this.props.displayLegend,
                                             position: this.state.legendPosition
-                                        }
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true,
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
                                     }}
                                 />
                             </div>
