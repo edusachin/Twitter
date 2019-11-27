@@ -49,7 +49,8 @@ const tweetSchema = new schema(
         ref: "User"
     }],
     view_count : {
-        type : Number
+        type : Number,
+        default: 0
     }
 
   },
