@@ -45,7 +45,7 @@ router.get("/user/:user_id/:page_number", async (req, res) => {
 router.get("/following/:user_id", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
-        route: "get_followering_tweets"
+        route: "get_following_tweets"
     }
 
     kafka.make_request("tweets", msg, function (err, results) {
