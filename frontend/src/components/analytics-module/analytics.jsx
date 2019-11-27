@@ -2,58 +2,79 @@ import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 import { Bar, Line, Pie } from 'react-chartjs-2';
 
+// TODO: To be replaced with httpService
+import axios from 'axios';
+
+const backgroundColor = [
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(0, 0, 128, 0.6)',
+    'rgba(128, 128, 0, 0.6)',
+    'rgba(128, 0, 0, 0.6)',
+    'rgba(128, 0, 0, 1.0)',
+    'rgba(128, 0, 128, 1.0)'
+];
+
 class Analytics extends Component {
     constructor() {
         super();
         this.handleClick = this.handleClick.bind(this);
         this.state = {
-            location: "Massachusetts",
             legendPosition: "bottom",
             chartData: {
-                labels: ['Tweet1', 'Tweet2', 'Tweet3', 'Tweet4', 'Tweet5', 'Tweet6', 'Tweet7', 'Tweet8', 'Tweet9', 'Tweet10'],
+                labels: [],
                 datasets: [
                     {
-                        label: 'Views',
-                        data: [
-                            10,
-                            7,
-                            6,
-                            4,
-                            2,
-                            1,
-                            3,
-                            7,
-                            15,
-                            2
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(0, 0, 128, 0.6)',
-                            'rgba(128, 128, 0, 0.6)',
-                            'rgba(128, 0, 0, 0.6)',
-                            'rgba(128, 0, 0, 1.0)',
-                            'rgba(128, 0, 128, 1.0)',
-                            'rgba(255, 99, 132, 0.6)',
-                        ]
+                        label: '',
+                        data: [],
+                        backgroundColor: []
                     }
                 ]
             }
         }
     }
 
+    componentDidMount() {
+        document.title = "Home / Twitter";
+
+        // TODO: To be replaced with localStorage user_id
+        axios.get('http://localhost:3001/api/analytics/topViewedTweets')
+            .then(response => {
+                if (response.status === 200) {
+                    let tweets = response.data;
+                    this.setState({
+                        chartData: {
+                            labels: Array.from(tweets, tweet => tweet.tweet_text),
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: Array.from(tweets, tweet => tweet.view_count),
+                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+    };
+
     handleClick = (event) => {
+        // Todo :Add code here if we want to show tweet page or a pop up on click
         console.log("Hello");
     }
 
     static defaultProps = {
         displayTitle: true,
         displayLegend: true,
-        legendPosition: 'right',
-        location: 'City'
+        legendPosition: 'right'
     }
 
     render() {
@@ -79,6 +100,7 @@ class Analytics extends Component {
                                         onClick: this.handleClick
                                     }}
                                 />
+                                <br/> <br/> <br/>
                                 <Bar
                                     data={this.state.chartData}
                                     options={{
@@ -94,6 +116,7 @@ class Analytics extends Component {
                                         onClick: this.handleClick
                                     }}
                                 />
+                                <br /> <br /> <br />
                                 <Line
                                     data={this.state.chartData}
                                     options={{
