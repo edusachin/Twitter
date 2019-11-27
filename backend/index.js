@@ -12,6 +12,7 @@ const bookmarks = require("./routes/bookmarks");
 const account = require("./routes/account");
 const search = require("./routes/search");
 const list = require("./routes/list");
+const analytics = require("./routes/analytics");
 
 app.use("/api/login", login);
 app.use("/api/signup", signup);
@@ -23,6 +24,7 @@ app.use("/api/bookmark", bookmarks);
 app.use("/api/account", account);
 app.use("/api/search", search);
 app.use("/api/list", list);
+app.use("/api/analytics", analytics);
 
 const port = process.env.PORT || 3001;
 
