@@ -7,6 +7,7 @@ import Userfeed from "../userfeed-module/userfeed";
 import Messages from "../messages-module/messages";
 import Profile from "../profile-module/profile";
 import Analytics from '../analytics-module/analytics';
+import ListDetails from '../lists-module/listDetails';
 import "./home.css";
 
 class Home extends Component {
@@ -15,7 +16,7 @@ class Home extends Component {
         return (
             <div className="container-fluid mx-5 home-page">
                 <div className="row">
-                    <BrowserRouter>
+                    
                         <div className="col-sm-2">
                             <Sidebar />
                         </div>
@@ -34,7 +35,7 @@ class Home extends Component {
                                     component={Bookmarks}
                                 />
                                 <Route
-                                    path="/lists"
+                                     path="/lists/:id"
                                     component={Lists}
                                 />
                                 <Route
@@ -54,7 +55,7 @@ class Home extends Component {
                             </Switch>
 
                         </div>
-                    </BrowserRouter>
+                   
                 </div>
             </div>
         )

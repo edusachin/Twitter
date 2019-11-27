@@ -41,7 +41,7 @@ class Owned extends Component {
         return (
             <div>
                 <h1>owned lists</h1>
-                {/* {list} */}
+                <Link to={{ pathname: "/lists/details/tweets" }}>Owned</Link>
             </div>
         );
     }

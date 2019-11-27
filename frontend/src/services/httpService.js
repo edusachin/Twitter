@@ -5,7 +5,7 @@ axios.interceptors.response.use(null, error => {
     const expectedError = error.response && error.response.status >= 400 && error.response.status < 500
     if (!expectedError) {
         console.log("Logging out error", error);
-        alertService.error(error.response.data);
+     //   alertService.error(error.response.data);
     }
     alertService.error(error.response)
     return Promise.reject(error)

@@ -30,7 +30,7 @@ class Sidebar extends Component {
                             Bookmarks</NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/lists" exact={true}>
+                        <NavLink className="p-2 pr-3" to="/lists/owned" exact={true}>
                             <i className="far fa-list-alt pr-2"></i>Lists</NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">

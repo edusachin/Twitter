@@ -54,12 +54,12 @@ const response = (data, res, err, producer) => {
 }
 
 // Topics
-// handleTopicRequest("signup", signupService);
-// handleTopicRequest("profile", profileService);
-// handleTopicRequest("follow", followService);
-// handleTopicRequest("tweets", tweetService);
-// handleTopicRequest("messages", messageService);
-// handleTopicRequest("bookmarks", bookmarkService);
-// handleTopicRequest("account", accountService);
-// handleTopicRequest("search", searchService);
+handleTopicRequest("signup", signupService);
+handleTopicRequest("profile", profileService);
+handleTopicRequest("follow", followService);
+handleTopicRequest("tweets", tweetService);
+handleTopicRequest("messages", messageService);
+handleTopicRequest("bookmarks", bookmarkService);
+handleTopicRequest("account", accountService);
+handleTopicRequest("search", searchService);
 handleTopicRequest("list", listService);
