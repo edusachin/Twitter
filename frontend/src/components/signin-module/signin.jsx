@@ -6,27 +6,9 @@ import twitter_footer from "../../twitter_footer.PNG";
 import { Modal,Button } from 'react-bootstrap';
 
 class SignIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            setModal : false
-        }
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+    componentDidMount() {
+        document.title = "Twitter. It's what's happening."
     }
-
-    handleToggle = () => {
-        this.setState({
-            setModal : true
-        });
-    }
-
-    handleClose = () => {
-        this.setState({
-            setModal : false
-        });
-    }
-
     render() {
         return (
             <div className = "row sign-in">
