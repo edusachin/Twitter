@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 class Bookmarks extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Bookmarks / Twitter";
+    }
     render() {
         return (
             <div className="row bookmarks-section">
