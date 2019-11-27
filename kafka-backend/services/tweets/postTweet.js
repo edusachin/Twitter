@@ -11,6 +11,7 @@ let postTweet = async (msg, callback) => {
         let newTweet = new Tweet({
             tweet_owner: msg.user_id,
             tweet_text: msg.tweet_text,
+            tweet_image: msg.tweet_image,
             tweet_date: new Date(Date.now())
         });
         if (!user) {

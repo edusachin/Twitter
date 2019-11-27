@@ -113,11 +113,18 @@ router.post("/", upload.any(), async (req, res) => {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
+    msg.tweet_image = new Array();
     if (req.files) {
-        req.files.forEach(function (file, index) {
+        for (let i = 0; i < req.files.length; i++) {
             // Need Tweet Id here
-            uploadFileToS3(file, 'tweet', msg.user_id);
-        });
+            try {
+                let data = new Date(Date.now()).toString();
+                let resp = await uploadFileToS3(req.files[i], 'tweet/' + data, msg.user_id);
+                msg.tweet_image[i] = resp.Location;
+            } catch (error) {
+                console.log(error);
+            }
+        }
     }
     let rx = /(?:^|\s)(#[a-z0-9]\w*)/gi;
     var m, result = [];
