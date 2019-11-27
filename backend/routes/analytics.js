@@ -6,6 +6,7 @@ const kafka = require("../kafka/client");
  * To get Top 10 tweets by views
  */
 router.get("/topViewedTweets", async (req, res) => {
+    let msg = {};
     msg.count = 10,
     msg.route = "get_top_viewed_tweets";
     kafka.make_request("analytics", msg, function (err, results) {

@@ -1,5 +1,21 @@
 "use strict";
-const Users = require('../../models/tweets');
+const Tweets = require('../../models/tweets');
+const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
+
+const tweetFormatter = (tweet, output) => {
+    let tweetObject = {
+        tweet_id: tweet._id,
+        tweet_owner: tweet.tweet_owner,
+        tweet_text: tweet.tweet_text,
+        tweet_date: tweet.tweet_date,
+        likes_count: tweet.likes ? tweet.likes.length : 0,
+        replies_count: tweet.replies ? tweet.replies.length : 0,
+        retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
+        likes: tweet.likes,
+        view_count: tweet.view_count
+    };
+    output.push(tweetObject);
+};
 
 let getTopViewedTweets = async (msg, callback) => {
     let response = {};
@@ -7,29 +23,21 @@ let getTopViewedTweets = async (msg, callback) => {
     let output = [];
     const count = msg.count;
     try {
-        let userTweets = await Tweets.findAll({ first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
+        let tweets = await Tweets.find()
             .populate({
-                path: 'tweets retweeted_tweets',
-                select: 'tweet_text tweet_owner tweet_date likes replies retweeters',
-                populate: {
-                    path: 'tweet_owner',
-                    select: 'first_name last_name user_name'
-                },
-                options: {
-                    sort: { tweet_date: -1 },
-                    skip: (page_number - 1) * page_size,
-                    limit: page_size
-                }
-            });
-        if (!userTweets) {
+                path: 'tweet_owner',
+                select: 'user_name'
+            })
+            .sort({ 'view_count': -1 })
+            .limit(count);
+        
+        if (!tweets) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
         else {
-            userTweets.tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
-            userTweets.retweeted_tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
-            output.sort((tweet1, tweet2) => (tweet1.tweet_date < tweet2.tweet_date) ? 1 : -1);
+            tweets.map(tweet => tweetFormatter(tweet, output));
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(output);
             return callback(null, response);
