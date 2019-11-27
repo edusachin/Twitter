@@ -38,4 +38,22 @@ router.get("/topLikedTweets", async (req, res) => {
     });
 });
 
+/**
+ * To get Top 5 tweets by retweets
+ */
+router.get("/topRetweetedTweets", async (req, res) => {
+    let msg = {};
+    msg.count = 5,
+        msg.route = "get_top_retweeted_tweets";
+    kafka.make_request("analytics", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get/:id---------");
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+});
+
 module.exports = router;
