@@ -37,7 +37,7 @@ router.get("/:user_id", async (req, res) => {
     });
 });
 
-router.post("/", upload.any(), async (req, res) => {
+router.post("/", upload.single('image'), async (req, res) => {
     const { error } = validateProfile(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -47,6 +47,16 @@ router.post("/", upload.any(), async (req, res) => {
         uploadFileToS3(req.files[0], 'profile', msg.user_id);
     }
     msg.route = "update_profile";
+    let imageUrl = "";
+    if (req.file) {
+        try {
+            imageUrl = await uploadFileToS3(req.file, 'profile', msg.user_id);
+            msg.user_image = imageUrl.Location;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    console.log('Sending kafka request');
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
