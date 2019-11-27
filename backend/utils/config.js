@@ -6,7 +6,12 @@ const config = {
    mysqlUser: "root",
    mysqlPassword: "cmpepassword",
    mysqlHost: "cmpedatabase.cxwydwkipclw.us-east-1.rds.amazonaws.com",
-   mysqlDatabase: "twitter"
+   mysqlDatabase: "twitter",
+   awsBucket: "cmpe273twitter",
+   // Keys can't be added here because AWS categorizes this as vulnerability.
+   awsAccessKey: "",
+   awsSecretAccessKey: "",
+   awsPermission: "public-read"
 };
 
 module.exports = config;
