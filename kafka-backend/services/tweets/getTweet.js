@@ -1,21 +1,26 @@
 "use strict";
-const Tweet = require("../../models/tweets");
+const Tweets = require('../../models/tweets');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-let getTweetReplies = async (msg, callback) => {
+let getTweet = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let tweetReplies = await Tweet.findById(msg.tweet_id, { replies: 1, _id: 0 })
-        console.log(tweetReplies);
-        if (!tweetReplies) {
+        let tweet = await Tweets.findById(msg.tweet_id)
+            .populate({
+                path: 'tweet_owner likes retweeters',
+                select: 'first_name last_name user_name followers'
+            });
+        if (!tweet) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
         else {
+            tweet.view_count += 1;
+            let savedTweet = await tweet.save();
             response.status = STATUS_CODE.SUCCESS;
-            response.data = JSON.stringify(tweetReplies);
+            response.data = JSON.stringify(savedTweet);
             return callback(null, response);
         }
     } catch (error) {
@@ -25,4 +30,5 @@ let getTweetReplies = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.getTweetReplies = getTweetReplies;
+
+exports.getTweet = getTweet;
