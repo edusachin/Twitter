@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 class Message extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Messages / Twitter";
+    }
     render() {
         return (
             <div className="row messages-section">

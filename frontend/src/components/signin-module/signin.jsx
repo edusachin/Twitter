@@ -5,6 +5,9 @@ import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import twitter_footer from "../../twitter_footer.PNG";
 
 class SignIn extends Component {
+    componentDidMount() {
+        document.title = "Twitter. It's what's happening."
+    }
     render() {
         return (
             <div className = "row sign-in">
