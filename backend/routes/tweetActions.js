@@ -16,7 +16,7 @@ router.post("/retweet", async (req, res) => {
     }
     let msg = req.body;
     msg.route = "post_retweet";
-    kafka.make_request("tweets", msg, function (err, results) {
+    kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
@@ -37,7 +37,7 @@ router.post("/likes", async (req, res) => {
     }
     let msg = req.body;
     msg.route = "post_likes";
-    kafka.make_request("tweets", msg, function (err, results) {
+    kafka.make_request("tweet_actions", msg, function (err, results) {
         console.log('Inside backend');
         console.log(results);
         if (err) {
@@ -60,7 +60,7 @@ router.post("/replies", async (req, res) => {
     }
     let msg = req.body;
     msg.route = "post_replies";
-    kafka.make_request("tweets", msg, function (err, results) {
+    kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
