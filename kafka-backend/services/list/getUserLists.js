@@ -20,7 +20,7 @@ async function getUserLists(msg, callback) {
             break;
 
     }
-
+    console.log(msg);
     try {
         let userLists = await User.findById(msg.user_id, { userArray: 1 }).populate(userArray);
 
@@ -28,14 +28,15 @@ async function getUserLists(msg, callback) {
             console.log("in user not found");
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.USER_NOT_EXIST;
+            console.log(err);
             return callback(err, null);
         }
         else {
 
             response.status = STATUS_CODE.SUCCESS;
-            response.data = userLists;
+            response.data = userLists.owned_lists;
+            console.log(response.data);
             return callback(null, response);
-
         }
     } catch (error) {
         console.log(error);
