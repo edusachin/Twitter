@@ -9,8 +9,8 @@ const config = {
    mysqlDatabase: "twitter",
    awsBucket: "cmpe273twitter",
    // Keys can't be added here because AWS categorizes this as vulnerability.
-   awsAccessKey: "",
-   awsSecretAccessKey: "",
+   awsAccessKey: "AKIAIGYDUOPCKMVQ57WA",
+   awsSecretAccessKey: "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",
    awsPermission: "public-read"
 };
 
