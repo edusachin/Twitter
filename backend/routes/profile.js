@@ -4,10 +4,23 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const passwordHash = require('password-hash');
 const pool = require('../utils/mysqlConnection');
+const uploadFileToS3 = require('../utils/awsImageUpload');
 const { checkAuth } = require("../utils/passport");
 const { validateProfile } = require("../validations/profileValidations");
 const { validatePassword } = require("../validations/passwordValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+
+})
+const upload = multer({ storage });
+express().use(express.static('public'));
 
 router.get("/:user_id", async (req, res) => {
     let msg = {};
@@ -24,12 +37,15 @@ router.get("/:user_id", async (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", upload.any(), async (req, res) => {
     const { error } = validateProfile(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
+    if (req.files) {
+        uploadFileToS3(req.files[0], 'profile', msg.user_id);
+    }
     msg.route = "update_profile";
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {

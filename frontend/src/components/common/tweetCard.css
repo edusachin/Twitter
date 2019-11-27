@@ -1,0 +1,14 @@
+.tweet-card {
+    border-bottom: 0.5px solid gainsboro;
+}
+
+.tweet-card .tweet_owner_image {
+    width: 90%;
+    height: 20%;
+    border-radius: 50%;
+}
+
+.tweet-card .tweet_image {
+    width: 40%;
+    height: 40%;
+}
