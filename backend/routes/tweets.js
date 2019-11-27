@@ -48,6 +48,27 @@ router.get("/following/:user_id", async (req, res) => {
 });
 
 /**
+ * To get a single tweet with all details
+ */
+router.get("/tweet/:tweet_id", async (req, res) => {
+    let msg = {
+        tweet_id: req.params.tweet_id,
+        route: "get_tweet"
+    }
+
+    kafka.make_request("tweets", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get_tweet/:id---------");
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+
+});
+
+/**
  * Post a tweet
  * @param req: user_id,tweet_text
  */
@@ -161,27 +182,6 @@ router.post("/replies", async (req, res) => {
             res.status(results.status).send(results.data);
         }
     });
-});
-
-/**
- * To get all likes in a tweet
- */
-router.get("/:tweet_id/likes", async (req, res) => {
-    let msg = {
-        tweet_id: req.params.tweet_id,
-        route: "get_tweet_likes"
-    }
-
-    kafka.make_request("tweets", msg, function (err, results) {
-        if (err) {
-            console.log("-------error: tweet:get_likes/:id---------");
-            res.status(err.status).send(err.data);
-        }
-        else {
-            res.status(results.status).send(results.data);
-        }
-    });
-
 });
 
 /**
