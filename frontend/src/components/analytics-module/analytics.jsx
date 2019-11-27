@@ -10,7 +10,7 @@ class Analytics extends Component {
             location: "Massachusetts",
             legendPosition: "bottom",
             chartData: {
-                labels: ['Tweet1', 'Tweet2', 'Tweet3', 'Tweet4', 'Tweet5', 'Tweet6'],
+                labels: ['Tweet1', 'Tweet2', 'Tweet3', 'Tweet4', 'Tweet5', 'Tweet6', 'Tweet7', 'Tweet8', 'Tweet9', 'Tweet10'],
                 datasets: [
                     {
                         label: 'Views',
@@ -20,7 +20,11 @@ class Analytics extends Component {
                             6,
                             4,
                             2,
-                            1
+                            1,
+                            3,
+                            7,
+                            15,
+                            2
                         ],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.6)',
@@ -28,8 +32,12 @@ class Analytics extends Component {
                             'rgba(255, 206, 86, 0.6)',
                             'rgba(75, 192, 192, 0.6)',
                             'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 99, 132, 0.6)'
+                            'rgba(0, 0, 128, 0.6)',
+                            'rgba(128, 128, 0, 0.6)',
+                            'rgba(128, 0, 0, 0.6)',
+                            'rgba(128, 0, 0, 1.0)',
+                            'rgba(128, 0, 128, 1.0)',
+                            'rgba(255, 99, 132, 0.6)',
                         ]
                     }
                 ]
@@ -62,7 +70,7 @@ class Analytics extends Component {
                                         title: {
                                             display: this.props.displayTitle,
                                             text: 'Top 10 tweets by views',
-                                            fontSize: 25
+                                            fontSize: 20
                                         },
                                         legend: {
                                             display: this.props.displayLegend,
@@ -76,8 +84,8 @@ class Analytics extends Component {
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
-                                            text: 'Top 10 tweets by views',
-                                            fontSize: 25
+                                            text: 'Top 10 tweets by likes',
+                                            fontSize: 20
                                         },
                                         legend: {
                                             display: this.props.displayLegend,
@@ -91,8 +99,8 @@ class Analytics extends Component {
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
-                                            text: 'Top 10 tweets by views',
-                                            fontSize: 25
+                                            text: 'Top 5 tweets by retweets',
+                                            fontSize: 20
                                         },
                                         legend: {
                                             display: this.props.displayLegend,
