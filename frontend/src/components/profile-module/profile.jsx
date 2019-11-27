@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 
 class Profile extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Profile / Twitter";
+    }
     render() {
         return (
             <div className="row profile-section">
