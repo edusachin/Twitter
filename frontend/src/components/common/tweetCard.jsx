@@ -27,10 +27,10 @@ class TweetCard extends Component {
         }
         return (
             <div className="row mx-auto mt-2 tweet-card">
-                <div className="col-sm-2 d-flex justify-content-center">
+                <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
                     <img src={placeholder} className="tweet_owner_image" />
                 </div>
-                <div className="col-sm-10 row pl-0">
+                <div className="col-sm-11 row">
                     {retweetInfo}
                     <div className="tweet-owner col-sm-12">
                         {tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} @{tweet.tweet_owner.user_name} . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
