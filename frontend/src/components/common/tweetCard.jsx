@@ -3,6 +3,7 @@ import './tweetCard.css';
 import placeholder from './placeholder.jpg';
 import placeholderTweetImage from './placeholderImage.jpg';
 import TweeetActions from './tweetActions';
+import SingleTweetActions from './singleTweetAction';
 
 
 class TweetCard extends Component {
