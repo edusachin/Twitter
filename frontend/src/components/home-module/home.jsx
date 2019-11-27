@@ -13,7 +13,7 @@ class Home extends Component {
     state = {}
     render() {
         return (
-            <div className="container-fluid mx-5 home-page">
+            <div className="container-fluid pl-5 home-page">
                 <div className="row">
                     <BrowserRouter>
                         <div className="col-sm-2">
