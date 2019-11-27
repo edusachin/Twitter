@@ -1,0 +1,11 @@
+.single-tweet-actions .retweet-link {
+    color: black;
+}
+
+.single-tweet-actions .likes-link {
+    color: black;
+}
+
+.single-tweet-actions .retweet-link>a:hover .likes-link>a:hover {
+    text-decoration: underline;
+}
