@@ -13,6 +13,7 @@ const bookmarkService = require("./services/bookmark");
 const accountService = require("./services/account");
 const searchService = require("./services/search");
 const listService = require("./services/list");
+const analyticsService = require("./services/analytics");
 
 //MongoDB connection
 connectMongoDB();
@@ -65,3 +66,4 @@ handleTopicRequest("bookmarks", bookmarkService);
 handleTopicRequest("account", accountService);
 handleTopicRequest("search", searchService);
 handleTopicRequest("list", listService);
+handleTopicRequest("analytics", analyticsService);
