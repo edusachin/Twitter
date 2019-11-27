@@ -23,7 +23,6 @@ router.get("/:user_id/:getType", (req, res) => {
             return res.status(err.status).send(err.data);
         } else {
             console.log("Inside else");
-            console.log(results.data.owned_lists);
             return res.status(results.status).send(results.data);
         }
     });
