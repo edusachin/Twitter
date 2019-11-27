@@ -12,14 +12,16 @@ const tweetFormatter = (tweet, user, output) => {
         tweet_owner: tweet.tweet_owner,
         tweet_text: tweet.tweet_text,
         tweet_date: tweet.tweet_date,
-        likes: tweet.likes ? tweet.likes.length : 0,
-        replies: tweet.replies ? tweet.replies.length : 0,
-        retweets: tweet.retweeters ? tweet.retweeters.length : 0
+        tweet_images: tweet.tweet_image,
+        likes_count: tweet.likes ? tweet.likes.length : 0,
+        replies_count: tweet.replies ? tweet.replies.length : 0,
+        retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
+        likes: tweet.likes
     };
     output.push(tweetObject);
 };
 
-let getFollowersTweets = async (msg, callback) => {
+let getFollowingTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     let output = [];
@@ -31,7 +33,7 @@ let getFollowersTweets = async (msg, callback) => {
                 match: { "is_active": true },
                 populate: {
                     path: "tweets retweeted_tweets",
-                    select: 'tweet_text tweet_owner tweet_date likes replies retweeters',
+                    select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
                     model: "Tweet",
                     populate: {
                         path: 'tweet_owner',
@@ -62,4 +64,4 @@ let getFollowersTweets = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.getFollowersTweets = getFollowersTweets;
+exports.getFollowingTweets = getFollowingTweets;

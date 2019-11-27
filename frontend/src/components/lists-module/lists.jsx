@@ -8,7 +8,10 @@ import ListDetails from './listDetails';
 
 
 class Lists extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Lists / Twitter";
+    }
     render() {
 
         return (

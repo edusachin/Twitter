@@ -11,7 +11,9 @@ class Sidebar extends Component {
             <div className="row sidebar">
                 <div className="col-sm-12">
                     <div className="col-sm-12 pt-3">
-                        <img src={twitter_icon} className="twitter_icon" />
+                        <NavLink className="p-2 pr-3" to="/home" exact={true} >
+                            <img src={twitter_icon} className="twitter_icon" />
+                        </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
                         <NavLink className="p-2 pr-3" to="/home" exact={true} >
