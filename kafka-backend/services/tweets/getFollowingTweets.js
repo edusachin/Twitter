@@ -20,7 +20,7 @@ const tweetFormatter = (tweet, user, output) => {
     output.push(tweetObject);
 };
 
-let getFollowersTweets = async (msg, callback) => {
+let getFollowingTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     let output = [];
@@ -63,4 +63,4 @@ let getFollowersTweets = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.getFollowersTweets = getFollowersTweets;
+exports.getFollowingTweets = getFollowingTweets;
