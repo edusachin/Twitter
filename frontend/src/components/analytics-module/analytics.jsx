@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 class Analytics extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Analytics / Twitter";
+    }
     render() {
         return (
             <div className="row analytics-section">

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 
 class Lists extends Component {
-    state = {}
+    state = {};
+    componentDidMount() {
+        document.title = "Lists / Twitter";
+    }
     render() {
         return (
             <div className="row lists-section">
