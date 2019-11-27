@@ -40,12 +40,12 @@ router.get("/user/:user_id/:page_number", async (req, res) => {
 });
 
 /**
- * To get all the tweets of the followers of a user
+ * To get all the tweets of the following of a user
  */
 router.get("/following/:user_id", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
-        route: "get_followers_tweets"
+        route: "get_followering_tweets"
     }
 
     kafka.make_request("tweets", msg, function (err, results) {
@@ -82,27 +82,6 @@ router.get("/tweet/:tweet_id", async (req, res) => {
 });
 
 /**
- * To get all the likes done by a user
- */
-router.get("/liked/:user_id", async (req, res) => {
-    let msg = {
-        user_id: req.params.user_id,
-        route: "get_user_liked_tweets"
-    }
-
-    kafka.make_request("tweets", msg, function (err, results) {
-        if (err) {
-            console.log("-------error: tweet:get_user_likes/:id---------");
-            res.status(err.status).send(err.data);
-        }
-        else {
-            res.status(results.status).send(results.data);
-        }
-    });
-
-});
-
-/**
  * Post a tweet
  * @param req: user_id,tweet_text
  */
@@ -116,7 +95,6 @@ router.post("/", upload.any(), async (req, res) => {
     msg.tweet_image = new Array();
     if (req.files) {
         for (let i = 0; i < req.files.length; i++) {
-            // Need Tweet Id here
             try {
                 let data = new Date(Date.now()).toString();
                 let resp = await uploadFileToS3(req.files[i], 'tweet/' + data, msg.user_id);
