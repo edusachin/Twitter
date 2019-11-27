@@ -19,7 +19,7 @@ class Home extends Component {
                         <div className="col-sm-2">
                             <Sidebar />
                         </div>
-                        <div className="col-sm-10 content-section">
+                        <div className="col-sm-10 content-section border-left">
                             <Switch>
                                 <Route
                                     path="/home"

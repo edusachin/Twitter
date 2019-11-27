@@ -1,6 +1,6 @@
 .home-page>.row{
     height:100%
 }
-.home-page .content-section{
-    border-left: 1px solid #C0C0C0;
+.lists-section,.profile-section,.messages-section,.bookmarks-section,.analytics-section,.user-feed{
+    height: 100%;
 }

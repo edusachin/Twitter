@@ -5,22 +5,20 @@ class TweetActions extends Component {
     state = {}
     render() {
         return (
-            <div className="row col-sm-12 mx-auto tweet-actions">
-                <div className="col-sm-11">
-                    <div className = "row my-2">
-                        <div className = "col-sm-2 likes">
-                            <i className="far fa-heart mr-2"></i>
-                            Likes
+            <div className="col-sm-12 my-3 tweet-actions">
+                <div className="row">
+                    <div className="col-sm-4 likes">
+                        <i className="far fa-heart mr-2"></i>
+                        Likes
                         </div>
-                        <div className = "col-sm-2 replies">
-                            <i className="far fa-comment mr-2"></i>
-                            Replies
+                    <div className="col-sm-4 replies">
+                        <i className="far fa-comment mr-2"></i>
+                        Replies
                         </div>
-                        <div className = "col-sm-2 mr-3">
-                            <i className="fas fa-retweet mr-2"></i>
-                            Retweets
-                        </div>
-                    </div>
+                    <div className="col-sm-4">
+                        <i className="fas fa-retweet mr-2"></i>
+                        Retweets
+                </div>
                 </div>
             </div>
         );

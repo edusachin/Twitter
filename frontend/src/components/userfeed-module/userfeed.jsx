@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PostTweet from "./postTweet";
 import "./user-feed.css";
 import TweetCard from '../common/tweetCard';
+import RightPanel from "../right-panel/rightPanel";
 
 class Userfeed extends Component {
     state = {
@@ -19,7 +20,7 @@ class Userfeed extends Component {
                         })}
                     </div>
                 </div>
-                <div className="col-sm-5"></div>
+                <RightPanel />
             </div>
         );
     }
