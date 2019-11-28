@@ -5,7 +5,7 @@ import Subscriptions from './subscriptions';
 import Memberships from './memberships';
 import OwnedList from './ownedList';
 import ListDetails from './listDetails';
-
+import RightPanel from "../right-panel/rightPanel";
 
 class Lists extends Component {
     state = {};
@@ -67,7 +67,6 @@ class Lists extends Component {
                
             </div>
         );
-
     }
 }
 
