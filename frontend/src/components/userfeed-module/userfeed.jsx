@@ -12,6 +12,7 @@ class Userfeed extends Component {
         document.title = "Home / Twitter";
 
         // TODO: To be replaced with localStorage user_id
+        localStorage.setItem("user_id", "5dd8f6e4a098631646debcea");
         axios.get('http://localhost:3001/api/tweets/following/5dd8f6e4a098631646debcea')
             .then(response => {
                 if (response.status === 200) {
@@ -26,12 +27,17 @@ class Userfeed extends Component {
                 }
             });
     };
-
+    handleLike = (tweet_id) => {
+        let data = {
+            tweet_id: tweet_id,
+            user_id: "5dd8f6e4a098631646debcea"
+        }
+    };
     render() {
         let tweetfeed = [];
-        if(this.state && this.state.tweets){
+        if (this.state && this.state.tweets) {
             this.state.tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} />);
+                tweetfeed.push(<TweetCard data={tweet} toggleLike={this.handleLike} />);
             });
         }
         return (

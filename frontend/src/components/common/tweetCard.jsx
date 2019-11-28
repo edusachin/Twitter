@@ -39,7 +39,7 @@ class TweetCard extends Component {
                         {tweet.tweet_text}
                     </div>
                     {tweetImages}
-                    <TweetActions />
+                    <TweetActions data={tweet} handleLike={this.props.toggleLike} />
                 </div>
             </div >
         );
