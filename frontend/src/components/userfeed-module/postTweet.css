@@ -1,0 +1,31 @@
+.post-tweet input[type="file"] {
+    display : none;
+}
+
+.post-tweet i
+{
+    width: 80px;
+    cursor: pointer;
+    color: #38A1F3;
+}
+
+.post-tweet .btn-primary {
+    background-color: #38A1F3;
+    border-radius: 1em;
+}
+
+.post-tweet .tweet-button {
+    text-align: right;
+}
+.post-tweet .tweet-owner-image {
+    width : 200%;
+    border-radius: 50%;
+}
+
+.post-tweet .image-viewer {
+    max-width: 60%;
+}
+
+.post-tweet .preview-image {
+    border-radius: 5%;
+}

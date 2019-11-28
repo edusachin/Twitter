@@ -11,3 +11,7 @@
 .tweet-card .tweet_image {
    width: 100%;
 }
+
+.tweet-card .retweet-info {
+    font-size: 14px;
+}
