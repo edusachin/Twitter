@@ -10,7 +10,7 @@ const Main = () => {
         <Alert />
         <Switch>
             <Route path="/signin" component={SignIn} />
-            <Route path="/:id" component={Home} />
+            <Route path="/" component={Home} />
         </Switch>
         </>
     );

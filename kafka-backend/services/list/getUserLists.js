@@ -34,7 +34,7 @@ async function getUserLists(msg, callback) {
         else {
 
             response.status = STATUS_CODE.SUCCESS;
-            response.data = userLists.owned_lists;
+            response.data = userLists;
             console.log(response.data);
             return callback(null, response);
         }
