@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect, NavLink, withRouter } from "react-router-dom";
+import { Route, Switch, Redirect, NavLink } from "react-router-dom";
 import Owned from './owned';
 import Subscriptions from './subscriptions';
 import Memberships from './memberships';
-import OwnedList from './ownedList';
-import ListDetails from './listDetails';
 import RightPanel from "../right-panel/rightPanel";
 
 class Lists extends Component {
@@ -15,57 +13,54 @@ class Lists extends Component {
     render() {
 
         return (
-            <div className="container">
-               
-                
-                    {/* <nav className="navbar navbar-expand-lg navbar-light text-center">
-                        <div className="col-sm-4 ">
-                            <NavLink className="nav-link" to="/lists/owned" exact={true}>Owned</NavLink>
-                        </div>
-                        <div className="col-sm-4">
-                            <NavLink className="nav-link" to="/lists/subscriptions" exact={true}>Subscribed</NavLink>
-                        </div>
-                        <div className="col-sm-4">
-                            <NavLink className="nav-link" to="/lists/memberships" exact={true}>Member</NavLink>
-                        </div>
-                    </nav> */}
+            <div className="row">
+                <div className="col-sm-7">
                     <div className="row">
-                        <Switch>
-                            {/* <Route
-                                path="/lists/owned"
-                                component={Owned}
-                            />
-                            <Route
-                                path="/lists/subscriptions"
-                                component={Subscriptions}
-                            />
-                            <Route
-                                path="/lists/memberships"
-                                component={Memberships}
-                            />
-                             <Route
-                                    exact path="/lists/details"
-                                    component={ListDetails1}
+                        <div className="content-title col-sm-12">
+                            <h4 className="col-sm-12">Lists</h4>
+                            <p className="tagline col-sm-12">@username</p>
+                        </div>
+
+                        <div className="col-sm-12">
+                            <div className="nav-tabs row text-center">
+                                <div className="navlinkItem col-sm-4 py-2 ">
+                                    <NavLink className="p-2" to="/lists/owned" exact={true}>Owned</NavLink>
+                                </div>
+                                <div className="navlinkItem col-sm-4 py-2 ">
+                                    <NavLink className="p-2" to="/lists/subscriptions" exact={true}>Subscribed</NavLink>
+                                </div>
+                                <div className="navlinkItem col-sm-4 py-2 ">
+                                    <NavLink className="p-2 " to="/lists/memberships" exact={true}>Member</NavLink>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-12">
+                            <Switch>
+                                <Route
+                                    path="/lists/owned"
+                                    component={Owned}
                                 />
-                            {/* <Redirect
-                                from="/lists"
-                                to="/lists/owned"
-                                exact
-                                component={Owned}
-                            /> */} */}
-                            
-                            <Route
-                                path="/lists/owned/:id"
-                                component={OwnedList}
-                            />
-                            <Route
-                                path="/lists/details"
-                                component={ListDetails}
-                            />
-                        </Switch>
+                                <Route
+                                    path="/lists/subscriptions"
+                                    component={Subscriptions}
+                                />
+                                <Route
+                                    path="/lists/memberships"
+                                    component={Memberships}
+                                />
+                                <Redirect
+                                    from="/lists"
+                                    to="/lists/owned"
+                                    exact
+                                    component={Owned}
+                                />
+                            </Switch>
+                        </div>
                     </div>
-               
-            </div>
+                </div>
+                <RightPanel />
+            </div >
+
         );
     }
 }

@@ -15,8 +15,6 @@ router.get("/:user_id/:getType", (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
 
         console.log("in make request call back");
-        // console.log(results);
-        // console.log(err);
         if (err) {
             console.log("Inside err");
             console.log(err);
