@@ -3,6 +3,7 @@ import Sidebar from "../sidebar/sidebar";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import Lists from "../lists-module/lists";
 import Bookmarks from "../bookmarks-module/bookmarks";
+import Explore from "../explore-module/explore";
 import Userfeed from "../userfeed-module/userfeed";
 import Messages from "../messages-module/messages";
 import Profile from "../profile-module/profile";
@@ -24,6 +25,10 @@ class Home extends Component {
                                 <Route
                                     path="/home"
                                     component={Userfeed}
+                                />
+                                <Route
+                                    path="/explore"
+                                    component={Explore}
                                 />
                                 <Route
                                     path="/messages"
