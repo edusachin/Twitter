@@ -3,8 +3,7 @@ import './tweetCard.css';
 import placeholder from './placeholder.jpg';
 import placeholderTweetImage from './placeholderImage.jpg';
 import TweetActions from './tweetActions';
-
-
+import SingleTweetAction from './singleTweetAction';
 
 class TweetCard extends Component {
     state = {}
@@ -21,6 +20,7 @@ class TweetCard extends Component {
         if (tweet.tweet_owner._id !== tweet.user_id) {
             retweetInfo = (
                 <div className="tweet-owner col-sm-12">
+                    <i className="fas fa-retweet mr-2"></i>
                     {tweet.first_name} {tweet.last_name} retweeted
                 </div>
             );
@@ -31,9 +31,11 @@ class TweetCard extends Component {
                     <img src={placeholder} className="tweet_owner_image" />
                 </div>
                 <div className="col-sm-11 row">
-                    {retweetInfo}
+                    <div className = "retweet-info">
+                        {retweetInfo}
+                    </div>
                     <div className="tweet-owner col-sm-12">
-                        {tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} @{tweet.tweet_owner.user_name} . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                        <b>{tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name}</b> @{tweet.tweet_owner.user_name} . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
                     </div>
                     <div className="tweet-text col-sm-12">
                         {tweet.tweet_text}

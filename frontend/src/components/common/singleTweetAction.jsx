@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import './singleTweetAction.css';
 import { Modal,Button } from 'react-bootstrap';
 import FollowersCard from './followersCard';
+import axios from 'axios';
 
 class SingleTweetAction extends Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class SingleTweetAction extends Component {
         this.state = {
             setModalReTweets : false,
             setModalLikes : false,
-            sampleFollowers : [1,2,3]
+            tweetLikes : [],
+            retweeters : []
         }
         this.handleToggleRetweets = this.handleToggleRetweets.bind(this);
         this.handleToggleLikes = this.handleToggleLikes.bind(this);
@@ -21,11 +23,39 @@ class SingleTweetAction extends Component {
         this.setState({
             setModalReTweets : true
         });
+
+        axios.get('http://localhost:3001/api/tweets/tweet/5dd91658856a7b191f5aef28')
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        retweeters: response.data.retweeters
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+        });
     }
 
     handleToggleLikes = () => {
         this.setState({
             setModalLikes : true
+        });
+
+        axios.get('http://localhost:3001/api/tweets/tweet/5ddef971ee776e2517d5ebf2')
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        tweetLikes: response.data.likes
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
         });
     }
 
@@ -37,14 +67,19 @@ class SingleTweetAction extends Component {
     }
 
     render() {
-        const retweetedFollowers = this.state.sampleFollowers.map(data => {
-            return (
-                <div>
-                    <FollowersCard/>
-                    <hr/>       
-                </div>
-            )
-        });
+        let likes = [];
+        if(this.state && this.state.tweetLikes) {
+            this.state.tweetLikes.map(tweetLike => {
+                likes.push(<div><FollowersCard data={tweetLike} /><hr/></div>);
+            });
+        }
+
+        let retweets = [];
+        if(this.state && this.state.retweeters) {
+            this.state.retweeters.map(retweet => {
+                retweets.push(<div><FollowersCard data={retweet} /><hr/></div>);
+            });
+        }
         return (
             <div className="col-sm-12 my-3 single-tweet-actions">
                 <div className="row">
@@ -60,7 +95,7 @@ class SingleTweetAction extends Component {
                         <Modal.Title className = "ml-3"><h5><b>Retweeted by</b></h5></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {retweetedFollowers}    
+                        {retweets}  
                     </Modal.Body>
                 </Modal>
 
@@ -69,7 +104,7 @@ class SingleTweetAction extends Component {
                         <Modal.Title className = "ml-3"><h5><b>Liked by</b></h5></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {retweetedFollowers} 
+                        {likes} 
                     </Modal.Body>
                 </Modal>
             </div>

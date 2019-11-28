@@ -33,3 +33,13 @@ body,
   padding: 9px 18px;
   border-bottom: 1px solid #C0C0C0;
 }
+
+.btn-outline-primary:hover :active {
+  background-color: #38A1F3;
+  border-color: #38A1F3;
+}
+
+.btn-primary {
+  background-color: #38A1F3;
+  border-color: #38A1F3;
+}
