@@ -8,7 +8,7 @@ class FollowersCard extends Component {
         return(
             <div className = "row ml-3 followers_card">
                 <div className = "col-sm-2 mt-1">
-                    <img src={placeholder} className="non_follower_image" />
+                    <img src={placeholder} className="non_follower_image" alt=""/>
                 </div>
                 <div className = "col-sm-6">
                     {/*<h5><b>{followerInfo.first_name} {followerInfo.last_name}</b></h5>

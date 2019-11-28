@@ -58,7 +58,7 @@ class Analytics extends Component {
     }
 
     componentDidMount() {
-        document.title = "Home / Twitter";
+        document.title = "Analytics / Twitter";
         // TODO: Refactor this to reduce lines of code
         axios.get('http://localhost:3001/api/analytics/topViewedTweets')
             .then(response => {

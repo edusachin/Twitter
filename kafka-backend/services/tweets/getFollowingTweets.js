@@ -39,7 +39,7 @@ let getFollowingTweets = async (msg, callback) => {
                     populate: {
                         path: 'tweet_owner',
                         model: 'User',
-                        select: 'first_name last_name user_name'
+                        select: 'first_name last_name user_name user_image'
                     }
                 }
             });

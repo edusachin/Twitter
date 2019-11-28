@@ -22,14 +22,14 @@ class PostTweet extends Component {
                 <div className="col-sm-12">
                     <div className="row">
                         <div className="col-sm-1 d-flex justify-content-center m-auto">
-                            <img src={placeholder} className="tweet-owner-image ml-3 mb-5" />
+                            <img src={placeholder} className="tweet-owner-image ml-3 mb-5" alt=""/>
                         </div>
                         <form className="col-sm-11">
                             <div className="form-group col-sm-12 mt-1">
                                 <input type="text" className="form-control" placeholder="What's Happening?" />
                             </div>
                             <div className = "image-viewer col-sm-12 ml-4 mb-2">
-                                <img src = {this.state.file} className = "preview-image"/>
+                                <img src = {this.state.file} className = "preview-image" alt=""/>
                             </div>
                             <div className = "col-sm-12 row">
                                 <div className="col-sm-6"> 

@@ -5,10 +5,10 @@ import { backendURI } from '../utils/config';
 
 apiService.setJwt(getJwt())
 
-export async function login(uname, pwd) {
+export async function login(email_id, password) {
     const credentials = {
-        email_id: uname,
-        password: pwd
+        email_id: email_id,
+        password: password
     }
     try {
         const { data: token } = await apiService.post(`${backendURI}/api/login`, credentials);

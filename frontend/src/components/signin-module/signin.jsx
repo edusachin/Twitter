@@ -87,13 +87,13 @@ class SignIn extends Component {
         return (
             <div className="row sign-in">
                 <div className="col-sm-6">
-                    <img src={twitter_wallpaper} className="twitter_wallpaper" />
+                    <img src={twitter_wallpaper} className="twitter_wallpaper" alt=""/>
                 </div>
                 <div className="col-sm-2 userfield">
                     <div className="input-group mt-5 username">
                         <input type="email" className="form-control" name="uname" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange}/>
                     </div>
-                    <img src={twitter_icon} className="twitter_icon" />
+                    <img src={twitter_icon} className="twitter_icon" alt=""/>
                     <h2 className="bodytext1">See what's happening in the world right now</h2>
                     <h2 className="bodytext2 mt-5">Join Twitter today</h2>
                     <button type="button" className="btn btn-outline-primary signup mt-2" onClick={this.handleToggle}>Sign up</button>

@@ -9,11 +9,11 @@ let getTweet = async (msg, callback) => {
         let tweet = await Tweets.findById(msg.tweet_id)
             .populate({
                 path: 'tweet_owner replies.user',
-                select: 'first_name last_name user_name'
+                select: 'first_name last_name user_name user_image'
             })
             .populate({
                 path: 'likes retweeters',
-                select: 'first_name last_name user_name followers'
+                select: 'first_name last_name user_name followers user_image'
             });
         if (!tweet) {
             err.status = STATUS_CODE.BAD_REQUEST;

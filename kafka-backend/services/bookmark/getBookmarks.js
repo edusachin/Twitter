@@ -29,8 +29,7 @@ let getBookmarks = async (msg, callback) => {
                         replies_count: tweet.replies.length,
                     }
                 ))
-            })
-            console.log(formattedBookmarks);
+            });
             response.status = STATUS_CODE.SUCCESS;
             response.data = formattedBookmarks;
             return callback(null, response);

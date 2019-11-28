@@ -12,7 +12,7 @@ class Sidebar extends Component {
                 <div className="col-sm-12">
                     <div className="col-sm-12 pt-3">
                         <NavLink className="p-2 pr-3" to="/home" exact={true} >
-                            <img src={twitter_icon} className="twitter_icon" />
+                            <img src={twitter_icon} className="twitter_icon" alt=""/>
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
@@ -30,25 +30,32 @@ class Sidebar extends Component {
                     <div className="col-sm-12 py-3 sidebarItem">
                         <NavLink className="p-2 pr-3" to="/messages" exact={true} >
                             <i className="fas fa-envelope pr-2"></i>
-                            Messages</NavLink>
+                            Messages
+                        </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
                         <NavLink className="p-2 pr-3" to="/bookmarks" exact={true}>
                             <i className="far fa-bookmark pr-2"></i>
-                            Bookmarks</NavLink>
+                            Bookmarks
+                        </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
                         <NavLink className="p-2 pr-3" to="/lists" exact={true}>
-                            <i className="far fa-list-alt pr-2"></i>Lists</NavLink>
+                            <i className="far fa-list-alt pr-2"></i>
+                            Lists
+                        </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/profile" exact={true}>
+                        <NavLink className="p-2 pr-3" to={{ pathname: "/profile", state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
                             <i className="far fa-user pr-2"></i>
-                            Profile</NavLink>
+                            Profile
+                        </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
                         <NavLink className="p-2 pr-3" to="/analytics" exact={true}>
-                            <i className="far fa-chart-bar pr-2"></i>Analytics</NavLink>
+                            <i className="far fa-chart-bar pr-2"></i>
+                            Analytics
+                        </NavLink>
                     </div>
                 </div>
             </div >
