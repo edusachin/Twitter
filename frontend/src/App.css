@@ -34,12 +34,12 @@ body,
   border-bottom: 1px solid #C0C0C0;
 }
 
-.btn-outline-primary:hover {
-  background-color: #4AABF1;
-  border-color: #4AABF1;
+.btn-outline-primary:hover :active {
+  background-color: #38A1F3;
+  border-color: #38A1F3;
 }
 
 .btn-primary {
-  background-color: #4AABF1;
-  border-color: #4AABF1;
+  background-color: #38A1F3;
+  border-color: #38A1F3;
 }
