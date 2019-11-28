@@ -1,0 +1,10 @@
+.right-panel .followers_field {
+    height: 330px;
+    background-color: #ECF0F2;
+    width: 85%;
+    border-radius: 1em;
+}
+
+.right-panel .heading {
+    text-align: left;
+}
