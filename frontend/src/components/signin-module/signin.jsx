@@ -3,20 +3,25 @@ import twitter_icon from "../../twitter_icon.png";
 import "./signIn.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import twitter_footer from "../../twitter_footer.PNG";
-import { Modal,Button, Alert } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import apiService from '../../services/httpService';
+import authService from '../../services/authService';
+import alertService from '../../services/alertService';
 
 class SignIn extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            setModal : false,
-            firstName : "",
-            lastName : "",
-            userName : "",
-            email : "",
-            password : "",
-            alertShow : false
+            uname:"",
+            pwd: "",
+            setModal: false,
+            firstName: "",
+            lastName: "",
+            userName: "",
+            email: "",
+            password: "",
+            alertShow: false
         }
         this.handleToggle = this.handleToggle.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -25,45 +30,54 @@ class SignIn extends Component {
 
     handleToggle = () => {
         this.setState({
-            setModal : true
+            setModal: true
         });
     }
 
     handleClose = () => {
         this.setState({
-            setModal : false,
-            alertShow : false
+            setModal: false,
+            alertShow: false
         });
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
-    handleSignUp = () => {
+    handleSignUp = async () => {
         const data = {
-            first_name : this.state.firstName,
-            last_name : this.state.lastName,
-            email_id : this.state.email,
-            user_name : this.state.userName,
-            password : this.state.password
+            first_name: this.state.firstName,
+            last_name: this.state.lastName,
+            email_id: this.state.email,
+            user_name: this.state.userName,
+            password: this.state.password
         }
-        axios.post('http://localhost:3001/api/signup',data)
-        .then(response => {
-            if(response.status == 200) {
-                console.log(response.data);
-                this.setState({
-                    alertShow : true
-                })
-            }
-        })
-        .catch(err => {
-            if (err.response && err.response.data) {
-                console.log(err.response.data);
-            }
-        });
+        apiService.post('http://localhost:3001/api/signup', data)
+            .then(response => {
+                if (response.status == 200) {
+                    console.log(response.data);
+                    this.setState({
+                        alertShow: true
+                    })
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+    };
+
+    handleSignIn = async () => {
+        console.log(this.state.uname);
+        console.log(this.state.pwd);
+        let result = await authService.login(this.state.uname, this.state.pwd);
+        if(result) {
+            window.location = "/home";
+        }
     };
 
     componentDidMount() {
@@ -71,27 +85,27 @@ class SignIn extends Component {
     }
     render() {
         return (
-            <div className = "row sign-in">
-                <div className = "col-sm-6">
+            <div className="row sign-in">
+                <div className="col-sm-6">
                     <img src={twitter_wallpaper} className="twitter_wallpaper" />
                 </div>
-                <div className = "col-sm-2 userfield">
+                <div className="col-sm-2 userfield">
                     <div className="input-group mt-5 username">
-                        <input type="textName" className="form-control" placeholder="Email or Username" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input type="email" className="form-control" name="uname" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange}/>
                     </div>
                     <img src={twitter_icon} className="twitter_icon" />
-                    <h2 className = "bodytext1">See what's happening in the world right now</h2>
-                    <h2 className = "bodytext2 mt-5">Join Twitter today</h2>
-                    <button type="button" className="btn btn-outline-primary signup mt-2" onClick = {this.handleToggle}>Sign up</button>
+                    <h2 className="bodytext1">See what's happening in the world right now</h2>
+                    <h2 className="bodytext2 mt-5">Join Twitter today</h2>
+                    <button type="button" className="btn btn-outline-primary signup mt-2" onClick={this.handleToggle}>Sign up</button>
                 </div>
-                <div className = "col-sm-2 passwordfield">
+                <div className="col-sm-2 passwordfield">
                     <div className="input-group ml-5 mt-5 password">
-                        <input type="textName" className="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input type="password" className="form-control" name="pwd" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange}/>
                     </div>
                 </div>
-                <div className = "col-sm-2 loginbutton">
+                <div className="col-sm-2 loginbutton">
                     <div className="input-group mt-5 login">
-                        <button type="button" className="btn btn-outline-primary">Log in</button>
+                        <button type="button" className="btn btn-outline-primary" onClick={this.handleSignIn}>Log in</button>
                     </div>
                 </div>
                 <Modal show={this.state.setModal} onHide={this.handleClose}>
@@ -99,46 +113,46 @@ class SignIn extends Component {
                         <Modal.Title><b>Create your account</b></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <Alert show = {this.state.alertShow} variant = 'success'>
-                        Sign-up successful.
-                    </Alert>    
-                    <div className="input-group mb-2">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
+                        <Alert show={this.state.alertShow} variant='success'>
+                            Sign-up successful.
+                    </Alert>
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
+                            </div>
+                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <input type="text" name = "firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange = {this.handleChange}/>
-                    </div>
 
-                    <div className="input-group mb-2">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
+                            </div>
+                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <input type="text" name = "lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange = {this.handleChange}/>
-                    </div>
 
-                    <div className="input-group mb-2">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
+                            </div>
+                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <input type="text" name = "userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange = {this.handleChange}/>
-                    </div>
 
-                    <div className="input-group mb-2">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
+                            </div>
+                            <input type="email" name="email" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <input type="text" name = "email" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange = {this.handleChange}/>
-                    </div>
 
-                    <div className="input-group mb-2">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-addon1"><b>Password</b></span>
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-addon1"><b>Password</b></span>
+                            </div>
+                            <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <input type="text" name = "password" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange = {this.handleChange}/>
-                    </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick = {this.handleSignUp}>
+                        <Button variant="secondary" onClick={this.handleSignUp}>
                             <b>Sign Up</b>
                         </Button>
                         <Button variant="primary" onClick={this.handleClose}>

@@ -30,7 +30,7 @@ body,
 
 /* common styles */
 .content-title {
-  padding: 9px 18px;
+  padding: 5px 18px;
   border-bottom: 1px solid #C0C0C0;
 }
 
@@ -42,4 +42,23 @@ body,
 .btn-primary {
   background-color: #38A1F3;
   border-color: #38A1F3;
+}
+.nav-tabs{
+  border-bottom: 1px solid #C0C0C0;
+}
+
+.tagline{
+  margin-bottom: 0;
+}
+
+.navlinkItem>a{
+  color: black;
+  font-size:18px;
+  font-weight: 600;
+}
+
+.navlinkItem>a:hover{
+  color: #38A1F3;
+  border: 1px solid #E1f5fe;
+  background-color: #E1f5fe;
 }
