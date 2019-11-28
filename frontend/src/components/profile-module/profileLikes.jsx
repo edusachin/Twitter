@@ -5,7 +5,7 @@ class ProfileLikes extends Component {
     state = {}
 
     render() {
-        return (<Link to={{ pathname: "/tweetpage" }}>Profile Likes</Link>);
+        return (<Link to={{ pathname: "/tweet" }}>Profile Likes</Link>);
     }
 }
 

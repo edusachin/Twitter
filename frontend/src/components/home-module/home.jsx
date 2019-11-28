@@ -13,7 +13,7 @@ import TweetPage from '../common/tweetPage';
 import "./home.css";
 
 class Home extends Component {
-    state = {}
+    state = {};
     render() {
         return (
             <div className="container-fluid pl-5 home-page">
@@ -29,11 +29,15 @@ class Home extends Component {
                                 component={Userfeed}
                             />
                             <Route
+                                path="/explore"
+                                component={Explore}
+                            />
+                            <Route
                                 path="/messages"
                                 component={Messages}
                             />
                             <Route
-                                path="/tweetpage"
+                                path="/tweet"
                                 component={TweetPage}
                             />
                             <Route

@@ -5,7 +5,7 @@ class ListTweets extends Component {
     state = {}
 
     render() {
-        return (<Link to={{ pathname: "/tweetpage" }}>List Tweets</Link>);
+        return (<Link to={{ pathname: "/tweet" }}>List Tweets</Link>);
     }
 }
 

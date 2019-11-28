@@ -35,7 +35,7 @@ let getUserTweets = async (msg, callback) => {
                 select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
                 populate: {
                     path: 'tweet_owner',
-                    select: 'first_name last_name user_name'
+                    select: 'first_name last_name user_name user_image'
                 },
                 options: {
                     sort: { tweet_date: -1 },
