@@ -31,7 +31,7 @@ class TweetCard extends Component {
                     <img src={placeholder} className="tweet_owner_image" />
                 </div>
                 <div className="col-sm-11 row">
-                    <div className = "retweet-info">
+                    <div className="retweet-info">
                         {retweetInfo}
                     </div>
                     <div className="tweet-owner col-sm-12">
@@ -41,7 +41,7 @@ class TweetCard extends Component {
                         {tweet.tweet_text}
                     </div>
                     {tweetImages}
-                    <TweetActions data={tweet} handleLike={this.props.toggleLike} />
+                    <TweetActions data={tweet} />
                 </div>
             </div >
         );

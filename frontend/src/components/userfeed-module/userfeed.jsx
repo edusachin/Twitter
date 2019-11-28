@@ -27,17 +27,11 @@ class Userfeed extends Component {
                 }
             });
     };
-    handleLike = (tweet_id) => {
-        let data = {
-            tweet_id: tweet_id,
-            user_id: "5dd8f6e4a098631646debcea"
-        }
-    };
     render() {
         let tweetfeed = [];
         if (this.state && this.state.tweets) {
             this.state.tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} toggleLike={this.handleLike} />);
+                tweetfeed.push(<TweetCard data={tweet} />);
             });
         }
         return (
