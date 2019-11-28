@@ -1,0 +1,14 @@
+.post-tweet input[type="file"] {
+    display : none;
+}
+
+.post-tweet i
+{
+    width: 80px;
+    cursor: pointer;
+}
+
+.post-tweet .tweet-owner-image {
+    width : 200%;
+    border-radius: 50%;
+}

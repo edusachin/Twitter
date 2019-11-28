@@ -57,3 +57,13 @@
     margin-left: 80%;
     width: 160%;
 }
+
+.sign-in .btn-outline-primary:hover {
+    background-color: #4AABF1;
+    border-color: #4AABF1;
+  }
+  
+.sign-in .btn-primary {
+    background-color: #4AABF1;
+    border-color: #4AABF1;
+  }

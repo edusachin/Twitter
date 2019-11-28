@@ -2,3 +2,13 @@
     width: 100%;
     border-radius: 50%;
 }
+
+.followers_card .btn-outline-primary:hover {
+    background-color: #4AABF1;
+    border-color: #4AABF1;
+  }
+  
+.followers_card .btn-primary {
+    background-color: #4AABF1;
+    border-color: #4AABF1;
+  }
