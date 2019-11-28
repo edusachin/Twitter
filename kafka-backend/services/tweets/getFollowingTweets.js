@@ -16,7 +16,8 @@ const tweetFormatter = (tweet, user, output) => {
         likes_count: tweet.likes ? tweet.likes.length : 0,
         replies_count: tweet.replies ? tweet.replies.length : 0,
         retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
-        likes: tweet.likes
+        likes: tweet.likes,
+        retweeters: tweet.retweeters
     };
     output.push(tweetObject);
 };

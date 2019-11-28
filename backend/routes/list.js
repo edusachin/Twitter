@@ -7,6 +7,7 @@ const { validateCreateList, validateUpdateList, validateDeleteList, validateAddT
 //GET user lists
 router.get("/:user_id/:getType", (req, res) => {
     const msg = {};
+    console.log(req.params);
     msg.user_id = req.params.user_id;
     msg.route = "get_user_lists";
     msg.type = req.params.getType;
@@ -14,15 +15,12 @@ router.get("/:user_id/:getType", (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
 
         console.log("in make request call back");
-        console.log(results);
-        console.log(err);
         if (err) {
             console.log("Inside err");
             console.log(err);
             return res.status(err.status).send(err.data);
         } else {
             console.log("Inside else");
-            console.log(results);
             return res.status(results.status).send(results.data);
         }
     });
