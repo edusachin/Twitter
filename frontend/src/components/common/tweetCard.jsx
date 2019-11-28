@@ -33,26 +33,28 @@ class TweetCard extends Component {
             );
         }
         return (
-            <div className="row mx-auto mt-2 tweet-card">
+            <div className="row mx-auto tweet-card">
                 <Link to={{ pathname: "/tweet", state: { tweet_id: tweet._id } }}>
-                    <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
-                        <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}>
-                            <img src={tweetOwnerImage} className="tweet_owner_image" alt="" />
-                        </Link>
-                    </div>
-                    <div className="col-sm-11 row">
-                        <div className="retweet-info">
-                            {retweetInfo}
+                    <div className="row mx-auto mt-2">
+                        <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
+                            <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}>
+                                <img src={tweetOwnerImage} className="tweet_owner_image" alt="" />
+                            </Link>
                         </div>
-                        <div className="tweet-owner col-sm-12">
-                            <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}><b>{tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} </b></Link>
-                            <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}>@{tweet.tweet_owner.user_name}</Link> . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                        <div className="col-sm-11 row">
+                            <div className="retweet-info">
+                                {retweetInfo}
+                            </div>
+                            <div className="tweet-owner col-sm-12">
+                                <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}><b>{tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} </b></Link>
+                                <Link to={{ pathname: '/profile', state: { user_id: tweet.tweet_owner._id } }}>@{tweet.tweet_owner.user_name}</Link> . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                            </div>
+                            <div className="tweet-text col-sm-12">
+                                {tweet.tweet_text}
+                            </div>
+                            {tweetImages}
+                            <TweetActions data={tweet} />
                         </div>
-                        <div className="tweet-text col-sm-12">
-                            {tweet.tweet_text}
-                        </div>
-                        {tweetImages}
-                        <TweetActions data={tweet} />
                     </div>
                 </Link>
             </div>

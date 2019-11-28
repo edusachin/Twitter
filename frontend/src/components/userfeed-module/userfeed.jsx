@@ -12,6 +12,7 @@ class Userfeed extends Component {
         document.title = "Home / Twitter";
 
         // TODO: To be replaced with localStorage user_id
+        localStorage.setItem("user_id", "5dd8f6e4a098631646debcea");
         axios.get('http://localhost:3001/api/tweets/following/5dd8f6e4a098631646debcea')
             .then(response => {
                 if (response.status === 200) {
