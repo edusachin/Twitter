@@ -22,7 +22,7 @@ class TweetCard extends Component {
         if (tweet.tweet_owner && tweet.tweet_owner.user_image) {
             tweetOwnerImage = tweet.tweet_owner.user_image;
         }
-        if (tweet.tweet_owner._id !== tweet.user_id) {
+        if (tweet.user_id && tweet.tweet_owner._id !== tweet.user_id) {
             retweetInfo = (
                 <div className="tweet-owner col-sm-12">
                     <i className="fas fa-retweet mr-2"></i>

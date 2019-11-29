@@ -17,12 +17,16 @@ class PostTweet extends Component {
     }
 
     render() {
+        let userImage = placeholder;
+        if(localStorage.getItem("user_image") && localStorage.getItem("user_image") !== ""){
+            userImage = localStorage.getItem("user_image");
+        }
         return (
             <div className="row post-tweet">
                 <div className="col-sm-12">
                     <div className="row">
                         <div className="col-sm-1 d-flex justify-content-center m-auto">
-                            <img src={placeholder} className="tweet-owner-image ml-3 mb-5" alt=""/>
+                            <img src={userImage} className="tweet-owner-image ml-3 mb-5" alt=""/>
                         </div>
                         <form className="col-sm-11">
                             <div className="form-group col-sm-12 mt-1">
