@@ -169,33 +169,25 @@ class Analytics extends Component {
                                         onClick: this.handleClick
                                     }}
                                 />
-                                <br/> <br/> <br/>
-                                <Bar
+                                <br /> <br /> <br />
+                                <Pie
                                     data={this.state.topTweetsByLikes}
                                     options={{
                                         title: {
                                             display: this.props.displayTitle,
+                                            position: 'top',
                                             text: 'Top 10 tweets by likes',
                                             fontSize: 20
                                         },
                                         legend: {
                                             display: this.props.displayLegend,
-                                            position: this.state.legendPosition
-                                        },
-                                        scales: {
-                                            yAxes: [{
-                                                ticks: {
-                                                    beginAtZero: true,
-                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                                                    stepSize: 1
-                                                }
-                                            }]
+                                            position: this.props.legendPosition
                                         },
                                         onClick: this.handleClick
                                     }}
                                 />
                                 <br /> <br /> <br />
-                                <Line
+                                <Bar
                                     data={this.state.topTweetsByRetweets}
                                     options={{
                                         title: {
@@ -216,6 +208,7 @@ class Analytics extends Component {
                                                 }
                                             }]
                                         },
+                                        onClick: this.handleClick
                                     }}
                                 />
                             </div>
