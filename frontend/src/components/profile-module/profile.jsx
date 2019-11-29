@@ -15,7 +15,10 @@ class Profile extends Component {
         let user_profile = result.data;
         await this.setState({ user_profile });
 
-        document.title = user_profile.first_name + " / Twitter";
+        if (user_profile)
+            document.title = user_profile.first_name + " / Twitter";
+        else
+            document.title = "Profile / Twitter";
     }
 
     render() {
@@ -35,10 +38,10 @@ class Profile extends Component {
                         </div>
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
-                                <div className="navlinkItem col-sm-4 py-2 ">
+                                <div className="navlinkItem col-sm-6 py-2 ">
                                     <NavLink className="p-2" to="/profile/tweets" exact={true}>Tweets</NavLink>
                                 </div>
-                                <div className="navlinkItem col-sm-4 py-2 ">
+                                <div className="navlinkItem col-sm-6 py-2 ">
                                     <NavLink className="p-2" to="/profile/likes" exact={true}>Likes</NavLink>
                                 </div>
 

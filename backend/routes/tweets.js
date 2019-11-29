@@ -61,6 +61,27 @@ router.get("/following/:user_id", async (req, res) => {
 });
 
 /**
+ * To get all the tweets liked by a user
+ */
+router.get("/liked/:user_id", async (req, res) => {
+    let msg = {
+        user_id: req.params.user_id,
+        route: "get_user_liked_tweets"
+    }
+
+    kafka.make_request("tweets", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get_user_liked_tweets/:id---------");
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+
+});
+
+/**
  * To get a single tweet with all details
  */
 router.get("/tweet/:tweet_id", async (req, res) => {
