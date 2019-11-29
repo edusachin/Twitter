@@ -32,7 +32,7 @@ async function createList(msg, callback) {
                 userUpdated = await user.save();
                 if (userUpdated) {
                     response.status = STATUS_CODE.SUCCESS;
-                    response.data = listCreated._id;
+                    response.data = MESSAGES.SUCCESS;
                     return callback(null, response);
                 } else {
                     err.status = STATUS_CODE.BAD_REQUEST;

@@ -2,42 +2,48 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
+import ListCard from './listCard';
 
 class Owned extends Component {
-    state = {
-        owned_lists: []
-    }
+  state = {
+    owned_lists: []
+  }
 
-    async componentDidMount() {
-        let result = await apiService.get(`${backendURI}/api/list/${localStorage.getItem("user_id")}/owned`);
-        let owned_lists = result.data.owned_lists;
-        console.log(owned_lists);
-        await this.setState({ owned_lists });
-    };
+  async componentDidMount() {
+    let result = await apiService.get(`${backendURI}/api/list/${localStorage.getItem("user_id")}/owned`);
+    let owned_lists = result.data.owned_lists;
+    console.log(owned_lists);
+    await this.setState({ owned_lists });
+  };
 
-    render() {
-        //  let alert = <Alert message={this.state.message} type="success" />
-        // let list = []
-        // this.state.owned_lists.map(newlist => list.push(newlist))
-        // let renderline = null;
-        // console.log(list);
-        // if (list && list[0]) {
-        //     renderline = (<div>
-        //         {/* <Link to={{ pathname: "/lists/details/tweets" }}>Owned</Link> */}
-        //         {list[0].list_owner}
-        //     </div>);
-        // }
+  render() {
+    let lists = this.state.owned_lists;
+    let listrender = null;
 
-        console.log(this.state.owned_lists);
-
+    if (lists.length > 0) {
+      listrender = lists.map(list => {
         return (
 
-            <div>
-                <h4>owned lists</h4>
-                <Link to={{ pathname: "/listdetails/tweets" }}>Owned</Link>
-            </div>
+          <ListCard
+            key={list._id}
+            data={list}
+          />
+
         );
+      });
+    } else {
+      listrender = <h5>Add items in this section</h5>;
     }
+
+
+
+    return (
+
+      <div className="row">
+        {listrender}
+      </div>
+    );
+  }
 }
 
 export default Owned;
