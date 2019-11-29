@@ -15,10 +15,12 @@ import "./home.css";
 class Home extends Component {
     state = {};
     render() {
+        if (!localStorage.getItem("token")) {
+            window.location = "/signin";
+        }
         return (
             <div className="container-fluid pl-5 home-page">
                 <div className="row">
-
                     <div className="col-sm-2">
                         <Sidebar />
                     </div>
@@ -53,7 +55,7 @@ class Home extends Component {
                                 component={Lists}
                             />
                             <Route
-                                path="/profile"
+                                path="/profile/:user_id"
                                 component={Profile}
                             />
                             <Route
@@ -69,7 +71,6 @@ class Home extends Component {
                         </Switch>
 
                     </div>
-
                 </div>
             </div>
         )

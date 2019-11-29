@@ -6,16 +6,33 @@ let getUserLikedTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let userLikedTweets = await Users.findById(msg.user_id, { liked: 1 });
-        console.log(userLikedTweets);
+        let userLikedTweets = await Users.findById(msg.user_id, { liked: 1 })
+        .populate({
+            path: 'liked',
+            select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+            populate: {
+                path: 'tweet_owner',
+                select: 'first_name last_name user_name user_image'
+            }
+        });
         if (!userLikedTweets) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
         else {
+            let likedTweets = [];
+            userLikedTweets.liked.map(tweet => {
+                likedTweets.push(Object.assign({},tweet._doc,
+                    {
+                        likes_count: tweet.likes.length,
+                        retweets_count: tweet.retweeters.length,
+                        replies_count: tweet.replies.length,
+                    }
+                ))
+            });
             response.status = STATUS_CODE.SUCCESS;
-            response.data = JSON.stringify(userLikedTweets);
+            response.data = JSON.stringify(likedTweets);
             return callback(null, response);
         }
     } catch (error) {

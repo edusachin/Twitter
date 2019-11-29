@@ -3,36 +3,30 @@ import PostTweet from "./postTweet";
 import "./user-feed.css";
 import TweetCard from '../common/tweetCard';
 import RightPanel from "../right-panel/rightPanel";
-
-// TODO: To be replaced with httpService
-import axios from 'axios';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
 
 class Userfeed extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         document.title = "Home / Twitter";
 
-        // TODO: To be replaced with localStorage user_id
-        localStorage.setItem("user_id", "5dd8f6e4a098631646debcea");
-        axios.get('http://localhost:3001/api/tweets/following/5dd8f6e4a098631646debcea')
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({
-                        tweets: response.data
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
+        let result = await apiService.get(`${backendURI}/api/tweets/following/${localStorage.getItem("user_id")}`);
+        let tweets = result.data;
+
+        await this.setState({ tweets });
     };
     render() {
         let tweetfeed = [];
-        if (this.state && this.state.tweets) {
+        if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
             });
+        }
+        else {
+            tweetfeed.push(<div className="row">
+                <h2 className="error-msg col-sm-12">There are no Tweets to show you.</h2>
+                <h2 className="error-msg col-sm-12">Follow people to see what's happening.</h2>
+            </div>)
         }
         return (
             <div className="row user-feed">
