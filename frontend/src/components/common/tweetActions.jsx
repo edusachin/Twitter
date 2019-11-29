@@ -7,21 +7,15 @@ class TweetActions extends Component {
         let tweet = this.props.data;
         let user_id = localStorage.getItem("user_id");
         let likesClass = "far fa-heart mr-2";
-        let reTweetClass = "fas fa-retweet custom-color mr-2";
+        let retweetClass = "fas fa-retweet custom-color mr-2";
         if (tweet.likes_count != 0 && tweet.likes) {
-            tweet.likes.find(like => {
-                if (user_id == like) {
-                    likesClass = "fas fa-heart custom-color mr-2";
-                };
-            })
+            if (tweet.likes.includes(user_id) || tweet.likes.find(like => like._id === user_id))
+                likesClass = "fas fa-heart custom-color mr-2";
         }
 
         if (tweet.retweets_count != 0 && tweet.retweeters) {
-            tweet.retweeters.find(retweet => {
-                if (user_id == retweet) {
-                    reTweetClass = "fas fa-retweet custom-color mr-2";
-                };
-            })
+            if (tweet.retweeters.includes(user_id) || tweet.retweeters.find(retweet => retweet._id === user_id))
+                retweetClass = "fas fa-retweet custom-color mr-2";
         }
         return (
             <div className="col-sm-12 my-3 tweet-actions">

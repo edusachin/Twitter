@@ -53,7 +53,7 @@ class Home extends Component {
                                 component={Lists}
                             />
                             <Route
-                                path="/profile"
+                                path="/profile/:user_id"
                                 component={Profile}
                             />
                             <Route

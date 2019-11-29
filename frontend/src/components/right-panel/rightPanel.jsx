@@ -1,30 +1,39 @@
 import React, { Component } from 'react';
-import FollowersCard from '../common/followersCard';
+import UserCard from '../common/UserCard';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
 import './rightPanel.css'
 
 class RightPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            not_followers : [1,2,3]
         }
     }
+    async componentDidMount() {
+        let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
+        let userSuggestions = result.data;
+        await this.setState({ userSuggestions });
+    }
     render() {
-        const notFollowers = this.state.not_followers.map(data => {
-            return (
-                <div>
-                    <FollowersCard key={data} />
-                    <hr/>
+        let suggestions;
+        if (this.state && this.state.userSuggestions) {
+            suggestions = this.state.userSuggestions.map(user => {
+                return (
+                    <div>
+                        <UserCard data={user} />
+                        <hr />
+                    </div>
+                )
+            });
+        }
+        return (
+            <div className="col-sm-5 right-panel border-left">
+                <div className="followers_field mt-3">
+                    <h4 className="heading ml-3 pt-2"><b>Who to follow</b></h4>
+                    <hr />
+                    {suggestions}
                 </div>
-            ) 
-        })
-        return(
-            <div className = "col-sm-5 right-panel border-left">
-                <div className = "followers_field mt-3">
-                    <h4 className = "heading ml-3 pt-2"><b>Who to follow</b></h4>
-                    <hr/>
-                    {notFollowers}
-                </div> 
             </div>
         )
     }

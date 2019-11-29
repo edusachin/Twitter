@@ -2,13 +2,18 @@
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-let getFollowers = async (msg, callback) => {
+let getUsersToFollow = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let followers = await Users.findById(msg.user_id, { followers: 1 }).populate("followers", "first_name last_name user_name", { is_active: true});
-        if (followers) {
-            response.data = JSON.stringify(followers);
+        let users;
+        let usersFollowed = await Users.findById(msg.user_id, { following: 1 });
+        if (usersFollowed) {
+            users = await Users.find({ $and: [{ "_id": { $nin: usersFollowed.following } }, { "_id": { $ne: msg.user_id } }] }, { first_name: 1, last_name: 1, user_name: 1, user_image: 1, followers: 1 })
+                .limit(3);
+        }
+        if (users) {
+            response.data = JSON.stringify(users);
         }
         else {
             response.data = JSON.stringify([]);
@@ -24,4 +29,4 @@ let getFollowers = async (msg, callback) => {
     }
 };
 
-exports.getFollowers = getFollowers;
+exports.getUsersToFollow = getUsersToFollow;
