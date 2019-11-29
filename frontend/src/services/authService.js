@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode';
 import apiService from './httpService';
 import { backendURI } from '../utils/config';
 
-
 apiService.setJwt(getJwt())
 
 export async function login(email_id, password) {
