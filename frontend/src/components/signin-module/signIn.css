@@ -67,3 +67,7 @@
     background-color: #38A1F3;
     border-color: #38A1F3;
   }
+
+  .followers_card .btn-outline-primary{
+    color:  #38A1F3;
+  }

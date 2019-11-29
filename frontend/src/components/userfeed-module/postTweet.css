@@ -29,3 +29,7 @@
 .post-tweet .preview-image {
     border-radius: 5%;
 }
+
+.post-tweet .flex {
+    justify-content: space-between;
+}

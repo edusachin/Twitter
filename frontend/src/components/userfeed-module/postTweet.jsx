@@ -31,16 +31,12 @@ class PostTweet extends Component {
                             <div className = "image-viewer col-sm-12 ml-4 mb-2">
                                 <img src = {this.state.file} className = "preview-image" alt=""/>
                             </div>
-                            <div className = "col-sm-12 row">
-                                <div className="col-sm-6"> 
-                                    <label for = "file-input">
-                                        <i class="far fa-image fa-2x"></i>
-                                    </label>
-                                    <input type="file" id = "file-input" onChange = {this.handleImage}/>
-                                </div>        
-                                <div className = "col-sm-6 tweet-button mb-3">
-                                    <button className = "btn btn-primary">Tweet</button>
-                                </div>
+                            <div className = "col-sm-12 row flex justify-content"> 
+                                <label for = "file-input">
+                                    <i class="far fa-image fa-2x ml-4"></i>
+                                </label>
+                                <input type="file" id = "file-input" onChange = {this.handleImage}/>
+                                <button className = "btn btn-primary mb-3">Tweet</button>
                             </div>
                         </form>
                     </div>

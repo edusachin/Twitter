@@ -63,3 +63,7 @@ body,
   background-color: #E1f5fe;
   text-decoration: none;
 }
+
+.followers_card .btn-outline-primary{
+  color:  #38A1F3;
+}
