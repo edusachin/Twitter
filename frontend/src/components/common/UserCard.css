@@ -1,14 +1,19 @@
-.followers_card .non_follower_image {
+.user_card .user_image {
     width: 100%;
     border-radius: 50%;
+    text-decoration: none;
 }
 
-.followers_card .btn-outline-primary:hover {
+.user_card .user_name>a{
+  color: black;
+}
+
+.user_card .btn-outline-primary:hover {
     background-color: #38A1F3;
     border-color: #38A1F3;
   }
   
-.followers_card .btn-primary {
+.user_card .btn-primary {
     background-color: #38A1F3;
     border-color: #38A1F3;
   }

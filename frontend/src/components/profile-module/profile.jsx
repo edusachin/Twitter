@@ -7,23 +7,46 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 class Profile extends Component {
-    async componentDidMount() {
-        if (this.props.location.state) {
-            localStorage.setItem("profile_user_id", this.props.location.state.user_id);
+    async componentWillReceiveProps() {
+        if (this.props.match.params.user_id) {
+            let user_id = this.props.match.params.user_id;
+            localStorage.setItem("profile_user_id", user_id);
+            await this.setState({});
         }
         let result = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("profile_user_id")}`);
         let user_profile = result.data;
         await this.setState({ user_profile });
 
-        document.title = user_profile.first_name + " / Twitter";
+        if (user_profile)
+            document.title = user_profile.first_name + " / Twitter";
+        else
+            document.title = "Profile / Twitter";
     }
 
+    async componentDidMount() {
+        if (this.props.match.params.user_id) {
+            let user_id = this.props.match.params.user_id;
+            localStorage.setItem("profile_user_id", user_id);
+            await this.setState({});
+        }
+        let result = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("profile_user_id")}`);
+        let user_profile = result.data;
+        await this.setState({ user_profile });
+
+        if (user_profile)
+            document.title = user_profile.first_name + " / Twitter";
+        else
+            document.title = "Profile / Twitter";
+    }
+
+
     render() {
-        let user, first_name = "", last_name = "";
+        let user, first_name = "", last_name = "", user_id = "";
         if (this.state && this.state.user_profile) {
             user = this.state.user_profile;
             first_name = this.state.user_profile.first_name;
             last_name = this.state.user_profile.last_name;
+            user_id = this.state.user_profile.user_id;
         }
         return (
             <div className="row profile-section">
@@ -35,11 +58,11 @@ class Profile extends Component {
                         </div>
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
-                                <div className="navlinkItem col-sm-4 py-2 ">
-                                    <NavLink className="p-2" to="/profile/tweets" exact={true}>Tweets</NavLink>
+                                <div className="navlinkItem col-sm-6 py-2 ">
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/tweets` }} exact={true}>Tweets</NavLink>
                                 </div>
-                                <div className="navlinkItem col-sm-4 py-2 ">
-                                    <NavLink className="p-2" to="/profile/likes" exact={true}>Likes</NavLink>
+                                <div className="navlinkItem col-sm-6 py-2 ">
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/likes` }} exact={true}>Likes</NavLink>
                                 </div>
 
                             </div>
@@ -47,16 +70,16 @@ class Profile extends Component {
                         <div className="col-sm-12">
                             <Switch>
                                 <Route
-                                    path="/profile/tweets"
+                                    path="/profile/:user_id/tweets"
                                     component={ProfileTweets}
                                 />
                                 <Route
-                                    path="/profile/likes"
+                                    path="/profile/:user_id/likes"
                                     component={ProfileLikes}
                                 />
                                 <Redirect
-                                    from="/profile"
-                                    to="/profile/tweets"
+                                    from="/profile/:user_id"
+                                    to="/profile/:user_id/tweets"
                                     exact
                                     component={ProfileTweets}
                                 />

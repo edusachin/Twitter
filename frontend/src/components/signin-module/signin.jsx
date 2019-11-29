@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import twitter_icon from "../../twitter_icon.png";
 import "./signIn.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
-import twitter_footer from "../../twitter_footer.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
 import alertService from '../../services/alertService';
@@ -57,7 +55,7 @@ class SignIn extends Component {
         }
         apiService.post('http://localhost:3001/api/signup', data)
             .then(response => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     console.log(response.data);
                     this.setState({
                         alertShow: true

@@ -14,6 +14,7 @@ let getProfile = async (msg, callback) => {
             return callback(err, null);
         } else {
             let profile = {
+                user_id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 user_name: user.user_name,
