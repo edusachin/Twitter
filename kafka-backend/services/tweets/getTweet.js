@@ -23,6 +23,13 @@ let getTweet = async (msg, callback) => {
         else {
             tweet.view_count += 1;
             let savedTweet = await tweet.save();
+            savedTweet = Object.assign({},savedTweet._doc,
+                {
+                    likes_count: savedTweet.likes.length,
+                    retweets_count: savedTweet.retweeters.length,
+                    replies_count: savedTweet.replies.length,
+                }
+            );
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(savedTweet);
             return callback(null, response);

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import './singleTweetAction.css';
-import { Modal,Button } from 'react-bootstrap';
-import FollowersCard from './followersCard';
-import axios from 'axios';
+import './TweetActionDetails.css';
+import { Modal } from 'react-bootstrap';
+import UserCard from './UserCard';
 
-class SingleTweetAction extends Component {
+class TweetActionDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,44 +17,23 @@ class SingleTweetAction extends Component {
         this.handleToggleLikes = this.handleToggleLikes.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
+    componentDidMount() {
+        let tweet = this.props.data;
+        this.setState({
+            likes: tweet.likes,
+            retweeters: tweet.retweeters
+        });
+    }
 
     handleToggleRetweets = () => {
         this.setState({
             setModalReTweets : true
-        });
-
-        axios.get('http://localhost:3001/api/tweets/tweet/5dd91658856a7b191f5aef28')
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({
-                        retweeters: response.data.retweeters
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
         });
     }
 
     handleToggleLikes = () => {
         this.setState({
             setModalLikes : true
-        });
-
-        axios.get('http://localhost:3001/api/tweets/tweet/5ddef971ee776e2517d5ebf2')
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({
-                        tweetLikes: response.data.likes
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
         });
     }
 
@@ -68,26 +46,27 @@ class SingleTweetAction extends Component {
 
     render() {
         let likes = [];
-        if(this.state && this.state.tweetLikes) {
-            this.state.tweetLikes.map(tweetLike => {
-                likes.push(<div><FollowersCard data={tweetLike} /><hr/></div>);
+        if(this.state && this.state.likes) {
+            this.state.likes.map(like => {
+                likes.push(<div><UserCard data={like} /><hr/></div>);
             });
         }
 
         let retweets = [];
         if(this.state && this.state.retweeters) {
             this.state.retweeters.map(retweet => {
-                retweets.push(<div><FollowersCard data={retweet} /><hr/></div>);
+                retweets.push(<div><UserCard data={retweet} /><hr/></div>);
             });
         }
+        
         return (
-            <div className="col-sm-12 my-3 single-tweet-actions">
+            <div className="col-sm-12 my-3 tweet-action-details">
                 <div className="row">
                     <div className="col-sm-3">
-                        <Link className = "retweet-link" onClick = {this.handleToggleRetweets}>10 Retweets</Link>
+                        <Link className = "retweet-link" onClick = {this.handleToggleRetweets}>{retweets.length} Retweets</Link>
                     </div>
-                    <div className="col-sm-3 likes">
-                        <Link className = "likes-link" onClick = {this.handleToggleLikes}>100 Likes</Link>
+                    <div className="col-sm-2 likes">
+                        <Link className = "likes-link" onClick = {this.handleToggleLikes}>{likes.length} Likes</Link>
                     </div>
                 </div>
                 <Modal show={this.state.setModalReTweets} onHide={this.handleClose}>
@@ -112,4 +91,4 @@ class SingleTweetAction extends Component {
     }
 }
 
-export default SingleTweetAction;
+export default TweetActionDetails;

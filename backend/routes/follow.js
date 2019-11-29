@@ -72,4 +72,19 @@ router.get("/following/:user_id", async (req, res) => {
     });
 });
 
+router.get("/users/:user_id", async (req, res) => {
+    let msg = {};
+    msg.route = "get_users_to_follow";
+    msg.user_id = req.params.user_id;
+
+    kafka.make_request("follow", msg, function (err, results) {
+        if (err) {
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+});
+
 module.exports = router;

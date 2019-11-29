@@ -6,7 +6,11 @@ let getProfile = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
-        let user = await Users.findById(msg.user_id);
+        let user = await Users.findById(msg.user_id)
+        .populate({
+            path: "followers following",
+            select: "first_name last_name user_name user_image followers"
+        });
 
         if (!user) {
             err.status = STATUS_CODE.BAD_REQUEST;
@@ -14,6 +18,7 @@ let getProfile = async (msg, callback) => {
             return callback(err, null);
         } else {
             let profile = {
+                user_id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 user_name: user.user_name,
@@ -22,7 +27,9 @@ let getProfile = async (msg, callback) => {
                 user_image: user.user_image,
                 city: user.city,
                 state: user.state,
-                zip_code: user.zip_code
+                zip_code: user.zip_code,
+                followers: user.followers,
+                following: user.following
             };
 
             response.status = STATUS_CODE.SUCCESS;

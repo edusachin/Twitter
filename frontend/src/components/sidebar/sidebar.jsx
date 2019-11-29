@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
 import twitter_icon from "../../twitter_icon.png";
+import authService from '../../services/authService';
 import "./sidebar.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -10,9 +11,9 @@ class Sidebar extends Component {
         return (
             <div className="row sidebar">
                 <div className="col-sm-12">
-                    <div className="col-sm-12 pt-3">
+                    <div className="col-sm-12 pt-3 twitter_icon_link">
                         <NavLink className="p-2 pr-3" to="/home" exact={true} >
-                            <img src={twitter_icon} className="twitter_icon" alt=""/>
+                            <img src={twitter_icon} className="twitter_icon" alt="" />
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
@@ -46,7 +47,7 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to={{ pathname: "/profile", state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
+                        <NavLink className="p-2 pr-3" to={{ pathname: `/profile/${localStorage.getItem("user_id")}`, state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
                             <i className="far fa-user pr-2"></i>
                             Profile
                         </NavLink>
@@ -55,6 +56,12 @@ class Sidebar extends Component {
                         <NavLink className="p-2 pr-3" to="/analytics" exact={true}>
                             <i className="far fa-chart-bar pr-2"></i>
                             Analytics
+                        </NavLink>
+                    </div>
+                    <div className="col-sm-12 py-3 sidebarItem">
+                        <NavLink className="p-2 pr-3" to="/signin" onClick={authService.logout} exact={true}>
+                            <i className="fas fa-sign-out-alt pr-2"></i>
+                            Logout
                         </NavLink>
                     </div>
                 </div>

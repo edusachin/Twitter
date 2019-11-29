@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import twitter_icon from "../../twitter_icon.png";
 import "./signIn.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
-import twitter_footer from "../../twitter_footer.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import { backendURI } from '../../utils/config';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
 import alertService from '../../services/alertService';
@@ -13,14 +13,12 @@ class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uname:"",
-            pwd: "",
+            email_id: "",
+            password: "",
             setModal: false,
             firstName: "",
             lastName: "",
             userName: "",
-            email: "",
-            password: "",
             alertShow: false
         }
         this.handleToggle = this.handleToggle.bind(this);
@@ -51,13 +49,13 @@ class SignIn extends Component {
         const data = {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
-            email_id: this.state.email,
+            email_id: this.state.email_id,
             user_name: this.state.userName,
             password: this.state.password
         }
         apiService.post('http://localhost:3001/api/signup', data)
             .then(response => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     console.log(response.data);
                     this.setState({
                         alertShow: true
@@ -71,11 +69,18 @@ class SignIn extends Component {
             });
     };
 
-    handleSignIn = async () => {
-        console.log(this.state.uname);
-        console.log(this.state.pwd);
-        let result = await authService.login(this.state.uname, this.state.pwd);
-        if(result) {
+    handleSignIn = async (e) => {
+        e.preventDefault();
+        let result = await authService.login(this.state.email_id, this.state.password);
+        if (result) {
+            let user = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("user_id")}`);
+            if (user.status === 200) {
+                localStorage.setItem("user_name", user.data.user_name);
+                localStorage.setItem("first_name", user.data.first_name);
+                localStorage.setItem("last_name", user.data.last_name);
+                if (user.data.user_image)
+                    localStorage.setItem("user_image", user.data.user_image);
+            }
             window.location = "/home";
         }
     };
@@ -84,29 +89,36 @@ class SignIn extends Component {
         document.title = "Twitter. It's what's happening."
     }
     render() {
+        let redirectVar = null;
+        if(localStorage.getItem("token")){
+            redirectVar = <Redirect to="/home" />;
+        }
         return (
             <div className="row sign-in">
+                {redirectVar}
                 <div className="col-sm-6">
-                    <img src={twitter_wallpaper} className="twitter_wallpaper" alt=""/>
+                    <img src={twitter_wallpaper} className="twitter_wallpaper" alt="" />
                 </div>
                 <div className="col-sm-2 userfield">
                     <div className="input-group mt-5 username">
-                        <input type="email" className="form-control" name="uname" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange}/>
+                        <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} />
                     </div>
-                    <img src={twitter_icon} className="twitter_icon" alt=""/>
+                    <img src={twitter_icon} className="twitter_icon" alt="" />
                     <h2 className="bodytext1">See what's happening in the world right now</h2>
                     <h2 className="bodytext2 mt-5">Join Twitter today</h2>
                     <button type="button" className="btn btn-outline-primary signup mt-2" onClick={this.handleToggle}>Sign up</button>
                 </div>
                 <div className="col-sm-2 passwordfield">
                     <div className="input-group ml-5 mt-5 password">
-                        <input type="password" className="form-control" name="pwd" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange}/>
+                        <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                     </div>
                 </div>
                 <div className="col-sm-2 loginbutton">
-                    <div className="input-group mt-5 login">
-                        <button type="button" className="btn btn-outline-primary" onClick={this.handleSignIn}>Log in</button>
-                    </div>
+                    <form onSubmit={this.handleSignIn}>
+                        <div className="input-group mt-5 login">
+                            <button type="submit" className="btn btn-outline-primary">Log in</button>
+                        </div>
+                    </form>
                 </div>
                 <Modal show={this.state.setModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -141,7 +153,7 @@ class SignIn extends Component {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
                             </div>
-                            <input type="email" name="email" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} />
+                            <input type="email" name="email_id" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
 
                         <div className="input-group mb-2">
