@@ -5,6 +5,7 @@ import ProfileLikes from './profileLikes';
 import RightPanel from "../right-panel/rightPanel";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
+import ProfileDetails from './ProfileDetails';
 
 class Profile extends Component {
     async componentWillReceiveProps() {
@@ -32,7 +33,6 @@ class Profile extends Component {
         let result = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("profile_user_id")}`);
         let user_profile = result.data;
         await this.setState({ user_profile });
-
         if (user_profile)
             document.title = user_profile.first_name + " / Twitter";
         else
@@ -41,12 +41,13 @@ class Profile extends Component {
 
 
     render() {
-        let user, first_name = "", last_name = "", user_id = "";
+        let user, first_name = "", last_name = "", user_id = "", profileDetails;
         if (this.state && this.state.user_profile) {
             user = this.state.user_profile;
-            first_name = this.state.user_profile.first_name;
-            last_name = this.state.user_profile.last_name;
-            user_id = this.state.user_profile.user_id;
+            first_name = user.first_name;
+            last_name = user.last_name;
+            user_id = user.user_id;
+            profileDetails = <ProfileDetails data={this.state.user_profile} />;
         }
         return (
             <div className="row profile-section">
@@ -56,6 +57,7 @@ class Profile extends Component {
                         <div className="content-title col-sm-12">
                             <h1>{first_name + " " + last_name}</h1>
                         </div>
+                        {profileDetails}
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
                                 <div className="navlinkItem col-sm-6 py-2 ">

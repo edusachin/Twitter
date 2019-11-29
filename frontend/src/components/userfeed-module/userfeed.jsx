@@ -17,10 +17,16 @@ class Userfeed extends Component {
     };
     render() {
         let tweetfeed = [];
-        if (this.state && this.state.tweets) {
+        if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
             });
+        }
+        else {
+            tweetfeed.push(<div className="row">
+                <h2 className="error-msg col-sm-12">There are no Tweets to show you.</h2>
+                <h2 className="error-msg col-sm-12">Follow people to see what's happening.</h2>
+            </div>)
         }
         return (
             <div className="row user-feed">
