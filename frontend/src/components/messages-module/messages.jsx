@@ -69,6 +69,7 @@ class Message extends Component {
         if (this.state && this.state.convos) {
             this.state.convos.map(cnv => {
                 conversations.push(<ConversationsCard click={this.onClickHandler} data={cnv} />);
+                return;
             });
         } else {
             conversations.push(<div className="row">

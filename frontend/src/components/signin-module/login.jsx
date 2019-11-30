@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import twitter_icon from "../../twitter_icon.png";
-import "./signIn.css";
+import "./login.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
 import { backendURI } from '../../utils/config';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
-import alertService from '../../services/alertService';
 
 class SignIn extends Component {
     constructor(props) {

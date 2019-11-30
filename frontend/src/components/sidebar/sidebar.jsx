@@ -6,7 +6,10 @@ import "./sidebar.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 class Sidebar extends Component {
-    state = {}
+    constructor(props){
+        super(props);
+        this.state = {};
+    }
     render() {
         return (
             <div className="row sidebar">
@@ -41,13 +44,13 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/lists" exact={true}>
+                        <NavLink className="p-2 pr-3" to="/lists/owned" exact={true}>
                             <i className="far fa-list-alt pr-2"></i>
                             Lists
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to={{ pathname: `/profile/${localStorage.getItem("user_id")}`, state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
+                        <NavLink className="p-2 pr-3" to={{ pathname: `/profile/${localStorage.getItem("user_id")}/tweets`, state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
                             <i className="far fa-user pr-2"></i>
                             Profile
                         </NavLink>

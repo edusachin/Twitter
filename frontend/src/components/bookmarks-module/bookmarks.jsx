@@ -5,9 +5,6 @@ import TweetCard from '../common/tweetCard';
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
-// TODO: To be replaced with httpService
-import axios from 'axios';
-
 class Bookmarks extends Component {
     state = {};
     clearAllBookmarks = async (e) => {
@@ -38,6 +35,7 @@ class Bookmarks extends Component {
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
             });
         } else {
             tweetfeed.push(<div className="row">
