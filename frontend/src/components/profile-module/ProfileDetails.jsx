@@ -14,7 +14,6 @@ class ProfileDetails extends Component {
             following: []
         }
 
-        this.updateFollowing = this.updateFollowing.bind(this);
         this.handleToggleFollowers = this.handleToggleFollowers.bind(this);
         this.handleToggleFollowing = this.handleToggleFollowing.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -53,27 +52,14 @@ class ProfileDetails extends Component {
             setModalFollowers: false,
             setModalFollowing: false
         });
-    }
-
-    updateFollowing = async (user, action) => {
-        let following = this.state.following;
-        if (action === 1) {
-            following.push(user);
-            await this.setState({ following });
-        }
-        if (action === 0) {
-            let index = following.findIndex(followee => followee._id === user._id);
-            if (index > -1)
-                following.splice(index, 1);
-            await this.setState({ following });
-        }
+        this.props.getProfile();
     }
 
     render() {
         let followers = [];
         if (this.state && this.state.followers) {
             this.state.followers.map(follower => {
-                followers.push(<div><UserCard data={follower} toggleModal={this.handleClose} updateFollowing={this.updateFollowing} /><hr /></div>);
+                followers.push(<div><UserCard data={follower} toggleModal={this.handleClose} /><hr /></div>);
                 return 0;
             });
         }
@@ -81,7 +67,7 @@ class ProfileDetails extends Component {
         let following = [];
         if (this.state && this.state.following) {
             this.state.following.map(followee => {
-                following.push(<div><UserCard data={followee} toggleModal={this.handleClose} updateFollowing={this.updateFollowing} /><hr /></div>);
+                following.push(<div><UserCard data={followee} toggleModal={this.handleClose} /><hr /></div>);
                 return 0;
             });
         }
