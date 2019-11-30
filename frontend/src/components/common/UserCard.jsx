@@ -23,8 +23,6 @@ class UserCard extends Component {
             let user = this.state.user;
             user.followers.push(localStorage.getItem("user_id"));
             await this.setState({ user });
-            if (this.props.updateFollowing)
-                this.props.updateFollowing(user, 1);
         }
     };
 
@@ -40,8 +38,6 @@ class UserCard extends Component {
             if (index > -1)
                 user.followers.splice(index, 1);
             await this.setState({ user });
-            if (this.props.updateFollowing)
-                this.props.updateFollowing(user, 0);
         }
     };
 
