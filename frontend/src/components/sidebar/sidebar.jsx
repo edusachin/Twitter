@@ -26,7 +26,7 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/explore" exact={true} >
+                        <NavLink className="p-2 pr-3" to="/explore/users" exact={true} >
                             <i className="fas fa-hashtag pr-2"></i>
                             Explore
                         </NavLink>

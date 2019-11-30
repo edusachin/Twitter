@@ -5,7 +5,7 @@ import { backendURI } from '../../utils/config';
 import "./profile.css";
 
 class ProfileTweets extends Component {
-    async componentDidMount() {
+    async componentWillReceiveProps() {
         let result = await apiService.get(`${backendURI}/api/tweets/user/${localStorage.getItem("profile_user_id")}/1`);
         let user_tweets = result.data;
         await this.setState({ user_tweets });
