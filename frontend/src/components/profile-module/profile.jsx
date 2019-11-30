@@ -80,7 +80,7 @@ class Profile extends Component {
         let result = await apiService.post(`${backendURI}/api/follow/unfollow`, data);
         if (result.status === 200) {
             let user_profile = this.state.user_profile;
-            let index = user_profile.followers.indexOf(localStorage.getItem("user_id"));
+            let index = user_profile.followers.findIndex(follower => follower._id === localStorage.getItem("user_id"));
             if (index > -1)
                 user_profile.followers.splice(index, 1);
             await this.setState({ user_profile });
@@ -242,28 +242,28 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                                 </div>
-                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} />
+                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]+$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                                 </div>
-                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} />
+                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]+$" required/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
                                 </div>
-                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} />
+                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} pattern="^[A-Za-z0-9_ ]+$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>User Bio</b></span>
                                 </div>
-                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} />
+                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?() ]+$"/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -277,21 +277,21 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>City</b></span>
                                 </div>
-                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} />
+                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]+$"/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>State</b></span>
                                 </div>
-                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} />
+                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]+$"/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>ZIP Code</b></span>
                                 </div>
-                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} />
+                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$"/>
                             </div>
 
                             <Button variant="primary" type="submit">
