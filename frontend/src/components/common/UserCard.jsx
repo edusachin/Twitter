@@ -23,7 +23,8 @@ class UserCard extends Component {
             let user = this.state.user;
             user.followers.push(localStorage.getItem("user_id"));
             await this.setState({ user });
-            this.props.updateFollowing(user, 1);
+            if (this.props.updateFollowing)
+                this.props.updateFollowing(user, 1);
         }
     };
 
@@ -39,9 +40,18 @@ class UserCard extends Component {
             if (index > -1)
                 user.followers.splice(index, 1);
             await this.setState({ user });
-            this.props.updateFollowing(user, 0);
+            if (this.props.updateFollowing)
+                this.props.updateFollowing(user, 0);
         }
     };
+
+    componentDidMount() {
+        if (this.props.data) {
+            this.setState({
+                user: this.props.data
+            });
+        }
+    }
 
     componentWillReceiveProps() {
         if (this.props.data) {
@@ -90,7 +100,7 @@ class UserCard extends Component {
                     <Link to={{ pathname: `/profile/${user_id}` }} onClick={this.props.toggleModal}>
                         <h5><b>{first_name} {last_name}</b></h5>
                     </Link>
-                    <Link to={{ pathname: `/profile/${user_id}` }}  onClick={this.props.toggleModal}>
+                    <Link to={{ pathname: `/profile/${user_id}` }} onClick={this.props.toggleModal}>
                         <h6>{user_name}</h6>
                     </Link>
                 </div>

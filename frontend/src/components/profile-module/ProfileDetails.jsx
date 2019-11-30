@@ -19,7 +19,16 @@ class ProfileDetails extends Component {
         this.handleToggleFollowing = this.handleToggleFollowing.bind(this);
         this.handleClose = this.handleClose.bind(this);
     }
+
     componentWillReceiveProps() {
+        let user = this.props.data;
+        this.setState({
+            followers: user.followers,
+            following: user.following
+        });
+    }
+
+    componentDidMount() {
         let user = this.props.data;
         this.setState({
             followers: user.followers,
