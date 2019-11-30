@@ -49,6 +49,7 @@ class TweetActionDetails extends Component {
         if(this.state && this.state.likes) {
             this.state.likes.map(like => {
                 likes.push(<div><UserCard data={like} /><hr/></div>);
+                return 0;
             });
         }
 
@@ -56,6 +57,7 @@ class TweetActionDetails extends Component {
         if(this.state && this.state.retweeters) {
             this.state.retweeters.map(retweet => {
                 retweets.push(<div><UserCard data={retweet} /><hr/></div>);
+                return 0;
             });
         }
         
@@ -63,10 +65,10 @@ class TweetActionDetails extends Component {
             <div className="col-sm-12 my-3 tweet-action-details">
                 <div className="row">
                     <div className="col-sm-3">
-                        <Link className = "retweet-link" onClick = {this.handleToggleRetweets}>{retweets.length} Retweets</Link>
+                        <Link className = "retweet-link" onClick = {this.handleToggleRetweets}><b>{retweets.length}</b> Retweets</Link>
                     </div>
                     <div className="col-sm-2 likes">
-                        <Link className = "likes-link" onClick = {this.handleToggleLikes}>{likes.length} Likes</Link>
+                        <Link className = "likes-link" onClick = {this.handleToggleLikes}><b>{likes.length}</b> Likes</Link>
                     </div>
                 </div>
                 <Modal show={this.state.setModalReTweets} onHide={this.handleClose}>

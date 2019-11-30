@@ -16,6 +16,7 @@ class ProfileLikes extends Component {
         if (this.state && this.state.liked_tweets && this.state.liked_tweets.length) {
             this.state.liked_tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
             });
         } else {
             if (localStorage.getItem("user_id") === localStorage.getItem("profile_user_id")) {

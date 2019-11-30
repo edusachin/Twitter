@@ -10,7 +10,7 @@ class RightPanel extends Component {
         this.state = {
         }
     }
-    async componentDidMount() {
+    async componentWillReceiveProps() {
         let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
         let userSuggestions = result.data;
         await this.setState({ userSuggestions });
