@@ -1,8 +1,7 @@
 "use strict";
-const Tweet = require("../../models/tweets");
+const Tweets = require("../../models/tweets");
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
-
 
 // needs to be optimized
 let postRetweet = async (msg, callback) => {
@@ -10,20 +9,25 @@ let postRetweet = async (msg, callback) => {
     let err = {};
     try {
         let { user_id, tweet_id } = msg;
+        let tweet = await Tweets.findById(tweet_id);
         let user = await Users.findById(user_id);
-        if (!user) {
+        if (!user || !tweet) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
-        else {
+        if (user.retweeted_tweets.includes(tweet_id)) {
+            err.status = STATUS_CODE.BAD_REQUEST;
+            err.data = MESSAGES.DATA_ALREADY_EXISTS;
+            return callback(err, null);
+        } else {
             user.retweeted_tweets.push(tweet_id);
-            let updatedUser = await user.save();
+            let updated_user = await user.save();
             // use findByIdandUpdate
-            let target_tweet = await Tweet.findById(tweet_id);
+            let target_tweet = await Tweets.findById(tweet_id);
             target_tweet.retweeters.push(user_id);
             let updated_tweet = await target_tweet.save();
-            if (!updatedUser || !updated_tweet) {
+            if (!updated_user || !updated_tweet) {
                 err.status = STATUS_CODE.BAD_REQUEST;
                 err.data = MESSAGES.ACTION_NOT_COMPLETE;
                 return callback(err, null);

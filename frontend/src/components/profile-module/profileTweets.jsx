@@ -5,7 +5,7 @@ import { backendURI } from '../../utils/config';
 import "./profile.css";
 
 class ProfileTweets extends Component {
-    async componentDidMount() {
+    async componentWillReceiveProps() {
         let result = await apiService.get(`${backendURI}/api/tweets/user/${localStorage.getItem("profile_user_id")}/1`);
         let user_tweets = result.data;
         await this.setState({ user_tweets });
@@ -16,6 +16,7 @@ class ProfileTweets extends Component {
         if (this.state && this.state.user_tweets && this.state.user_tweets.length) {
             this.state.user_tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
             });
         } else {
             if (localStorage.getItem("user_id") === localStorage.getItem("profile_user_id")) {

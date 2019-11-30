@@ -20,6 +20,7 @@ class Userfeed extends Component {
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
             });
         }
         else {

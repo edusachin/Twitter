@@ -27,19 +27,39 @@ router.post("/retweet", async (req, res) => {
 });
 
 /**
- * To post a reply on a tweet
+ * To post a like a tweet
  * @param req:  user_id,tweet_id
  */
-router.post("/likes", async (req, res) => {
+router.post("/like", async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
-    msg.route = "post_likes";
+    msg.route = "post_like";
     kafka.make_request("tweet_actions", msg, function (err, results) {
-        console.log('Inside backend');
         console.log(results);
+        if (err) {
+            res.status(err.status).send(err.data);
+        }
+        else {
+            res.status(results.status).send(results.data);
+        }
+    });
+});
+
+/**
+ * To post a unlike a tweet
+ * @param req:  user_id,tweet_id
+ */
+router.post("/unlike", async (req, res) => {
+    const { error } = validateLikes(req.body);
+    if (error) {
+        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+    }
+    let msg = req.body;
+    msg.route = "post_unlike";
+    kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);
         }
