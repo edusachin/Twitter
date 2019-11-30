@@ -3,7 +3,7 @@ const Tweet = require("../../models/tweets");
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
-let postLikes = async (msg, callback) => {
+let postLike = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
@@ -42,4 +42,4 @@ let postLikes = async (msg, callback) => {
         return callback(err, null);
     }
 };
-exports.postLikes = postLikes;
+exports.postLike = postLike;
