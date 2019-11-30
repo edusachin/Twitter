@@ -1,18 +1,22 @@
 "use strict";
 const { postRetweet } = require("./postRetweet");
-const { postLikes } = require("./postLikes");
-const { postReplies } = require("./postReplies");
+const { postLike } = require("./postLike");
+const { postUnlike } = require("./postUnlike");
+const { postReply } = require("./postReply");
 
 function handle_request(msg, callback) {
     switch (msg.route) {
         case "post_retweet":
             postRetweet(msg, callback);
             break;
-        case "post_likes":
-            postLikes(msg, callback);
+        case "post_like":
+            postLike(msg, callback);
             break;
-        case "post_replies":
-            postReplies(msg, callback);
+        case "post_unlike":
+            postUnlike(msg, callback);
+            break;
+        case "post_reply":
+            postReply(msg, callback);
             break;
     }
 }

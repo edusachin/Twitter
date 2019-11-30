@@ -5,7 +5,7 @@ const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 const ObjectId = require('mongodb').ObjectID;
 
 
-let postReplies = async (msg, callback) => {
+let postReply = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
@@ -43,4 +43,4 @@ let postReplies = async (msg, callback) => {
     }
 };
 
-exports.postReplies = postReplies;
+exports.postReply = postReply;
