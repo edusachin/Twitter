@@ -23,6 +23,7 @@ class UserCard extends Component {
             let user = this.state.user;
             user.followers.push(localStorage.getItem("user_id"));
             await this.setState({ user });
+            this.props.updateFollowing(user, 1);
         }
     };
 
@@ -38,24 +39,25 @@ class UserCard extends Component {
             if (index > -1)
                 user.followers.splice(index, 1);
             await this.setState({ user });
+            this.props.updateFollowing(user, 0);
         }
     };
 
-
-    componentDidMount() {
+    componentWillReceiveProps() {
         if (this.props.data) {
             this.setState({
                 user: this.props.data
             });
         }
     }
+
     render() {
         let first_name, last_name, user_name, user_id, followers = [], followButton;
         let userImage = placeholder;
         if (this.state && this.state.user) {
             first_name = this.state.user.first_name;
             last_name = this.state.user.last_name;
-            user_name = this.state.user.user_name;
+            user_name = "@" + this.state.user.user_name;
             user_id = this.state.user._id;
             followers = this.state.user.followers;
             if (this.state.user.user_image) {
@@ -80,16 +82,16 @@ class UserCard extends Component {
         return (
             <div className="row ml-3 user_card">
                 <div className="col-sm-2 mt-1 user_image">
-                    <Link to={{ pathname: `/profile/${user_id}` }}>
+                    <Link to={{ pathname: `/profile/${user_id}` }} onClick={this.props.toggleModal}>
                         <img src={userImage} className="user_image" alt="" />
                     </Link>
                 </div>
                 <div className="col-sm-6 user_name">
-                    <Link to={{ pathname: `/profile/${user_id}` }}>
+                    <Link to={{ pathname: `/profile/${user_id}` }} onClick={this.props.toggleModal}>
                         <h5><b>{first_name} {last_name}</b></h5>
                     </Link>
-                    <Link to={{ pathname: `/profile/${user_id}` }}>
-                        <h6>@{user_name}</h6>
+                    <Link to={{ pathname: `/profile/${user_id}` }}  onClick={this.props.toggleModal}>
+                        <h6>{user_name}</h6>
                     </Link>
                 </div>
                 {followButton}

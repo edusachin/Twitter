@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 
 // TODO: To be replaced with httpService
 import axios from 'axios';
