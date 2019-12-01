@@ -99,7 +99,9 @@ class Profile extends Component {
             user_bio: user_profile.user_bio || "",
             city: user_profile.city || "",
             state: user_profile.state || "",
-            zip_code: user_profile.zip_code || ""
+            zip_code: user_profile.zip_code || "",
+            user_image: user_profile.user_image || placeholder,
+            show_image: user_profile.user_image || placeholder
         });
     };
 
@@ -115,19 +117,25 @@ class Profile extends Component {
         });
     };
 
+    handleImageChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        });
+    };
+
     onSubmit = async (e) => {
         e.preventDefault();
-        let data = {
-            user_id: this.state.user_id,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            user_name: this.state.user_name,
-            email_id: this.state.email_id,
-            user_bio: this.state.user_bio,
-            city: this.state.city,
-            state: this.state.state,
-            zip_code: this.state.zip_code
-        };
+        let data = new FormData();
+        data.append('user_id', this.state.user_id);
+        data.append('first_name', this.state.first_name);
+        data.append('last_name', this.state.last_name);
+        data.append('user_name', this.state.user_name);
+        data.append('email_id', this.state.email_id);
+        data.append('user_bio', this.state.user_bio);
+        data.append('city', this.state.city);
+        data.append('state', this.state.state);
+        data.append('zip_code', this.state.zip_code);
+        data.append('user_image', this.state.user_image);
         let result = await apiService.post(`${backendURI}/api/profile`, data);
         if (result.status === 200) {
             this.getProfile();
@@ -160,7 +168,7 @@ class Profile extends Component {
             if (user.user_image)
                 userImage = user.user_image;
             userName = (<div><i class="fas fas fa-at"></i>{user_name}</div>);
-            profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile}/>;
+            profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile} />;
 
             if (user_id === localStorage.getItem("user_id")) {
                 userButton = (
@@ -237,6 +245,11 @@ class Profile extends Component {
                         <Modal.Title><b>Update Profile</b></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <div className="col-sm-4 pl-2 p-0 d-flex justify-content-center">
+                            <center>
+                                <img src={this.state.show_image} className="user_profile_image" alt="" />
+                            </center>
+                        </div>
                         <form onSubmit={this.onSubmit}>
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
@@ -249,7 +262,7 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                                 </div>
-                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]{1,20}$" required/>
+                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
@@ -263,7 +276,7 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>User Bio</b></span>
                                 </div>
-                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(). ]{1,50}$" required/>
+                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(). ]{1,50}$" required />
                             </div>
 
                             <div className="input-group mb-2">
@@ -277,21 +290,28 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>City</b></span>
                                 </div>
-                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]{1,20}$" required/>
+                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>State</b></span>
                                 </div>
-                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]{2,20}$" required/>
+                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]{2,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>ZIP Code</b></span>
                                 </div>
-                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$" required/>
+                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$" required />
+                            </div>
+
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Profile Picture</b></span>
+                                </div>
+                                <input type="file" name="user_image" accept="image/*" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
                             </div>
 
                             <Button variant="primary" type="submit">

@@ -18,8 +18,15 @@
 
 .profile-section .user_profile_image {
     width: 100%;
-    height: 175px;
+    height: 225px;
     border-radius: 50%;
+}
+
+.modal-open .modal .modal-content .modal-body .user_profile_image {
+    width: 100%;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 3%;
 }
 
 .profile-section .btn-outline-primary:hover {

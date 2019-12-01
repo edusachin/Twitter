@@ -10,15 +10,14 @@ const { validateProfile } = require("../validations/profileValidations");
 const { validatePassword } = require("../validations/passwordValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 const multer = require('multer');
+const path = require('path');
 const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
-        callback(null, './uploads');
-    },
-    filename: function (req, file, callback) {
+    destination: path.join(__dirname, '..') + '/uploads',
+    filename: (req, file, callback) => {
         callback(null, file.originalname);
     }
+});
 
-})
 const upload = multer({ storage });
 express().use(express.static('public'));
 
@@ -37,11 +36,11 @@ router.get("/:user_id", async (req, res) => {
     });
 });
 
-router.post("/", upload.single('image'), async (req, res) => {
-    const { error } = validateProfile(req.body);
-    if (error) {
-        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
-    }
+router.post("/", upload.single('user_image'), async (req, res) => {
+    // const { error } = validateProfile(req.body);
+    // if (error) {
+    //     return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+    // }
     let msg = req.body;
     if (req.files) {
         uploadFileToS3(req.files[0], 'profile', msg.user_id);
