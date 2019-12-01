@@ -6,16 +6,29 @@ import "./explore.css";
 
 class ExploreTweets extends Component {
     async componentWillReceiveProps() {
-
+        let search_input = localStorage.getItem("search_input");
+        if (search_input) {
+            if (search_input !== "") {
+                let tweetResults = await apiService.get(`${backendURI}/api/search/tweet/${search_input}`);
+                let tweets = tweetResults.data;
+                this.setState({ tweets });
+            }
+        }
     }
 
     render() {
         let tweetfeed = [];
-        if (this.state && this.state.tweets && this.state.tweets.length) {
-            this.state.user_tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} />);
-                return 0;
-            });
+        if (this.state && this.state.tweets) {
+            if (this.state.tweets.length) {
+                this.state.tweets.map(tweet => {
+                    tweetfeed.push(<TweetCard data={tweet} />);
+                    return 0;
+                });
+            } else {
+                tweetfeed.push(<div className="row">
+                    <h2 className="error-msg col-sm-12">We could not find any results for you.</h2>
+                </div>);
+            }
         } else {
             tweetfeed.push(<div className="row">
                 <h2 className="error-msg col-sm-12">Start looking what's happening.</h2>
