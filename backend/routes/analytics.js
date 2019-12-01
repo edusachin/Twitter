@@ -8,14 +8,14 @@ const kafka = require("../kafka/client");
 router.get("/topViewedTweets", async (req, res) => {
     let msg = {};
     msg.count = 10,
-    msg.route = "get_top_viewed_tweets";
+        msg.route = "get_top_viewed_tweets";
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -30,10 +30,10 @@ router.get("/topLikedTweets", async (req, res) => {
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -43,15 +43,15 @@ router.get("/topLikedTweets", async (req, res) => {
  */
 router.get("/topRetweetedTweets", async (req, res) => {
     let msg = {};
-    msg.count = 5,
-        msg.route = "get_top_retweeted_tweets";
+    msg.count = 5;
+    msg.route = "get_top_retweeted_tweets";
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });

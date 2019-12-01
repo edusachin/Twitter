@@ -12,16 +12,16 @@ router.post("/retweet", async (req, res) => {
     const { error } = false;
     if (error) {
         console.log("-------error: tweet:post/retweet/---------");
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_retweet";
     kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -33,17 +33,17 @@ router.post("/retweet", async (req, res) => {
 router.post("/like", async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_like";
     kafka.make_request("tweet_actions", msg, function (err, results) {
         console.log(results);
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -55,16 +55,16 @@ router.post("/like", async (req, res) => {
 router.post("/unlike", async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_unlike";
     kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -76,16 +76,16 @@ router.post("/unlike", async (req, res) => {
 router.post("/replies", async (req, res) => {
     const { error } = validateReplies(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "post_replies";
     kafka.make_request("tweet_actions", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });

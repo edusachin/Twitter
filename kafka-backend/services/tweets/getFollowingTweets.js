@@ -12,6 +12,7 @@ const tweetFormatter = (tweet, user, output) => {
         tweet_id: tweet._id,
         tweet_owner: tweet.tweet_owner,
         tweet_text: tweet.tweet_text,
+        hashtags: tweet.hashtags,
         tweet_date: tweet.tweet_date,
         tweet_image: tweet.tweet_image,
         likes_count: tweet.likes ? tweet.likes.length : 0,
@@ -35,7 +36,7 @@ let getFollowingTweets = async (msg, callback) => {
                 match: { "is_active": true },
                 populate: {
                     path: "tweets retweeted_tweets",
-                    select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+                    select: 'tweet_text tweet_owner hashtags tweet_date likes replies retweeters tweet_image',
                     model: "Tweet",
                     populate: {
                         path: 'tweet_owner',

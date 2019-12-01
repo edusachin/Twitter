@@ -242,28 +242,28 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                                 </div>
-                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]+$" required />
+                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                                 </div>
-                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]+$" required/>
+                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]{1,20}$" required/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
                                 </div>
-                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} pattern="^[A-Za-z0-9_ ]+$" required />
+                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>User Bio</b></span>
                                 </div>
-                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?() ]+$"/>
+                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(). ]{1,50}$" required/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -277,21 +277,21 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>City</b></span>
                                 </div>
-                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]+$"/>
+                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]{1,20}$" required/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>State</b></span>
                                 </div>
-                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]+$"/>
+                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]{2,20}$" required/>
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>ZIP Code</b></span>
                                 </div>
-                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$"/>
+                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$" required/>
                             </div>
 
                             <Button variant="primary" type="submit">
