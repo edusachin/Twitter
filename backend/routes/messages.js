@@ -9,17 +9,17 @@ const { STATUS_CODE } = require('../utils/constants');
 router.post("/", async (req, res) => {
     const { error } = validateMessage(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "send_message";
 
     kafka.make_request("messages", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -32,10 +32,10 @@ router.get("/:user_id", async (req, res) => {
     
     kafka.make_request("messages", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -47,6 +47,21 @@ router.get("/searched/:user_id/:target_id", async (req, res) => {
     msg.user_id = req.params.user_id;
     msg.target_id = req.params.target_id;
     
+    kafka.make_request("messages", msg, function (err, results) {
+        if (err) {
+            return res.status(err.status).send(err.data);
+        }
+        else {
+            return res.status(results.status).send(results.data);
+        }
+    });
+});
+
+router.get("/single/:user_id/:conversation_id", async (req, res) => {
+    let msg = {};
+    msg.route = "get_single_conversation";
+    msg.conversation_id = req.params.conversation_id;
+    msg.user_id = req.params.user_id;
     kafka.make_request("messages", msg, function (err, results) {
         if (err) {
             res.status(err.status).send(err.data);

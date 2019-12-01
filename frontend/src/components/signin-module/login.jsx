@@ -133,21 +133,21 @@ class SignIn extends Component {
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                             </div>
-                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]+$" title="Please enter your first name" required/>
+                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your first name" required/>
                         </div>
 
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                             </div>
-                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]+$" title="Please enter your last name" required/>
+                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your last name" required/>
                         </div>
 
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
                             </div>
-                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z0-9_ ]+$" title="Please enter a unique user name" required/>
+                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required/>
                         </div>
 
                         <div className="input-group mb-2">
@@ -163,12 +163,14 @@ class SignIn extends Component {
                             </div>
                             <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <Button variant="secondary" type="submit">
+                        <center>
+                        <Button variant="primary" type="submit">
                             <b>Sign Up</b>
-                        </Button>
-                        <Button variant="primary" onClick={this.handleClose}>
+                        </Button> &nbsp; &nbsp;
+                        <Button variant="secondary" onClick={this.handleClose}>
                             <b>Close</b>
                         </Button>
+                        </center>
                         </form>
                     </Modal.Body>
                 </Modal>

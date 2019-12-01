@@ -23,11 +23,11 @@ let sendMessage = async (msg, callback) => {
             }
 
             existingConversation.message.push(newMessage);
-            let conversationUpdate = await existingConversation.save();
+            let conversationUpdate = await existingConversation.save({new: true});
 
             if (conversationUpdate) {
                 response.status = STATUS_CODE.CREATED_SUCCESSFULLY;
-                response.data = MESSAGES.CREATE_SUCCESSFUL;
+                response.data = conversationUpdate;
                 return callback(null, response);
             } else {
                 err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
@@ -52,11 +52,11 @@ let sendMessage = async (msg, callback) => {
                 message: newMessage,
             })
 
-            const convSave = await newConversation.save();
+            const convSave = await newConversation.save({new: true});
 
             if (convSave) {
                 response.status = STATUS_CODE.CREATED_SUCCESSFULLY;
-                response.data = MESSAGES.CREATE_SUCCESSFUL;
+                response.data = convSave;
                 return callback(null, response);
             } else {
                 err.status = STATUS_CODE.INTERNAL_SERVER_ERROR;

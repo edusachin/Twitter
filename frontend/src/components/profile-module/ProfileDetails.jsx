@@ -78,7 +78,7 @@ class ProfileDetails extends Component {
                     <div className="col-sm-3">
                         <Link className="followers-link" onClick={this.handleToggleFollowers}><b>{followers.length}</b> Followers</Link>
                     </div>
-                    <div className="col-sm-2 following">
+                    <div className="col-sm-3 following">
                         <Link className="following-link" onClick={this.handleToggleFollowing}><b>{following.length}</b> Following</Link>
                     </div>
                 </div>

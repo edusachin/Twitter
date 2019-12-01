@@ -9,21 +9,49 @@ class Explore extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-    }
-    componentDidMount() {
-        document.title = "Explore / Twitter";
+        this.onSubmit = this.onSubmit.bind(this);
+        this.setDefaultText = this.setDefaultText.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "Explore / Twitter";
+        this.setDefaultText();
+    }
+
+    componentWillUnmount() {
+        localStorage.removeItem("search_input");
+    }
+
+    setDefaultText = () => {
+        let defaultSearchText = localStorage.getItem("search_input");
+        if (defaultSearchText && defaultSearchText !== "") {
+            this.setState({
+                defaultSearchText: defaultSearchText
+            });
+        }
+    };
+
     onChange = async (e) => {
-        let searchInput = e.target.value;
+        let searchInput = e.target.value.replace(/#/g, '');
         this.setState({ searchInput });
+    };
+
+    onSubmit = async (e) => {
+        e.preventDefault();
+        let searchInput = this.state.searchInput;
         localStorage.setItem("search_input", searchInput);
+        this.setState({
+            formSubmitted: true
+        });
     };
 
     render() {
-        let searchInput;
-        if (this.state && this.state.searchInput) {
-            searchInput = this.state.searchInput;
+        let formSubmitted, defaultSearchText;
+        if (this.state && this.state.formSubmitted) {
+            formSubmitted = this.state.formSubmitted;
+        }
+        if (this.state && this.state.defaultSearchText) {
+            defaultSearchText = this.state.defaultSearchText;
         }
         return (
             <div className="row explore-section">
@@ -31,15 +59,17 @@ class Explore extends Component {
                     <div className="row">
                         <h2 className="content-title col-sm-12">Explore</h2>
                         <div className="form-group col-sm-12 mt-1">
-                            <input type="text" className="form-control" placeholder="Search Twitter" onChange={this.onChange} />
+                            <form onSubmit={this.onSubmit}>
+                                <input type="text" className="form-control" placeholder="Search Twitter" defaultValue={defaultSearchText} onChange={this.onChange} />
+                            </form>
                         </div>
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/explore/users`, state: { searchInput } }} exact={true}>Users</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/explore/users`, state: { formSubmitted } }} exact={true}>People</NavLink>
                                 </div>
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/explore/tweets`, state: { searchInput } }} exact={true}>Tweets</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/explore/tweets`, state: { formSubmitted } }} exact={true}>Tweets</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +93,7 @@ class Explore extends Component {
                         </div>
                     </div>
                 </div>
-                <RightPanel />
+                <RightPanel hideSearchBar={true} />
             </div>
         );
     }

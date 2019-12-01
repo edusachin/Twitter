@@ -6,10 +6,19 @@ import TweetActions from './tweetActions';
 import TweetActionDetails from './TweetActionDetails';
 
 class TweetCard extends Component {
-    state = {}
+    constructor(props){
+        super(props);
+
+        this.onHashtagClick = this.onHashtagClick.bind(this);
+    }
+
+    onHashtagClick = (e) => {
+        localStorage.setItem("search_input", e.target.text.replace(/#/g, ''));
+    }
+
     render() {
         let tweet = this.props.data;
-        let tweetImages, retweetInfo, tweetActionDetails;
+        let tweetImages, retweetInfo, tweetActionDetails, hashtags = [];
         let tweetOwnerImage = userPlaceholder;
 
         if (tweet.tweet_image && tweet.tweet_image.length) {
@@ -32,8 +41,20 @@ class TweetCard extends Component {
                 </div>
             );
         }
+        if (tweet.hashtags && tweet.hashtags.length) {
+            tweet.hashtags.map(hashtag => {
+                hashtag = "#" + hashtag + " ";
+                hashtag = (
+                    <Link to="/explore/tweets" onClick={this.onHashtagClick}>
+                        {hashtag}
+                    </Link>
+                )
+                hashtags.push(hashtag);
+                return 0;
+            });
+        }
         if (tweet.showDetails) {
-            tweetActionDetails = (<TweetActionDetails data={tweet}/>)
+            tweetActionDetails = (<TweetActionDetails data={tweet} />)
         }
         let tweet_content = (
             <div className="row mx-auto mt-2">
@@ -52,6 +73,9 @@ class TweetCard extends Component {
                     </div>
                     <div className="tweet-text col-sm-12">
                         {tweet.tweet_text}
+                    </div>
+                    <div className="tweet-text col-sm-12">
+                        {hashtags}
                     </div>
                     {tweetImages}
                     {tweetActionDetails}
