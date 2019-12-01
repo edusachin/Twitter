@@ -75,7 +75,7 @@ class TweetCard extends Component {
                         {tweet.tweet_text}
                     </div>
                     <div className="tweet-text col-sm-12">
-                        <b>{hashtags}</b>
+                        {hashtags}
                     </div>
                     {tweetImages}
                     {tweetActionDetails}
