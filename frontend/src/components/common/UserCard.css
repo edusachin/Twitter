@@ -17,3 +17,8 @@
     background-color: #38A1F3;
     border-color: #38A1F3;
   }
+
+.user_card .btn {
+    border-radius: 2em;
+    font-weight: 800;
+}

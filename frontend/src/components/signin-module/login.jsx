@@ -163,12 +163,14 @@ class SignIn extends Component {
                             </div>
                             <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                        <Button variant="secondary" type="submit">
+                        <center>
+                        <Button variant="primary" type="submit">
                             <b>Sign Up</b>
-                        </Button>
-                        <Button variant="primary" onClick={this.handleClose}>
+                        </Button> &nbsp; &nbsp;
+                        <Button variant="secondary" onClick={this.handleClose}>
                             <b>Close</b>
                         </Button>
+                        </center>
                         </form>
                     </Modal.Body>
                 </Modal>

@@ -87,6 +87,21 @@ class Profile extends Component {
         }
     };
 
+    onProfileImageClick = (e) => {
+        let modal = document.getElementById("imageModal");
+        var modalImage = document.getElementById("image_modal");
+        modal.style.display = "block";
+        modalImage.src = e.target.src;
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    };
+
     editProfile = () => {
         let user_profile = this.state.user_profile;
         this.setState({
@@ -139,9 +154,9 @@ class Profile extends Component {
         let result = await apiService.post(`${backendURI}/api/profile`, data);
         if (result.status === 200) {
             this.getProfile();
-            localStorage.setItem("first_name", data.first_name);
-            localStorage.setItem("last_name", data.last_name);
-            localStorage.setItem("user_name", data.user_name);
+            localStorage.setItem("first_name", this.state.first_name);
+            localStorage.setItem("last_name", this.state.last_name);
+            localStorage.setItem("user_name", this.state.user_name);
             await this.setState({
                 showModal: false
             });
@@ -197,7 +212,12 @@ class Profile extends Component {
                     <div className="row">
                         <h2 className="content-title col-sm-12">Profile</h2>
                         <div className="col-sm-4 pl-2 p-0 d-flex justify-content-center">
-                            <img src={userImage} className="user_profile_image" alt="" />
+                            <img id="userImage" src={userImage} className="user_profile_image" onClick={this.onProfileImageClick} alt="" />
+                        </div>
+                        <div id="imageModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="image_modal" />
+                            <div id="caption"></div>
                         </div>
                         <div className="col-sm-12">
                             <h2>{first_name + " " + last_name}</h2>
@@ -211,10 +231,10 @@ class Profile extends Component {
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/tweets` }} exact={true}>Tweets</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/tweets` }}>Tweets</NavLink>
                                 </div>
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/likes` }} exact={true}>Likes</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/likes` }}>Likes</NavLink>
                                 </div>
 
                             </div>
@@ -240,7 +260,7 @@ class Profile extends Component {
                     </div>
                 </div>
                 <RightPanel />
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                <Modal show={this.state.showModal} onHide={this.handleClose} size="lg">
                     <Modal.Header closeButton>
                         <Modal.Title><b>Update Profile</b></Modal.Title>
                     </Modal.Header>
@@ -313,13 +333,14 @@ class Profile extends Component {
                                 </div>
                                 <input type="file" name="user_image" accept="image/*" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
                             </div>
-
-                            <Button variant="primary" type="submit">
-                                <b>Update</b>
-                            </Button>
-                            <Button variant="secondary" onClick={this.handleClose}>
-                                <b>Close</b>
-                            </Button>
+                            <center>
+                                <Button variant="primary" type="submit">
+                                    <b>Update</b>
+                                </Button>&nbsp;&nbsp;
+                                <Button variant="secondary" onClick={this.handleClose}>
+                                    <b>Close</b>
+                                </Button>
+                            </center>
                         </form>
                     </Modal.Body>
                 </Modal>
