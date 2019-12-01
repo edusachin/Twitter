@@ -66,7 +66,7 @@ class Explore extends Component {
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/explore/users`, state: { formSubmitted } }} exact={true}>Users</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/explore/users`, state: { formSubmitted } }} exact={true}>People</NavLink>
                                 </div>
                                 <div className="navlinkItem col-sm-6 py-2 ">
                                     <NavLink className="p-2" to={{ pathname: `/explore/tweets`, state: { formSubmitted } }} exact={true}>Tweets</NavLink>

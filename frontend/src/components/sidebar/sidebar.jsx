@@ -6,7 +6,7 @@ import "./sidebar.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 class Sidebar extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {};
     }
@@ -26,13 +26,13 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/explore/users" exact={true} >
+                        <NavLink className="p-2 pr-3" to="/explore" >
                             <i className="fas fa-hashtag pr-2"></i>
                             Explore
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/messages" exact={true} >
+                        <NavLink className="p-2 pr-3" to="/messages">
                             <i className="fas fa-envelope pr-2"></i>
                             Messages
                         </NavLink>
@@ -44,13 +44,13 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/lists/owned" exact={true}>
+                        <NavLink className="p-2 pr-3" to="/lists">
                             <i className="far fa-list-alt pr-2"></i>
                             Lists
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to={{ pathname: `/profile/${localStorage.getItem("user_id")}/tweets`, state: { user_id: localStorage.getItem("user_id") } }} exact={true}>
+                        <NavLink className="p-2 pr-3" to={{ pathname: `/profile/${localStorage.getItem("user_id")}`, state: { user_id: localStorage.getItem("user_id") } }}>
                             <i className="far fa-user pr-2"></i>
                             Profile
                         </NavLink>
