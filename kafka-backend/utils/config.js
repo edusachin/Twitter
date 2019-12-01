@@ -6,5 +6,5 @@ module.exports = {
   //kafkaURI: "localhost:9092,locahost:9093,localhost:9094",
   redisPort: 6379,
   //redisHost: "localhost" // Use this for local redis
-  redisHost: "52.90.111.80"
+  redisHost: "3.84.89.16"
 };
