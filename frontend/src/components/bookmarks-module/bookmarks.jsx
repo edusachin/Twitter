@@ -1,0 +1,77 @@
+import React, { Component } from 'react';
+import RightPanel from "../right-panel/rightPanel";
+import "./bookmarks.css";
+import TweetCard from '../common/tweetCard';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
+
+class Bookmarks extends Component {
+    state = {};
+    clearAllBookmarks = async (e) => {
+        e.preventDefault();
+        let data = {
+            user_id: localStorage.getItem("user_id")
+        };
+
+        let result = await apiService.post(`${backendURI}/api/bookmark/clear`, data);
+        if (result.status === 200) {
+            await this.setState({ tweets: {} });
+            //TODO: show a popup once the toast push is available
+            console.log("Cleared all Bookmarks");
+        }
+    }
+
+    async componentDidMount() {
+        document.title = "Bookmarks / Twitter";
+
+        let result = await apiService.get(`${backendURI}/api/bookmark/${localStorage.getItem("user_id")}`);
+        if (result.status === 200) {
+            await this.setState({ tweets: result.data });
+        }
+    }
+
+    render() {
+        let tweetfeed = [], userName;
+        if (this.state && this.state.tweets && this.state.tweets.length) {
+            this.state.tweets.map(tweet => {
+                tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
+            });
+        } else {
+            tweetfeed.push(<div className="row">
+                <h2 className="error-msg col-sm-12">You haven’t added any Tweets to your Bookmarks yet</h2>
+                <h2 className="error-msg-2 col-sm-12">When you do, they’ll show up here.</h2>
+            </div>)
+        }
+        if(localStorage.getItem("user_name")){
+            userName = "@" + localStorage.getItem("user_name");
+        }
+        return (
+            <div className="row bookmarks-section">
+                <div className="col-sm-7">
+                    <div className="row">
+                        <div className="content-title col-sm-11">
+                            <div className="bookmarks-headers row">
+                                <h2>Bookmarks</h2>
+                            </div>
+                            <div className="bookmarks-username row">
+                                {userName}
+                            </div>
+                        </div>
+                        <div className="content-title col-sm-1">
+                            <p className="clear-button">
+                                <button onClick={this.clearAllBookmarks}><i className="col-sm-12" class="fas fa-ellipsis-h"></i></button>
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        {tweetfeed}
+                    </div>
+                </div>
+                <RightPanel />
+            </div>
+        );
+    }
+}
+
+export default Bookmarks;

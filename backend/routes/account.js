@@ -7,48 +7,52 @@ const { checkAuth } = require("../utils/passport");
 const { validateAccount } = require("../validations/accountValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 
-router.post("/deactivate", checkAuth, async (req, res) => {
+/**
+ * to deactivate an account
+ * @param req: user_id
+ */
+router.post("/deactivate", async (req, res) => {
     const { error } = validateAccount(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "deactivate_account";
 
     kafka.make_request("account", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
 
-router.post("/delete", checkAuth, async (req, res) => {
+router.post("/delete", async (req, res) => {
     const { error } = validateAccount(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "delete_account";
 
     kafka.make_request("account", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
             if (results.status === 200) {
                 let user_id = req.body.user_id;
                 let sql = `CALL User_delete('${user_id}');`
                 pool.query(sql, (err, sqlResult) => {
-                    console.log(err);
-                    console.log(sqlResult);
                     if (err) {
-                        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+                        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
                     }
                     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_DELETED') {
-                        res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                        return res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                    } else {
+                        return res.status(STATUS_CODE.BAD_REQUEST).send(sqlResult[0][0].status);
                     }
                 });
             }

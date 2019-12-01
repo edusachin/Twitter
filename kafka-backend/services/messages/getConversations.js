@@ -16,7 +16,21 @@ let getConversations = async (msg, callback) => {
             return callback(err, null);
         }
 
-        let userConversations = await Conversation.find({ $or: [{ "user1": msg.user_id }, { "user2": msg.user_id }] });
+        let userConversations = await Conversation.find({ $or: [{ "user1": msg.user_id }, { "user2": msg.user_id }] }).populate({
+            path:"user1",
+            model: "User",
+            match:{"_id":{$ne:msg.user_id}},
+            select: 'first_name last_name user_name user_image'
+        }).populate({
+            path:"user2",
+            model: "User",
+            match:{"_id":{$ne:msg.user_id}},
+            select: 'first_name last_name user_name user_image'
+        }).populate({
+            path:"message.sender",
+            model:"User",
+            select:'first_name'
+        });
 
         if (!userConversations) {
             err.status = STATUS_CODE.BAD_REQUEST;

@@ -10,11 +10,11 @@ const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 router.post("/", async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     kafka.make_request("signup", req.body, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
             if (results.status === 200) {
@@ -23,10 +23,10 @@ router.post("/", async (req, res) => {
                 let sql = `CALL User_put('${req.body.email_id}', '${user_id}', '${hashedPassword}');`
                 pool.query(sql, (err, sqlResult) => {
                     if (err) {
-                        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+                        return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
                     }
                     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0].status === 'USER_ADDED') {
-                        res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
+                        return res.status(STATUS_CODE.SUCCESS).send(MESSAGES.SUCCESS);
                     }
                 });
             }

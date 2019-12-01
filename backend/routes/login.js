@@ -14,12 +14,12 @@ auth();
 router.post("/", async (req, res) => {
   const { error } = validateLogin(req.body);
   if (error)
-    res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+    return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
 
   let sql = `CALL Password_get('${req.body.email_id}');`;
   pool.query(sql, (err, sqlResult) => {
     if (err) {
-      res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+      return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
     }
     if (sqlResult && sqlResult.length > 0 && sqlResult[0][0]) {
       if (passwordHash.verify(req.body.password, sqlResult[0][0].password)) {
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 
         kafka.make_request("account", msg, function (err, results) {
           if (err) {
-            res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
+            return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
           } else {
             const payload = {
               email_id: req.body.email_id,
@@ -40,12 +40,12 @@ router.post("/", async (req, res) => {
               expiresIn: 900000 // in seconds
             });
             let jwtToken = 'JWT ' + token;
-            res.status(STATUS_CODE.SUCCESS).send(jwtToken);
+            return res.status(STATUS_CODE.SUCCESS).send(jwtToken);
           }
         });
       }
       else {
-        res.status(STATUS_CODE.UNAUTHORIZED).send(MESSAGES.INVALID_CREDENTIALS);
+        return res.status(STATUS_CODE.UNAUTHORIZED).send(MESSAGES.INVALID_CREDENTIALS);
       }
     }
   });

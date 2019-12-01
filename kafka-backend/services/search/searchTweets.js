@@ -7,7 +7,11 @@ let searchTweets = async (msg, callback) => {
     let err = {};
     try {
         let tweetRegex = new RegExp(msg.input, 'i')
-        let tweets = await Tweets.find({ $or: [{ "hashtags": tweetRegex }] });
+        let tweets = await Tweets.find({ $or: [{ "hashtags": tweetRegex }] })
+        .populate({
+            path: 'tweet_owner',
+            select: 'first_name last_name user_name user_image'
+        })
         if (!tweets) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
