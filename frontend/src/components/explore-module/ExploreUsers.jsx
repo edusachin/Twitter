@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import TweetCard from '../common/tweetCard';
 import UserCard from '../common/UserCard';
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
@@ -7,25 +6,41 @@ import "./explore.css";
 
 class ExploreUsers extends Component {
     async componentWillReceiveProps() {
-
+        let search_input = localStorage.getItem("search_input");
+        if (search_input) {
+            if (search_input !== "") {
+                let userResults = await apiService.get(`${backendURI}/api/search/user/${search_input}`);
+                let users = userResults.data;
+                this.setState({ users });
+            }
+            else {
+                this.setState({ users: [] });
+            }
+        }
     }
 
     render() {
-        let tweetfeed = [];
-        if (this.state && this.state.tweets && this.state.tweets.length) {
-            this.state.user_tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} />);
-                return 0;
-            });
+        let users = [];
+        if (this.state && this.state.users) {
+            if (this.state.users.length) {
+                this.state.users.map(user => {
+                    users.push(<UserCard data={user} />);
+                    return 0;
+                });
+            } else {
+                users.push(<div className="row">
+                    <h2 className="error-msg col-sm-12">We could not find any results for you.</h2>
+                </div>);
+            }
         } else {
-            tweetfeed.push(<div className="row">
+            users.push(<div className="row">
                 <h2 className="error-msg col-sm-12">Start looking what's happening.</h2>
-                <h2 className="error-msg-2 col-sm-12">Search for tweets to see what's happening.</h2>
+                <h2 className="error-msg-2 col-sm-12">Search for people to see what's happening.</h2>
             </div>)
         }
         return (
             <div className="row explore-section">
-                {tweetfeed}
+                {users}
             </div>
         );
     }

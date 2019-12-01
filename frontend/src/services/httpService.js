@@ -1,12 +1,13 @@
 import axios from 'axios';
-import alertService  from '../services/alertService';
+import alertService from '../services/alertService';
 
 axios.interceptors.response.use(null, error => {
     const expectedError = error.response && error.response.status >= 400 && error.response.status < 500
     if (!expectedError) {
         console.log("Logging out error", error);
     }
-    alertService.error(error.response.data)
+    if (error.response)
+        alertService.error(error.response.data)
     return Promise.reject(error)
 })
 
