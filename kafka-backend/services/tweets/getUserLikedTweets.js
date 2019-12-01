@@ -9,7 +9,7 @@ let getUserLikedTweets = async (msg, callback) => {
         let userLikedTweets = await Users.findById(msg.user_id, { liked: 1 })
         .populate({
             path: 'liked',
-            select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+            select: 'tweet_text hashtags tweet_owner tweet_date likes replies retweeters tweet_image',
             populate: {
                 path: 'tweet_owner',
                 select: 'first_name last_name user_name user_image'

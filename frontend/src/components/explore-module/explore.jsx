@@ -9,21 +9,40 @@ class Explore extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
-    }
-    componentDidMount() {
-        document.title = "Explore / Twitter";
+        this.setDefaultText = this.setDefaultText.bind(this);
     }
 
+    componentDidMount() {
+        document.title = "Explore / Twitter";
+        this.setDefaultText();
+    }
+
+    componentWillUnmount() {
+        localStorage.removeItem("search_input");
+    }
+
+    setDefaultText = () => {
+        let defaultSearchText = localStorage.getItem("search_input");
+        if(defaultSearchText && defaultSearchText!== ""){
+            this.setState({
+                defaultSearchText: defaultSearchText
+            });
+        }
+    };
+
     onChange = async (e) => {
-        let searchInput = e.target.value;
+        let searchInput = e.target.value.replace(/#/g, '');
         this.setState({ searchInput });
         localStorage.setItem("search_input", searchInput);
     };
 
     render() {
-        let searchInput;
+        let searchInput, defaultSearchText;
         if (this.state && this.state.searchInput) {
             searchInput = this.state.searchInput;
+        }
+        if(this.state && this.state.defaultSearchText){
+            defaultSearchText = this.state.defaultSearchText;
         }
         return (
             <div className="row explore-section">
@@ -31,7 +50,7 @@ class Explore extends Component {
                     <div className="row">
                         <h2 className="content-title col-sm-12">Explore</h2>
                         <div className="form-group col-sm-12 mt-1">
-                            <input type="text" className="form-control" placeholder="Search Twitter" onChange={this.onChange} />
+                            <input type="text" className="form-control" placeholder="Search Twitter" defaultValue={defaultSearchText} onChange={this.onChange} />
                         </div>
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
@@ -63,7 +82,7 @@ class Explore extends Component {
                         </div>
                     </div>
                 </div>
-                <RightPanel />
+                <RightPanel hideSearchBar={true}/>
             </div>
         );
     }

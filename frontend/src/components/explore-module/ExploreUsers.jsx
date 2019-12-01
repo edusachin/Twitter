@@ -5,7 +5,20 @@ import { backendURI } from '../../utils/config';
 import "./explore.css";
 
 class ExploreUsers extends Component {
+    constructor(props){
+        super(props);
+
+        this.getResults = this.getResults.bind(this);
+    }
+    async componentDidMount() {
+        this.getResults();
+    }
+
     async componentWillReceiveProps() {
+        this.getResults();
+    }
+
+    getResults = async () => {
         let search_input = localStorage.getItem("search_input");
         if (search_input) {
             if (search_input !== "") {
@@ -17,7 +30,7 @@ class ExploreUsers extends Component {
                 this.setState({ users: [] });
             }
         }
-    }
+    };
 
     render() {
         let users = [];
