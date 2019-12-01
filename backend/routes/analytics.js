@@ -23,10 +23,11 @@ router.get("/topViewedTweets", async (req, res) => {
 /**
  * To get Top 10 tweets by likes
  */
-router.get("/topLikedTweets", async (req, res) => {
+router.get("/topLikedTweets/:user_id", async (req, res) => {
     let msg = {};
-    msg.count = 10,
-        msg.route = "get_top_liked_tweets";
+    msg.count = 10;
+    msg.route = "get_top_liked_tweets";
+    msg.user_id = req.params.user_id;
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");

@@ -1,5 +1,6 @@
 "use strict";
 const Tweets = require('../../models/tweets');
+const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 const tweetFormatter = (tweet, output) => {
@@ -23,13 +24,29 @@ let getTopLikedTweets = async (msg, callback) => {
     let output = [];
     const count = msg.count;
     try {
+        let usertweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
+            .populate({
+                path: 'tweets retweeted_tweets',
+                select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+                populate: {
+                    path: 'tweet_owner',
+                    select: 'first_name last_name user_name user_image'
+                },
+                options: {
+                    sort: { likes: -1 },
+                    limit: count
+                }
+            });
+        let tweets = usertweets.tweets;
+
+        /*
         let tweets = await Tweets.find()
             .populate({
                 path: 'tweet_owner',
                 select: 'user_name'
             })
             .sort({ 'likes': -1 })
-            .limit(count);
+            .limit(count);*/
 
         if (!tweets) {
             err.status = STATUS_CODE.BAD_REQUEST;

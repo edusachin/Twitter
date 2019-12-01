@@ -84,7 +84,8 @@ class Analytics extends Component {
                 }
             });
         
-        axios.get('http://localhost:3001/api/analytics/topLikedTweets')
+        const user_id = localStorage.getItem('user_id');
+        axios.get(`http://localhost:3001/api/analytics/topLikedTweets/${user_id}`)
             .then(response => {
                 if (response.status === 200) {
                     let tweets = response.data;
