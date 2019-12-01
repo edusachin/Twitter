@@ -9,17 +9,17 @@ const { STATUS_CODE } = require('../utils/constants');
 router.post("/", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "follow_user";
 
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -27,17 +27,17 @@ router.post("/", async (req, res) => {
 router.post("/unfollow", async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body
     msg.route = "unfollow_user";
 
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -49,10 +49,10 @@ router.get("/followers/:user_id", async (req, res) => {
 
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -64,10 +64,25 @@ router.get("/following/:user_id", async (req, res) => {
 
     kafka.make_request("follow", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
+        }
+    });
+});
+
+router.get("/users/:user_id", async (req, res) => {
+    let msg = {};
+    msg.route = "get_users_to_follow";
+    msg.user_id = req.params.user_id;
+
+    kafka.make_request("follow", msg, function (err, results) {
+        if (err) {
+            return res.status(err.status).send(err.data);
+        }
+        else {
+            return res.status(results.status).send(results.data);
         }
     });
 });

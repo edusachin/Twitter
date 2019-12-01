@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode';
 import apiService from './httpService';
 import { backendURI } from '../utils/config';
 
-
 apiService.setJwt(getJwt())
 
 export async function login(email_id, password) {
@@ -17,12 +16,12 @@ export async function login(email_id, password) {
             const authToken = localStorage.getItem("token");
             const jwt = authToken.split(" ")[1]
             let user = jwtDecode(jwt);
-            if(!user){
+            if (!user) {
                 return false;
             }
-            else{
-                localStorage.setItem("email_id",user.email_id);
-                localStorage.setItem("user_id",user.user_id);
+            else {
+                localStorage.setItem("email_id", user.email_id);
+                localStorage.setItem("user_id", user.user_id);
                 return true;
             }
         }
@@ -30,7 +29,8 @@ export async function login(email_id, password) {
             return null;
         }
     } catch (err) {
-        console.log(err.response.data);
+        if (err.response)
+            console.log(err.response.data);
     }
 }
 

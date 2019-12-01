@@ -5,14 +5,16 @@ const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 const tweetFormatter = (tweet, user, output) => {
     let tweetObject = {
         user_id: user._id,
+        _id: tweet._id,
         first_name: user.first_name,
         last_name: user.last_name,
         user_name: user.user_name,
         tweet_id: tweet._id,
         tweet_owner: tweet.tweet_owner,
         tweet_text: tweet.tweet_text,
+        hashtags: tweet.hashtags,
         tweet_date: tweet.tweet_date,
-        tweet_images: tweet.tweet_image,
+        tweet_image: tweet.tweet_image,
         likes_count: tweet.likes ? tweet.likes.length : 0,
         replies_count: tweet.replies ? tweet.replies.length : 0,
         retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
@@ -34,7 +36,7 @@ let getFollowingTweets = async (msg, callback) => {
                 match: { "is_active": true },
                 populate: {
                     path: "tweets retweeted_tweets",
-                    select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+                    select: 'tweet_text tweet_owner hashtags tweet_date likes replies retweeters tweet_image',
                     model: "Tweet",
                     populate: {
                         path: 'tweet_owner',

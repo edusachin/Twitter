@@ -6,6 +6,7 @@ const redisClient = require("../../utils/redisConfig");
 const tweetFormatter = (tweet, user, output) => {
     let tweetObject = {
         user_id: user._id,
+        _id: tweet._id,
         first_name: user.first_name,
         last_name: user.last_name,
         user_name: user.user_name,
@@ -13,7 +14,8 @@ const tweetFormatter = (tweet, user, output) => {
         tweet_owner: tweet.tweet_owner,
         tweet_text: tweet.tweet_text,
         tweet_date: tweet.tweet_date,
-        tweet_images: tweet.tweet_image,
+        hashtags: tweet.hashtags,
+        tweet_image: tweet.tweet_image,
         likes_count: tweet.likes ? tweet.likes.length : 0,
         replies_count: tweet.replies ? tweet.replies.length : 0,
         retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
@@ -32,7 +34,7 @@ let getUserTweets = async (msg, callback) => {
         let userTweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
             .populate({
                 path: 'tweets retweeted_tweets',
-                select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+                select: 'tweet_text hashtags tweet_owner tweet_date likes replies retweeters tweet_image',
                 populate: {
                     path: 'tweet_owner',
                     select: 'first_name last_name user_name user_image'

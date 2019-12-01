@@ -2,70 +2,49 @@ import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
 import "./bookmarks.css";
 import TweetCard from '../common/tweetCard';
-
-// TODO: To be replaced with httpService
-import axios from 'axios';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
 
 class Bookmarks extends Component {
     state = {};
-    clearAllBookmarks = e => {
+    clearAllBookmarks = async (e) => {
         e.preventDefault();
         let data = {
-            //TODO: "user_id":localStorage.getItem("user_id");
-            "user_id": "5ddf21ecce8ee76d0ff96a4f****"
+            user_id: localStorage.getItem("user_id")
+        };
+
+        let result = await apiService.post(`${backendURI}/api/bookmark/clear`, data);
+        if (result.status === 200) {
+            await this.setState({ tweets: {} });
+            //TODO: show a popup once the toast push is available
+            console.log("Cleared all Bookmarks");
         }
-        axios.post('http://localhost:3001/api/bookmark/clear', data)
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({
-                        tweets: ""
-                    });
-                    //TODO: show a popup once the toast push is available
-                    console.log("Cleared all Bookmarks");
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
     }
 
-
-    componentDidMount() {
+    async componentDidMount() {
         document.title = "Bookmarks / Twitter";
-        if (1 /*TODO:  localStorage.getItem("user_name")*/) {
-            this.setState({
-                //TODO: userName : localStorage.getItem("user_name")
-                userName: "@sachinKarve"
-            });
+
+        let result = await apiService.get(`${backendURI}/api/bookmark/${localStorage.getItem("user_id")}`);
+        if (result.status === 200) {
+            await this.setState({ tweets: result.data });
         }
-        // TODO: To be replaced with localStorage user_id
-        axios.get('http://localhost:3001/api/bookmark/5dcc5343817a8f249e122972')
-            .then(response => {
-                if (response.status === 200) {
-                    this.setState({
-                        tweets: response.data
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
     }
+
     render() {
-        let tweetfeed = [];
-        if (this.state && this.state.tweets) {
+        let tweetfeed = [], userName;
+        if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweetfeed.push(<TweetCard data={tweet} />);
+                return 0;
             });
         } else {
             tweetfeed.push(<div className="row">
                 <h2 className="error-msg col-sm-12">You haven’t added any Tweets to your Bookmarks yet</h2>
                 <h2 className="error-msg-2 col-sm-12">When you do, they’ll show up here.</h2>
             </div>)
+        }
+        if(localStorage.getItem("user_name")){
+            userName = "@" + localStorage.getItem("user_name");
         }
         return (
             <div className="row bookmarks-section">
@@ -76,7 +55,7 @@ class Bookmarks extends Component {
                                 <h2>Bookmarks</h2>
                             </div>
                             <div className="bookmarks-username row">
-                                {this.state.userName}
+                                {userName}
                             </div>
                         </div>
                         <div className="content-title col-sm-1">

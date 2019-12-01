@@ -9,11 +9,19 @@ let handle_request = async (msg, callback) => {
         const user = await User.findOne({
             email_id: msg.email_id
         });
+        const userName = await User.findOne({
+            user_name: msg.user_name
+        });
         if (user) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.USER_ALREADY_EXISTS;
             return callback(err, null);
-        } else {
+        } else if(userName){
+            err.status = STATUS_CODE.BAD_REQUEST;
+            err.data = MESSAGES.USER_NAME_ALREADY_EXISTS;
+            return callback(err, null);
+        }
+        else {
             let user = new User({
                 first_name: msg.first_name,
                 last_name: msg.last_name,

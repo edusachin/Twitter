@@ -11,10 +11,10 @@ router.get("/user/:input", async (req, res) => {
     
     kafka.make_request("search", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -26,10 +26,10 @@ router.get("/tweet/:input", async (req, res) => {
     
     kafka.make_request("search", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });

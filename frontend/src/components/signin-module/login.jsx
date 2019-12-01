@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import twitter_icon from "../../twitter_icon.png";
-import "./signIn.css";
+import "./login.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
+import { backendURI } from '../../utils/config';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
-import alertService from '../../services/alertService';
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uname:"",
-            pwd: "",
+            email_id: "",
+            password: "",
             setModal: false,
             firstName: "",
             lastName: "",
             userName: "",
-            email: "",
-            password: "",
             alertShow: false
         }
         this.handleToggle = this.handleToggle.bind(this);
@@ -45,11 +44,12 @@ class SignIn extends Component {
         });
     }
 
-    handleSignUp = async () => {
+    handleSignUp = async (e) => {
+        e.preventDefault();
         const data = {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
-            email_id: this.state.email,
+            email_id: this.state.email_id,
             user_name: this.state.userName,
             password: this.state.password
         }
@@ -69,11 +69,18 @@ class SignIn extends Component {
             });
     };
 
-    handleSignIn = async () => {
-        console.log(this.state.uname);
-        console.log(this.state.pwd);
-        let result = await authService.login(this.state.uname, this.state.pwd);
-        if(result) {
+    handleSignIn = async (e) => {
+        e.preventDefault();
+        let result = await authService.login(this.state.email_id, this.state.password);
+        if (result) {
+            let user = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("user_id")}`);
+            if (user.status === 200) {
+                localStorage.setItem("user_name", user.data.user_name);
+                localStorage.setItem("first_name", user.data.first_name);
+                localStorage.setItem("last_name", user.data.last_name);
+                if (user.data.user_image)
+                    localStorage.setItem("user_image", user.data.user_image);
+            }
             window.location = "/home";
         }
     };
@@ -82,64 +89,72 @@ class SignIn extends Component {
         document.title = "Twitter. It's what's happening."
     }
     render() {
+        let redirectVar = null;
+        if(localStorage.getItem("token")){
+            redirectVar = <Redirect to="/home" />;
+        }
         return (
             <div className="row sign-in">
+                {redirectVar}
                 <div className="col-sm-6">
-                    <img src={twitter_wallpaper} className="twitter_wallpaper" alt=""/>
+                    <img src={twitter_wallpaper} className="twitter_wallpaper" alt="" />
                 </div>
                 <div className="col-sm-2 userfield">
                     <div className="input-group mt-5 username">
-                        <input type="email" className="form-control" name="uname" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange}/>
+                        <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required/>
                     </div>
-                    <img src={twitter_icon} className="twitter_icon" alt=""/>
+                    <img src={twitter_icon} className="twitter_icon" alt="" />
                     <h2 className="bodytext1">See what's happening in the world right now</h2>
                     <h2 className="bodytext2 mt-5">Join Twitter today</h2>
                     <button type="button" className="btn btn-outline-primary signup mt-2" onClick={this.handleToggle}>Sign up</button>
                 </div>
                 <div className="col-sm-2 passwordfield">
                     <div className="input-group ml-5 mt-5 password">
-                        <input type="password" className="form-control" name="pwd" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange}/>
+                        <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} required/>
                     </div>
                 </div>
                 <div className="col-sm-2 loginbutton">
-                    <div className="input-group mt-5 login">
-                        <button type="button" className="btn btn-outline-primary" onClick={this.handleSignIn}>Log in</button>
-                    </div>
+                    <form onSubmit={this.handleSignIn}>
+                        <div className="input-group mt-5 login">
+                            <button type="submit" className="btn btn-outline-primary">Log in</button>
+                        </div>
+                    </form>
                 </div>
                 <Modal show={this.state.setModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title><b>Create your account</b></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <form onSubmit={this.handleSignUp}>
                         <Alert show={this.state.alertShow} variant='success'>
                             Sign-up successful.
-                    </Alert>
+                        </Alert>
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                             </div>
-                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} />
+                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your first name" required/>
                         </div>
 
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                             </div>
-                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} />
+                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your last name" required/>
                         </div>
 
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
                             </div>
-                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} />
+                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required/>
                         </div>
 
                         <div className="input-group mb-2">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
                             </div>
-                            <input type="email" name="email" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} />
+                            <input type="email" name="email_id" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter a valid email address" required />
                         </div>
 
                         <div className="input-group mb-2">
@@ -148,15 +163,14 @@ class SignIn extends Component {
                             </div>
                             <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                         </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleSignUp}>
+                        <Button variant="secondary" type="submit">
                             <b>Sign Up</b>
                         </Button>
                         <Button variant="primary" onClick={this.handleClose}>
                             <b>Close</b>
                         </Button>
-                    </Modal.Footer>
+                        </form>
+                    </Modal.Body>
                 </Modal>
             </div>
         )
