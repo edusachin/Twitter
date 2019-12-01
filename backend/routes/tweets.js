@@ -107,11 +107,11 @@ router.get("/tweet/:tweet_id", async (req, res) => {
  * @param req: user_id,tweet_text
  */
 router.post("/", upload.any(), async (req, res) => {
-    const { error } = validateTweet(req.body);
+    /*const { error } = validateTweet(req.body);
     if (error) {
         console.log("-------error: tweet:post/---------");
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
-    }
+    }*/
     let msg = req.body;
     msg.tweet_image = new Array();
     if (req.files) {

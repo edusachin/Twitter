@@ -1,19 +1,46 @@
 import React, { Component } from 'react';
 import './postTweet.css';
 import placeholder from '../common/placeholder.jpg';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
 
 class PostTweet extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            file : null
+            file : null,
+            tweet_text : "",
+            hashtags : []
         }
     }
     
     handleImage = (e) => {
         this.setState({
-            file : URL.createObjectURL(e.target.files[0])
+            file : URL.createObjectURL(e.target.files[0]),
+            tweet_image : e.target.files[0]
         });
+    }
+
+    handleTweetText = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        });
+    }
+
+    postNewTweet = async (e) => {
+        e.preventDefault();
+        let data = new FormData();
+        data.append('tweet_text',this.state.tweet_text);
+        data.append('user_id',localStorage.getItem('user_id'));
+        data.append('tweet_image',this.state.tweet_image);
+        console.log('Hello');
+        console.log(data);
+        let result = await apiService.post(`${backendURI}/api/tweets`,data);
+        if(result) {
+            console.log('Successful');
+            console.log(result);
+        }
+
     }
 
     render() {
@@ -28,9 +55,9 @@ class PostTweet extends Component {
                         <div className="col-sm-1 d-flex justify-content-center m-auto">
                             <img src={userImage} className="tweet-owner-image ml-3 mb-5" alt=""/>
                         </div>
-                        <form className="col-sm-11">
+                        <form className="col-sm-11" onSubmit = {this.postNewTweet}>
                             <div className="form-group col-sm-12 mt-1">
-                                <input type="text" className="form-control" placeholder="What's Happening?" />
+                                <input type="text" name = "tweet_text" className="form-control" placeholder="What's Happening?" onChange = {this.handleTweetText}/>
                             </div>
                             <div className = "image-viewer col-sm-12 ml-4 mb-2">
                                 <img src = {this.state.file} className = "preview-image" alt=""/>
@@ -39,8 +66,8 @@ class PostTweet extends Component {
                                 <label for = "file-input">
                                     <i class="far fa-image fa-2x ml-4"></i>
                                 </label>
-                                <input type="file" id = "file-input" onChange = {this.handleImage}/>
-                                <button className = "btn btn-primary mb-3">Tweet</button>
+                                <input type="file" id = "file-input" name = "tweet_image" onChange = {this.handleImage}/>
+                                <button type = "submit" className = "btn btn-primary mb-3">Tweet</button>
                             </div>
                         </form>
                     </div>
