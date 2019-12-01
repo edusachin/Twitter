@@ -27,7 +27,7 @@ let updateProfile = async (msg, callback) => {
                 user.user_name = msg.user_name || user.user_name;
                 user.city = msg.city;
                 user.state = msg.state;
-                user.zip_code = msg.zipcode;
+                user.zip_code = msg.zip_code;
                 user.user_bio = msg.user_bio;
                 user.user_image = msg.user_image || user.user_image;
                 const updatedUser = await user.save();

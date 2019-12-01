@@ -115,12 +115,7 @@ class Profile extends Component {
             city: user_profile.city || "",
             state: user_profile.state || "",
             zip_code: user_profile.zip_code || "",
-<<<<<<< HEAD
             image: user_profile.image || ""
-=======
-            user_image: user_profile.user_image || placeholder,
-            show_image: user_profile.user_image || placeholder
->>>>>>> b72a5b5b201da723d8e9347bc6195ff77a7b1832
         });
     };
 
@@ -136,12 +131,6 @@ class Profile extends Component {
         });
     };
 
-    handleImageChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.files[0]
-        });
-    };
-
     onSubmit = async (e) => {
         e.preventDefault();
         let data = new FormData();
@@ -153,27 +142,8 @@ class Profile extends Component {
         data.append('user_bio', this.state.user_bio);
         data.append('city', this.state.city);
         data.append('state', this.state.state);
-<<<<<<< HEAD
-        data.append('zipcode', this.state.zip_code);
-        data.append('image', this.state.image);
-        //formData.append('userimage', this.state.image);
-
-        /*
-        let data = {
-            user_id: this.state.user_id,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            user_name: this.state.user_name,
-            email_id: this.state.email_id,
-            user_bio: this.state.user_bio,
-            city: this.state.city,
-            state: this.state.state,
-            zip_code: this.state.zip_code
-        };*/
-=======
         data.append('zip_code', this.state.zip_code);
         data.append('user_image', this.state.user_image);
->>>>>>> b72a5b5b201da723d8e9347bc6195ff77a7b1832
         let result = await apiService.post(`${backendURI}/api/profile`, data);
         if (result.status === 200) {
             this.getProfile();
@@ -349,22 +319,14 @@ class Profile extends Component {
                                 </div>
                                 <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$" required />
                             </div>
-
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
-<<<<<<< HEAD
-                                    <span className="input-group-text" id="basic-addon1"><b>Image</b></span>
-                                </div>
-                                <input type="file" name="image" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
-                            </div>
-
                             <Button variant="primary" type="submit">
                                 <b>Update</b>
                             </Button>
                             <Button variant="secondary" onClick={this.handleClose}>
                                 <b>Close</b>
                             </Button>
-=======
                                     <span className="input-group-text" id="basic-addon1"><b>Profile Picture</b></span>
                                 </div>
                                 <input type="file" name="user_image" accept="image/*" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
@@ -377,7 +339,6 @@ class Profile extends Component {
                                     <b>Close</b>
                                 </Button>
                             </center>
->>>>>>> b72a5b5b201da723d8e9347bc6195ff77a7b1832
                         </form>
                     </Modal.Body>
                 </Modal>
