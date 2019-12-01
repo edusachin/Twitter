@@ -20,12 +20,12 @@ let getConversations = async (msg, callback) => {
             path:"user1",
             model: "User",
             match:{"_id":{$ne:msg.user_id}},
-            select: 'first_name last_name user_name'
+            select: 'first_name last_name user_name user_image'
         }).populate({
             path:"user2",
             model: "User",
             match:{"_id":{$ne:msg.user_id}},
-            select: 'first_name last_name user_name'
+            select: 'first_name last_name user_name user_image'
         }).populate({
             path:"message.sender",
             model:"User",
