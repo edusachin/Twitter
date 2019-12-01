@@ -67,7 +67,7 @@ class TweetActionDetails extends Component {
                     <div className="col-sm-3">
                         <Link className = "retweet-link" onClick = {this.handleToggleRetweets}><b>{retweets.length}</b> Retweets</Link>
                     </div>
-                    <div className="col-sm-2 likes">
+                    <div className="col-sm-3 likes">
                         <Link className = "likes-link" onClick = {this.handleToggleLikes}><b>{likes.length}</b> Likes</Link>
                     </div>
                 </div>

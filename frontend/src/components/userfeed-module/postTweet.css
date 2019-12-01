@@ -19,6 +19,7 @@
 }
 .post-tweet .tweet-owner-image {
     width : 200%;
+    height: 50px;
     border-radius: 50%;
 }
 

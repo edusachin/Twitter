@@ -18,6 +18,7 @@
     border-color: #38A1F3;
   }
 
-  .followers_card .btn-outline-primary{
-    color:  #38A1F3;
-  }
+.user_card .btn {
+    border-radius: 2em;
+    font-weight: 800;
+}

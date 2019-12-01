@@ -87,6 +87,21 @@ class Profile extends Component {
         }
     };
 
+    onProfileImageClick = (e) => {
+        let modal = document.getElementById("imageModal");
+        var modalImage = document.getElementById("image_modal");
+        modal.style.display = "block";
+        modalImage.src = e.target.src;
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    };
+
     editProfile = () => {
         let user_profile = this.state.user_profile;
         this.setState({
@@ -99,7 +114,9 @@ class Profile extends Component {
             user_bio: user_profile.user_bio || "",
             city: user_profile.city || "",
             state: user_profile.state || "",
-            zip_code: user_profile.zip_code || ""
+            zip_code: user_profile.zip_code || "",
+            user_image: user_profile.user_image || placeholder,
+            show_image: user_profile.user_image || placeholder
         });
     };
 
@@ -115,25 +132,31 @@ class Profile extends Component {
         });
     };
 
+    handleImageChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        });
+    };
+
     onSubmit = async (e) => {
         e.preventDefault();
-        let data = {
-            user_id: this.state.user_id,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            user_name: this.state.user_name,
-            email_id: this.state.email_id,
-            user_bio: this.state.user_bio,
-            city: this.state.city,
-            state: this.state.state,
-            zip_code: this.state.zip_code
-        };
+        let data = new FormData();
+        data.append('user_id', this.state.user_id);
+        data.append('first_name', this.state.first_name);
+        data.append('last_name', this.state.last_name);
+        data.append('user_name', this.state.user_name);
+        data.append('email_id', this.state.email_id);
+        data.append('user_bio', this.state.user_bio);
+        data.append('city', this.state.city);
+        data.append('state', this.state.state);
+        data.append('zip_code', this.state.zip_code);
+        data.append('user_image', this.state.user_image);
         let result = await apiService.post(`${backendURI}/api/profile`, data);
         if (result.status === 200) {
             this.getProfile();
-            localStorage.setItem("first_name", data.first_name);
-            localStorage.setItem("last_name", data.last_name);
-            localStorage.setItem("user_name", data.user_name);
+            localStorage.setItem("first_name", this.state.first_name);
+            localStorage.setItem("last_name", this.state.last_name);
+            localStorage.setItem("user_name", this.state.user_name);
             await this.setState({
                 showModal: false
             });
@@ -160,7 +183,7 @@ class Profile extends Component {
             if (user.user_image)
                 userImage = user.user_image;
             userName = (<div><i class="fas fas fa-at"></i>{user_name}</div>);
-            profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile}/>;
+            profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile} />;
 
             if (user_id === localStorage.getItem("user_id")) {
                 userButton = (
@@ -189,7 +212,12 @@ class Profile extends Component {
                     <div className="row">
                         <h2 className="content-title col-sm-12">Profile</h2>
                         <div className="col-sm-4 pl-2 p-0 d-flex justify-content-center">
-                            <img src={userImage} className="user_profile_image" alt="" />
+                            <img id="userImage" src={userImage} className="user_profile_image" onClick={this.onProfileImageClick} alt="" />
+                        </div>
+                        <div id="imageModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="image_modal" />
+                            <div id="caption"></div>
                         </div>
                         <div className="col-sm-12">
                             <h2>{first_name + " " + last_name}</h2>
@@ -203,10 +231,10 @@ class Profile extends Component {
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/tweets` }} exact={true}>Tweets</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/tweets` }}>Tweets</NavLink>
                                 </div>
                                 <div className="navlinkItem col-sm-6 py-2 ">
-                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/likes` }} exact={true}>Likes</NavLink>
+                                    <NavLink className="p-2" to={{ pathname: `/profile/${user_id}/likes` }}>Likes</NavLink>
                                 </div>
 
                             </div>
@@ -232,38 +260,43 @@ class Profile extends Component {
                     </div>
                 </div>
                 <RightPanel />
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                <Modal show={this.state.showModal} onHide={this.handleClose} size="lg">
                     <Modal.Header closeButton>
                         <Modal.Title><b>Update Profile</b></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <div className="col-sm-4 pl-2 p-0 d-flex justify-content-center">
+                            <center>
+                                <img src={this.state.show_image} className="user_profile_image" alt="" />
+                            </center>
+                        </div>
                         <form onSubmit={this.onSubmit}>
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                                 </div>
-                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]+$" required />
+                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                                 </div>
-                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]+$" required/>
+                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
                                 </div>
-                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} pattern="^[A-Za-z0-9_ ]+$" required />
+                                <input type="text" name="user_name" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_name} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>User Bio</b></span>
                                 </div>
-                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?() ]+$"/>
+                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(). ]{1,50}$" required />
                             </div>
 
                             <div className="input-group mb-2">
@@ -277,29 +310,37 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>City</b></span>
                                 </div>
-                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]+$"/>
+                                <input type="text" name="city" className="form-control" aria-label="City" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.city} pattern="^[A-Za-z ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>State</b></span>
                                 </div>
-                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]+$"/>
+                                <input type="text" name="state" className="form-control" aria-label="State" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.state} pattern="^[A-Za-z ]{2,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>ZIP Code</b></span>
                                 </div>
-                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$"/>
+                                <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$" required />
                             </div>
 
-                            <Button variant="primary" type="submit">
-                                <b>Update</b>
-                            </Button>
-                            <Button variant="secondary" onClick={this.handleClose}>
-                                <b>Close</b>
-                            </Button>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Profile Picture</b></span>
+                                </div>
+                                <input type="file" name="user_image" accept="image/*" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
+                            </div>
+                            <center>
+                                <Button variant="primary" type="submit">
+                                    <b>Update</b>
+                                </Button>&nbsp;&nbsp;
+                                <Button variant="secondary" onClick={this.handleClose}>
+                                    <b>Close</b>
+                                </Button>
+                            </center>
                         </form>
                     </Modal.Body>
                 </Modal>

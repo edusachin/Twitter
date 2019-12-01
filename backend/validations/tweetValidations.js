@@ -4,7 +4,8 @@ const Joi = require("joi");
 function validateTweet(user) {
     const schema = {
         user_id: Joi.string().required(),
-        tweet_text: Joi.string()
+        tweet_text: Joi.string(),
+        hashtags: Joi.string()
     };
 
     return Joi.validate(user, schema);

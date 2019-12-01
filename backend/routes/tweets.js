@@ -30,10 +30,10 @@ router.get("/user/:user_id/:page_number", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 
@@ -51,10 +51,10 @@ router.get("/following/:user_id", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get_followers_tweets/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 
@@ -72,10 +72,10 @@ router.get("/liked/:user_id", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get_user_liked_tweets/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 
@@ -93,10 +93,10 @@ router.get("/tweet/:tweet_id", async (req, res) => {
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get_tweet/:id---------");
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 
@@ -110,7 +110,7 @@ router.post("/", upload.any(), async (req, res) => {
     const { error } = validateTweet(req.body);
     if (error) {
         console.log("-------error: tweet:post/---------");
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.tweet_image = new Array();
@@ -134,10 +134,10 @@ router.post("/", upload.any(), async (req, res) => {
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
@@ -150,16 +150,16 @@ router.post("/delete", async (req, res) => {
     const { error } = false;
     if (error) {
         console.log("-------error: tweet:post/deletetweet/---------");
-        res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
+        return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
     let msg = req.body;
     msg.route = "delete_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
-            res.status(err.status).send(err.data);
+            return res.status(err.status).send(err.data);
         }
         else {
-            res.status(results.status).send(results.data);
+            return res.status(results.status).send(results.data);
         }
     });
 });
