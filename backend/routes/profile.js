@@ -38,10 +38,10 @@ router.get("/:user_id", async (req, res) => {
 });
 
 router.post("/", upload.single('image'), async (req, res) => {
-    const { error } = validateProfile(req.body);
+    /*const { error } = validateProfile(req.body);
     if (error) {
         res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
-    }
+    }*/
     let msg = req.body;
     if (req.files) {
         uploadFileToS3(req.files[0], 'profile', msg.user_id);

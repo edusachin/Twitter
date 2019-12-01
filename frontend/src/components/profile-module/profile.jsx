@@ -99,7 +99,8 @@ class Profile extends Component {
             user_bio: user_profile.user_bio || "",
             city: user_profile.city || "",
             state: user_profile.state || "",
-            zip_code: user_profile.zip_code || ""
+            zip_code: user_profile.zip_code || "",
+            image: user_profile.image || ""
         });
     };
 
@@ -115,8 +116,28 @@ class Profile extends Component {
         });
     };
 
+    handleImageChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.files[0]
+        });
+    };
+
     onSubmit = async (e) => {
         e.preventDefault();
+        let data = new FormData();
+        data.append('user_id', this.state.user_id);
+        data.append('first_name', this.state.first_name);
+        data.append('last_name', this.state.last_name);
+        data.append('user_name', this.state.user_name);
+        data.append('email_id', this.state.email_id);
+        data.append('user_bio', this.state.user_bio);
+        data.append('city', this.state.city);
+        data.append('state', this.state.state);
+        data.append('zipcode', this.state.zip_code);
+        data.append('image', this.state.image);
+        //formData.append('userimage', this.state.image);
+
+        /*
         let data = {
             user_id: this.state.user_id,
             first_name: this.state.first_name,
@@ -127,7 +148,7 @@ class Profile extends Component {
             city: this.state.city,
             state: this.state.state,
             zip_code: this.state.zip_code
-        };
+        };*/
         let result = await apiService.post(`${backendURI}/api/profile`, data);
         if (result.status === 200) {
             this.getProfile();
@@ -292,6 +313,13 @@ class Profile extends Component {
                                     <span className="input-group-text" id="basic-addon1"><b>ZIP Code</b></span>
                                 </div>
                                 <input type="text" name="zip_code" className="form-control" aria-label="ZipCode" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.zip_code} pattern="^[0-9]{5}(-[0-9]{4})?$"/>
+                            </div>
+
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Image</b></span>
+                                </div>
+                                <input type="file" name="image" className="form-control" aria-label="Image" aria-describedby="basic-addon1" onChange={this.handleImageChange} />
                             </div>
 
                             <Button variant="primary" type="submit">
