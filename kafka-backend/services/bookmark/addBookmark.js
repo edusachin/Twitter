@@ -18,8 +18,8 @@ let addBookmark = async (msg, callback) => {
         }
 
         if (user.bookmarks.includes(msg.tweet_id)) {
-            err.status = STATUS_CODE.BAD_REQUEST;
-            err.data = MESSAGES.DATA_ALREADY_EXISTS;
+            err.status = STATUS_CODE.CREATED_SUCCESSFULLY;
+            err.data = MESSAGES.CREATE_SUCCESSFUL;
             return callback(err, null);
         } else {
             let userUpdated = await Users.findByIdAndUpdate(msg.user_id, { $push: { "bookmarks": msg.tweet_id } })

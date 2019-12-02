@@ -5,27 +5,27 @@ import { backendURI } from '../../utils/config';
 import RightPanel from "../right-panel/rightPanel";
 
 class TweetPage extends Component {
-    async componentDidMount(){
+    async componentDidMount() {
         if (this.props.location.state) {
             let tweet_id = this.props.location.state.tweet_id;
             localStorage.setItem("tweet_id", tweet_id);
-        }
-        let result = await apiService.get(`${backendURI}/api/tweets/tweet/${localStorage.getItem("tweet_id")}`);
-        let tweet = result.data;
-        await this.setState({ tweet });
+            let result = await apiService.get(`${backendURI}/api/tweets/tweet/${localStorage.getItem("tweet_id")}`);
+            let tweet = result.data;
+            await this.setState({ tweet });
 
-        if (tweet)
-            document.title = tweet.tweet_owner.first_name + " on Twitter";
-        else
-            document.title = "Tweet / Twitter";
+            if (tweet)
+                document.title = tweet.tweet_owner.first_name + " on Twitter";
+            else
+                document.title = "Tweet / Twitter";
+        }
     }
 
     render() {
         let tweet, tweetCard;
-        if(this.state && this.state.tweet){
+        if (this.state && this.state.tweet) {
             tweet = this.state.tweet;
             tweet.showDetails = true;
-            tweetCard =(<TweetCard data={tweet} />)
+            tweetCard = (<TweetCard data={tweet} />)
         }
         return (
             <div className="row tweetpage">
