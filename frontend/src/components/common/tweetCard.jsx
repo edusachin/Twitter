@@ -6,7 +6,7 @@ import TweetActions from './tweetActions';
 import TweetActionDetails from './TweetActionDetails';
 
 class TweetCard extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.onHashtagClick = this.onHashtagClick.bind(this);
@@ -67,9 +67,21 @@ class TweetCard extends Component {
                     <div className="retweet-info">
                         {retweetInfo}
                     </div>
-                    <div className="tweet-owner col-sm-12">
+                    <div className="tweet-owner col-sm-11">
                         <Link to={{ pathname: `/profile/${tweet.tweet_owner._id}` }}><b>{tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} </b></Link>
                         <Link to={{ pathname: `/profile/${tweet.tweet_owner._id}` }}>@{tweet.tweet_owner.user_name}</Link> . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                    </div>
+                    <div className="col-sm-1">
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Delete Tweet</a>
+                                <a class="dropdown-item" href="#">Bookmark a Tweet</a>
+                            </div>
+                        </div>
+
                     </div>
                     <div className="tweet-text col-sm-12">
                         {tweet.tweet_text}
