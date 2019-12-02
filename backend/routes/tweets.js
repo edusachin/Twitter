@@ -4,6 +4,7 @@ const kafka = require("../kafka/client");
 const { validateTweet } = require("../validations/tweetValidations");
 const { STATUS_CODE } = require("../utils/constants");
 const uploadFileToS3 = require('../utils/awsImageUpload');
+const { checkAuth } = require("../utils/passport");
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -20,7 +21,7 @@ express().use(express.static('public'));
 /**
  * To get all the tweets of a user
  */
-router.get("/user/:user_id/:page_number", async (req, res) => {
+router.get("/user/:user_id/:page_number", checkAuth, async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
         page_number: req.params.page_number,
@@ -42,7 +43,7 @@ router.get("/user/:user_id/:page_number", async (req, res) => {
 /**
  * To get all the tweets of the following of a user
  */
-router.get("/following/:user_id", async (req, res) => {
+router.get("/following/:user_id", checkAuth, async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
         route: "get_following_tweets"
@@ -63,7 +64,7 @@ router.get("/following/:user_id", async (req, res) => {
 /**
  * To get all the tweets liked by a user
  */
-router.get("/liked/:user_id", async (req, res) => {
+router.get("/liked/:user_id", checkAuth, async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
         route: "get_user_liked_tweets"
@@ -84,7 +85,7 @@ router.get("/liked/:user_id", async (req, res) => {
 /**
  * To get a single tweet with all details
  */
-router.get("/tweet/:tweet_id", async (req, res) => {
+router.get("/tweet/:tweet_id", checkAuth, async (req, res) => {
     let msg = {
         tweet_id: req.params.tweet_id,
         route: "get_tweet"
@@ -145,7 +146,7 @@ router.post("/", upload.any(), async (req, res) => {
  * To delete a tweet
  * @param req: user_id, tweet_id
  */
-router.post("/delete", async (req, res) => {
+router.post("/delete", checkAuth, async (req, res) => {
     const { error } = false;
     if (error) {
         console.log("-------error: tweet:post/deletetweet/---------");

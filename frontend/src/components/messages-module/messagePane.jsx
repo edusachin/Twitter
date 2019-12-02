@@ -4,10 +4,6 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 class messagePane extends Component {
-    constructor(props) {
-        super(props)
-        let state = {}
-    }
     componentWillMount() {
         this.getMsg()
     }

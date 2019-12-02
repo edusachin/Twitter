@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
 import MemberCard from './memberCard';
-import apiService from '../../services/httpService';
-import { backendURI } from '../../utils/config';
-import alertService from '../../services/alertService';
 
 class ListMembers extends Component {
     constructor(props) {
