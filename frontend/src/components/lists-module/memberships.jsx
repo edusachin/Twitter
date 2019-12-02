@@ -9,7 +9,6 @@ class Memberships extends Component {
     }
 
     async componentDidMount() {
-        let target_list_user_id = null;
         let target_list_user_id;
         if (this.props.match.params.user_id) {
           let user_id = this.props.match.params.user_id;
