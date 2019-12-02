@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ConversationsCard from './conversationCard';
 import MessagePane from './messagePane'
 import apiService from '../../services/httpService';
-import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import UserCard from './userCard';
 import "./messages.css";

@@ -1,6 +1,6 @@
 "use strict";
 const Users = require('../../models/users');
-
+const redisClient = require("../../utils/redisConfig");
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 let clearBookmarks = async (msg, callback) => {
@@ -14,6 +14,7 @@ let clearBookmarks = async (msg, callback) => {
             if (!updatedUser) {
                 throw err;
             } else {
+                redisClient.setex(msg.user_id, 36000, JSON.stringify([]));
                 response.status = STATUS_CODE.SUCCESS;
                 response.data = MESSAGES.DELETE_SUCCESSFUL;
                 return callback(null, response);
