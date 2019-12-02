@@ -16,8 +16,6 @@ class Bookmarks extends Component {
         let result = await apiService.post(`${backendURI}/api/bookmark/clear`, data);
         if (result.status === 200) {
             await this.setState({ tweets: {} });
-            //TODO: show a popup once the toast push is available
-            console.log("Cleared all Bookmarks");
         }
     }
 

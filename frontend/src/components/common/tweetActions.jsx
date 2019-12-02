@@ -40,7 +40,7 @@ class TweetActions extends Component {
                         <span>{tweet.rereplies_count !== 0 ? tweet.rereplies_count : ""}</span>
                     </div>
                     <div className="col-sm-4">
-                        <i className={retweetClass}></i>
+                        <i className={retweetClass} onClick={this.props.handleRetweet}></i>
                         <span>{tweet.retweets_count !== 0 ? tweet.retweets_count : ""}</span>
                     </div>
                 </div>
