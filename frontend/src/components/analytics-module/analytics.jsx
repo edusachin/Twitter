@@ -277,6 +277,7 @@ class Analytics extends Component {
                                         }
                                     }}
                                 />
+                                <br /> <br /> <br />
 
                                 <Line
                                     data={this.state.tweetCountHourly}
@@ -296,6 +297,7 @@ class Analytics extends Component {
                                         },
                                     }}
                                 />
+                                <br /> <br /> <br />
 
                                 <Line
                                     data={this.state.tweetCountDaily}
@@ -315,6 +317,7 @@ class Analytics extends Component {
                                         },
                                     }}
                                 />
+                                <br /> <br /> <br />
 
                                 <Line
                                     data={this.state.tweetCountMonthly}
