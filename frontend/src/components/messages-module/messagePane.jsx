@@ -6,13 +6,15 @@ import { backendURI } from '../../utils/config';
 class messagePane extends Component {
     constructor(props) {
         super(props)
-        let state = {}
+        let state = {
+        }
     }
     componentWillMount() {
-        this.getMsg()
+        this.getMsg();
     }
-    componentWillReceiveProps() {
-        this.getMsg()
+    componentWillReceiveProps(props) {
+        this.props = props;
+        this.getMsg();
     }
     getMsg = async () => {
         let { data: single_conv } = await apiService.get(`${backendURI}/api/message/single/${this.props.user_id}/${this.props.cnv_id}`)
@@ -38,7 +40,9 @@ class messagePane extends Component {
     }
 
     textHandler = e => {
-        this.setState({ [e.target.name]: e.target.value })
+        let msgText = this.state.msgText;
+        msgText = e.target.value;
+        this.setState({ msgText: msgText })
     }
 
     render() {
@@ -50,25 +54,30 @@ class messagePane extends Component {
         }
         let user = (this.state && this.state.single_conv.user1) ? this.state.single_conv.user1 : this.state.single_conv.user2;
         let messages = this.state.single_conv.message.map(text => {
-            return (<div><h6>
-                <h10>{text.sender.first_name}:  {text.message_content}</h10>
-            </h6></div>)
+            return (<div className="col-sm-12 user-style">
+                <h6 className="col-sm-12">{text.sender.first_name}</h6>
+                <p className="col-sm-12">{text.message_content}</p>
+            </div>)
         })
         return (
-            <div className=" messagepane-card">
-                <h6 className="col-sm-12 messagepane-name"><b>{user.first_name} {user.last_name}</b></h6>
-                <div className="row-sm-4"><h10><ul>{messages}</ul></h10></div>
-                <div className="row-sm-4">
+            <div className="row messagepane-card">
+                <div className="col-sm-12 pl-0 border-bottom">
+                    <h2 className="col-sm-12 content-title border-0">{user.first_name} {user.last_name}</h2>
+                </div>
+
+                <div className="row">{messages}</div>
+                <div className="row">
                     <div className="col-sm-9 input-form">
                         <input className="col-sm-8 pr-0 actualbox"
-                            onChange={this.textHandler}
                             type="text"
                             name="msgText"
+                            value={this.state.msgText}
+                            onChange={this.textHandler}
                             placeholder="Start a new message"
                             required={true}
                         />
                         <div className="col-sm-3">
-                            <button type="submit" onClick={this.sendMsg}><i class="far fa-paper-plane"></i></button>
+                            <button type="submit" onClick={this.sendMsg}><i className="far fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
