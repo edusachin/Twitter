@@ -1,6 +1,7 @@
 "use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
+const redisClient = require("../../utils/redisConfig");
 
 let updateProfile = async (msg, callback) => {
     let response = {};
@@ -32,6 +33,30 @@ let updateProfile = async (msg, callback) => {
                 user.user_image = msg.user_image || user.user_image;
                 const updatedUser = await user.save();
                 if (updatedUser) {
+                    let newUser = await Users.findById(msg.user_id)
+                    .populate({
+                        path: "followers following",
+                        select: "first_name last_name user_name user_image followers",
+                        match: { "is_active": true }
+                    });
+
+                    let profile = {
+                        user_id: newUser._id,
+                        first_name: newUser.first_name,
+                        last_name: newUser.last_name,
+                        user_name: newUser.user_name,
+                        email_id: newUser.email_id,
+                        user_bio: newUser.user_bio,
+                        user_image: newUser.user_image,
+                        city: newUser.city,
+                        state: newUser.state,
+                        zip_code: newUser.zip_code,
+                        followers: newUser.followers,
+                        following: newUser.following
+                    };
+
+                    redisClient.setex(msg.user_id, 36000, JSON.stringify(profile));
+
                     response.status = STATUS_CODE.SUCCESS;
                     response.data = MESSAGES.UPDATE_SUCCESSFUL;
                     return callback(null, response);

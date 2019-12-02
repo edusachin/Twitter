@@ -34,7 +34,7 @@ class ExploreTweets extends Component {
         if (this.state && this.state.tweets) {
             if (this.state.tweets.length) {
                 this.state.tweets.map(tweet => {
-                    tweetfeed.push(<TweetCard data={tweet} />);
+                    tweetfeed.push(<TweetCard data={tweet} onDelete={this.getResults}/>);
                     return 0;
                 });
             } else {

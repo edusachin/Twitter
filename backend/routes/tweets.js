@@ -130,7 +130,6 @@ router.post("/", upload.any(), async (req, res) => {
     while (m = rx.exec(req.body.tweet_text)) {
         result.push(m[1]);
     }
-    console.log(result);
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
