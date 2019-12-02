@@ -5,10 +5,11 @@ const kafka = require("../kafka/client");
 /**
  * To get Top 10 tweets by views
  */
-router.get("/topViewedTweets", async (req, res) => {
+router.get("/topViewedTweets/:user_id", async (req, res) => {
     let msg = {};
     msg.count = 10,
-        msg.route = "get_top_viewed_tweets";
+    msg.route = "get_top_viewed_tweets";
+    msg.user_id = req.params.user_id;
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
@@ -23,10 +24,11 @@ router.get("/topViewedTweets", async (req, res) => {
 /**
  * To get Top 10 tweets by likes
  */
-router.get("/topLikedTweets", async (req, res) => {
+router.get("/topLikedTweets/:user_id", async (req, res) => {
     let msg = {};
     msg.count = 10,
-        msg.route = "get_top_liked_tweets";
+    msg.route = "get_top_liked_tweets";
+    msg.user_id = req.params.user_id;
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");
@@ -41,10 +43,11 @@ router.get("/topLikedTweets", async (req, res) => {
 /**
  * To get Top 5 tweets by retweets
  */
-router.get("/topRetweetedTweets", async (req, res) => {
+router.get("/topRetweetedTweets/:user_id", async (req, res) => {
     let msg = {};
     msg.count = 5;
     msg.route = "get_top_retweeted_tweets";
+    msg.user_id = req.params.user_id;
     kafka.make_request("analytics", msg, function (err, results) {
         if (err) {
             console.log("-------error: tweet:get/:id---------");

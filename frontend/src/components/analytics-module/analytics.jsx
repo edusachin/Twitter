@@ -59,10 +59,12 @@ class Analytics extends Component {
 
     componentDidMount() {
         document.title = "Analytics / Twitter";
+        const user_id = localStorage.getItem('user_id');
         // TODO: Refactor this to reduce lines of code
-        axios.get('http://localhost:3001/api/analytics/topViewedTweets')
+        axios.get(`http://localhost:3001/api/analytics/topViewedTweets/${user_id}`)
             .then(response => {
                 if (response.status === 200) {
+                    console.log(response);
                     let tweets = response.data;
                     this.setState({
                         topTweetsByViews: {
@@ -84,7 +86,7 @@ class Analytics extends Component {
                 }
             });
         
-        axios.get('http://localhost:3001/api/analytics/topLikedTweets')
+        axios.get(`http://localhost:3001/api/analytics/topLikedTweets/${user_id}`)
             .then(response => {
                 if (response.status === 200) {
                     let tweets = response.data;
@@ -109,7 +111,7 @@ class Analytics extends Component {
                 }
             });
         
-        axios.get('http://localhost:3001/api/analytics/topRetweetedTweets')
+        axios.get(`http://localhost:3001/api/analytics/topRetweetedTweets/${user_id}`)
             .then(response => {
                 if (response.status === 200) {
                     let tweets = response.data;
