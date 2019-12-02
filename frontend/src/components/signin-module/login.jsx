@@ -4,7 +4,6 @@ import twitter_icon from "../../twitter_icon.png";
 import "./login.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
-import { backendURI } from '../../utils/config';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
 
@@ -74,17 +73,9 @@ class SignIn extends Component {
         e.preventDefault();
         let result = await authService.login(this.state.email_id, this.state.password);
         if (result) {
-            let user = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("user_id")}`);
-            if (user.status === 200) {
-                localStorage.setItem("user_name", user.data.user_name);
-                localStorage.setItem("first_name", user.data.first_name);
-                localStorage.setItem("last_name", user.data.last_name);
-                if (user.data.user_image)
-                    localStorage.setItem("user_image", user.data.user_image);
-                this.setState({
-                    loginSuccess: true
-                });
-            }
+            this.setState({
+                loginSuccess: true
+            });
         }
     };
 

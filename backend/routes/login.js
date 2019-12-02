@@ -32,15 +32,32 @@ router.post("/", async (req, res) => {
           if (err) {
             return res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).send(MESSAGES.INTERNAL_SERVER_ERROR);
           } else {
-            const payload = {
-              email_id: req.body.email_id,
+            msg = {
+              route: "get_profile",
               user_id: sqlResult[0][0].user_id
             };
-            const token = jwt.sign(payload, secret, {
-              expiresIn: 900000 // in seconds
+
+            kafka.make_request("profile", msg, function (err, results) {
+              if (err) {
+                return res.status(err.status).send(err.data);
+              }
+              else {
+                const payload = {
+                  email_id: req.body.email_id,
+                  user_id: sqlResult[0][0].user_id,
+                  first_name: results.data.first_name,
+                  last_name: results.data.last_name,
+                  user_name: results.data.user_name,
+                  user_image: results.data.user_image
+                };
+                const token = jwt.sign(payload, secret, {
+                  expiresIn: 900000 // in seconds
+                });
+                let jwtToken = 'JWT ' + token;
+                return res.status(STATUS_CODE.SUCCESS).send(jwtToken);
+              }
             });
-            let jwtToken = 'JWT ' + token;
-            return res.status(STATUS_CODE.SUCCESS).send(jwtToken);
+
           }
         });
       }
