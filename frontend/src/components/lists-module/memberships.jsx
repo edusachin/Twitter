@@ -9,7 +9,13 @@ class Memberships extends Component {
     }
 
     async componentDidMount() {
-        let result = await apiService.get(`${backendURI}/api/list/${localStorage.getItem("user_id")}/membership`);
+        let target_list_user_id;
+        if (this.props.match.params.user_id) {
+          let user_id = this.props.match.params.user_id;
+          localStorage.setItem("list_user_id", user_id);
+        }
+        target_list_user_id = localStorage.getItem("list_user_id");
+    let result = await apiService.get(`${backendURI}/api/list/${target_list_user_id}/membership`);
         let membered_lists = result.data;
         await this.setState({ membered_lists });
     }
