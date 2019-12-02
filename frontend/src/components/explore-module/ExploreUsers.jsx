@@ -21,8 +21,8 @@ class ExploreUsers extends Component {
     getResults = async () => {
         let search_input = localStorage.getItem("search_input");
         if (search_input) {
-            if (search_input !== "") {
-                let userResults = await apiService.get(`${backendURI}/api/search/user/${search_input}`);
+            if (search_input.trim() !== "") {
+                let userResults = await apiService.get(`${backendURI}/api/search/user/${search_input.trim()}`);
                 let users = userResults.data;
                 this.setState({ users });
             }

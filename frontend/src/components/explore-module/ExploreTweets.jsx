@@ -21,8 +21,8 @@ class ExploreTweets extends Component {
     getResults = async () => {
         let search_input = localStorage.getItem("search_input");
         if (search_input) {
-            if (search_input !== "") {
-                let tweetResults = await apiService.get(`${backendURI}/api/search/tweet/${search_input}`);
+            if (search_input.trim() !== "") {
+                let tweetResults = await apiService.get(`${backendURI}/api/search/tweet/${search_input.trim()}`);
                 let tweets = tweetResults.data;
                 this.setState({ tweets });
             }
