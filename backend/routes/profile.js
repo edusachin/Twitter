@@ -4,6 +4,7 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const passwordHash = require('password-hash');
 const pool = require('../utils/mysqlConnection');
+const stateNames = require('../utils/stateNames');
 const uploadFileToS3 = require('../utils/awsImageUpload');
 const { checkAuth } = require("../utils/passport");
 const { validateProfile } = require("../validations/profileValidations");
@@ -41,6 +42,9 @@ router.post("/", upload.single('user_image'), async (req, res) => {
     // if (error) {
     //     return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     // }
+    if(!stateNames.includes(req.body.state)){
+        return res.status(STATUS_CODE.BAD_REQUEST).send(MESSAGES.INVALID_STATE);
+    }
     let msg = req.body;
     if (req.files) {
         uploadFileToS3(req.files[0], 'profile', msg.user_id);

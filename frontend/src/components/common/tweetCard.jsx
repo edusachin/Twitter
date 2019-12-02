@@ -6,15 +6,31 @@ import TweetActions from './tweetActions';
 import TweetActionDetails from './TweetActionDetails';
 
 class TweetCard extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.onHashtagClick = this.onHashtagClick.bind(this);
+        this.onTweetImageClick = this.onTweetImageClick.bind(this);
     }
 
     onHashtagClick = (e) => {
         localStorage.setItem("search_input", e.target.text.replace(/#/g, ''));
     }
+
+    onTweetImageClick = (e) => {
+        let modal = document.getElementById("tweetImageModal");
+        var modalImage = document.getElementById("tweet_image_modal");
+        modal.style.display = "block";
+        modalImage.src = e.target.src;
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    };
 
     render() {
         let tweet = this.props.data;
@@ -23,8 +39,15 @@ class TweetCard extends Component {
 
         if (tweet.tweet_image && tweet.tweet_image.length) {
             tweetImages = (
-                <div className="tweet-image col-sm-12">
-                    <img src={tweet.tweet_image[0]} className="tweet_image" alt="" />
+                <div>
+                    <div className="tweet-image col-sm-12">
+                        <img src={tweet.tweet_image[0]} className="tweet_image" alt="" onClick = {this.onTweetImageClick}/>
+                    </div>
+                    <div id="tweetImageModal" class="modal">
+                        <span class="close">&times;</span>
+                        <img class="modal-content" id="tweet_image_modal" />
+                        <div id="caption"></div>
+                    </div>
                 </div>
             );
         }
@@ -67,9 +90,21 @@ class TweetCard extends Component {
                     <div className="retweet-info">
                         {retweetInfo}
                     </div>
-                    <div className="tweet-owner col-sm-12">
+                    <div className="tweet-owner col-sm-11">
                         <Link to={{ pathname: `/profile/${tweet.tweet_owner._id}` }}><b>{tweet.tweet_owner.first_name} {tweet.tweet_owner.last_name} </b></Link>
                         <Link to={{ pathname: `/profile/${tweet.tweet_owner._id}` }}>@{tweet.tweet_owner.user_name}</Link> . {new Date(tweet.tweet_date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                    </div>
+                    <div className="col-sm-1">
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Delete Tweet</a>
+                                <a class="dropdown-item" href="#">Bookmark a Tweet</a>
+                            </div>
+                        </div>
+
                     </div>
                     <div className="tweet-text col-sm-12">
                         {tweet.tweet_text}
