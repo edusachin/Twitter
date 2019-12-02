@@ -4,6 +4,9 @@ import './tweetCard.css';
 import userPlaceholder from './placeholder.jpg';
 import TweetActions from './tweetActions';
 import TweetActionDetails from './TweetActionDetails';
+import apiService from '../../services/httpService';
+import alertService from '../../services/alertService';
+import { backendURI } from '../../utils/config';
 
 class TweetCard extends Component {
     constructor(props) {
@@ -16,6 +19,49 @@ class TweetCard extends Component {
     onHashtagClick = (e) => {
         localStorage.setItem("search_input", e.target.text.replace(/#/g, ''));
     }
+
+    componentDidMount(){
+        if(this.props.data){
+            this.setState({
+                tweet: this.props.data
+            });
+        }
+    }
+
+    componentWillReceiveProps(){
+        if(this.props.data){
+            this.setState({
+                tweet: this.props.data
+            });
+        }
+    }
+
+    deleteTweet = async (e) => {
+        let data = {
+            user_id: localStorage.getItem("user_id"),
+            tweet_id: this.state.tweet.tweet_id || this.state.tweet._id
+        };
+        let result = await apiService.post(`${backendURI}/api/tweets/delete`, data);
+        window.location = "/home";
+    } 
+
+    bookmarkTweet = async (e) => {
+        let data = {
+            user_id: localStorage.getItem("user_id"),
+            tweet_id: this.state.tweet.tweet_id || this.state.tweet._id
+        };
+        let result = await apiService.post(`${backendURI}/api/bookmark`, data);
+        window.location = "/bookmarks";
+    } 
+
+    removeBookmark = async (e) => {
+        let data = {
+            user_id: localStorage.getItem("user_id"),
+            tweet_id: this.state.tweet._id
+        };
+        let result = await apiService.post(`${backendURI}/api/bookmark/delete`, data);
+        window.location = "/bookmarks";
+    };
 
     onTweetImageClick = (e) => {
         let modal = document.getElementById("tweetImageModal");
@@ -34,7 +80,7 @@ class TweetCard extends Component {
 
     render() {
         let tweet = this.props.data;
-        let tweetImages, retweetInfo, tweetActionDetails, hashtags = [];
+        let tweetImages, retweetInfo, tweetActionDetails, deleteTweet, bookmarkTweet, hashtags = [];
         let tweetOwnerImage = userPlaceholder;
 
         if (tweet.tweet_image && tweet.tweet_image.length) {
@@ -79,6 +125,17 @@ class TweetCard extends Component {
         if (tweet.showDetails) {
             tweetActionDetails = (<TweetActionDetails data={tweet} />)
         }
+
+        if((tweet.user_id === localStorage.getItem("user_id") || tweet.tweet_owner._id === localStorage.getItem("user_id")) && !tweet.showDetails){
+            deleteTweet = (<a class="dropdown-item" href="" onClick={this.deleteTweet}>Delete Tweet</a>);
+        }
+
+        if(tweet.bookmarksPage){
+            bookmarkTweet = (<a class="dropdown-item" href="" onClick={this.removeBookmark}>Remove from Bookmarks</a>);
+        } else {
+            bookmarkTweet = (<a class="dropdown-item" href="" onClick={this.bookmarkTweet}>Bookmark Tweet</a>);
+        }
+
         let tweet_content = (
             <div className="row mx-auto mt-2">
                 <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
@@ -100,8 +157,8 @@ class TweetCard extends Component {
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Delete Tweet</a>
-                                <a class="dropdown-item" href="#">Bookmark a Tweet</a>
+                                {deleteTweet}
+                                {bookmarkTweet}
                             </div>
                         </div>
 
