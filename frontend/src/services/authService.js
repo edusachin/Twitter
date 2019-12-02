@@ -11,8 +11,9 @@ export async function login(email_id, password) {
     }
     try {
         const { data: token } = await apiService.post(`${backendURI}/api/login`, credentials);
-        localStorage.setItem("token", token);
         apiService.setJwt(token);
+        localStorage.setItem("token", token);
+
         try {
             const authToken = localStorage.getItem("token");
             const jwt = authToken.split(" ")[1]
@@ -26,7 +27,7 @@ export async function login(email_id, password) {
                 localStorage.setItem("first_name", user.first_name);
                 localStorage.setItem("last_name", user.last_name);
                 localStorage.setItem("user_name", user.user_name);
-                if(user.user_image)
+                if (user.user_image)
                     localStorage.setItem("user_image", user.user_image);
                 return true;
             }
