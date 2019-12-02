@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 import ListCard from './listCard';
+import CreateList from './createList';
 
 class Owned extends Component {
   state = {
@@ -27,7 +28,7 @@ class Owned extends Component {
         );
       });
     } else {
-      listrender = <div className="col-sm-12 list-card text-center"><h5>You haven't created any lists yet</h5> <button className="btn btn-outline-primary">Create</button></div>;
+      listrender = <div className="col-sm-12 list-card text-center"><h5>You haven't created any lists yet</h5> <CreateList /></div>;
     }
 
     return (

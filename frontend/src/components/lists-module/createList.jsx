@@ -64,7 +64,7 @@ class CreateList extends Component {
                         <div className=" col-sm-7 text-center " >
                             <h4>Create List</h4></div>
                         <div className=" col-sm-3 text-right">
-                            <button onClick={this.handleCreate}>Create</button>
+                            <button className="btn btn-outline-primary" onClick={this.handleCreate}>Create</button>
                         </div>
                     </div>
                     <div class="form-group">
