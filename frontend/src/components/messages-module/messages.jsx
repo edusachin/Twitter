@@ -25,7 +25,6 @@ class Message extends Component {
 
     componentWillMount = async () => {
         document.title = "Messages / Twitter";
-        let result;
         this.getConvos();
     }
 
@@ -40,7 +39,8 @@ class Message extends Component {
             } else if (item.user2) {
                 existingConvoUserIds.push(item.user2._id);
             }
-        })
+            return 0;
+        });
 
         this.setState({
             following: response.data.following ? response.data.following : "",
@@ -69,6 +69,7 @@ class Message extends Component {
                 if (!this.state.existingConvoUserIds.includes(user._id)) {
                     following.push(<div><UserCard data={user} toggleModal={this.handleClose} /><hr /></div>)
                 }
+                return 0;
             })
         }
 
@@ -76,6 +77,7 @@ class Message extends Component {
         if (this.state && this.state.convos && this.state.convos.length) {
             this.state.convos.map(cnv => {
                 conversations.push(<ConversationsCard handleClick={this.onClickHandler} data={cnv} />);
+                return 0;
             });
         } else {
             conversations.push(<div className="row">

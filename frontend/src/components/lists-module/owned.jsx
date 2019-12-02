@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 import ListCard from './listCard';

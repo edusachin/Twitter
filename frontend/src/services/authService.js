@@ -22,6 +22,11 @@ export async function login(email_id, password) {
             else {
                 localStorage.setItem("email_id", user.email_id);
                 localStorage.setItem("user_id", user.user_id);
+                localStorage.setItem("first_name", user.first_name);
+                localStorage.setItem("last_name", user.last_name);
+                localStorage.setItem("user_name", user.user_name);
+                if(user.user_image)
+                    localStorage.setItem("user_image", user.user_image);
                 return true;
             }
         }

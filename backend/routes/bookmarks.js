@@ -6,7 +6,7 @@ const { checkAuth } = require("../utils/passport");
 const { validateBookmark, validateClearBookmark } = require("../validations/bookmarkValidation");
 const { STATUS_CODE } = require('../utils/constants');
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth, async (req, res) => {
     const { error } = validateBookmark(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_bookmarks";
     msg.user_id = req.params.user_id;
@@ -41,7 +41,7 @@ router.get("/:user_id", async (req, res) => {
 });
 
 //Deletes single bookmark
-router.post("/delete", async (req, res) => {
+router.post("/delete", checkAuth, async (req, res) => {
     const { error } = validateBookmark(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -60,7 +60,7 @@ router.post("/delete", async (req, res) => {
 });
 
 //Clears entire bookmarks array
-router.post("/clear", async (req, res) => {
+router.post("/clear", checkAuth, async (req, res) => {
     const { error } = validateClearBookmark(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);

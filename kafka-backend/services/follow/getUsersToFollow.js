@@ -9,7 +9,7 @@ let getUsersToFollow = async (msg, callback) => {
         let users;
         let usersFollowed = await Users.findById(msg.user_id, { following: 1 });
         if (usersFollowed) {
-            users = await Users.find({ $and: [{ "_id": { $nin: usersFollowed.following } }, { "_id": { $ne: msg.user_id } }] }, { first_name: 1, last_name: 1, user_name: 1, user_image: 1, followers: 1 })
+            users = await Users.find({ $and: [{ "_id": { $nin: usersFollowed.following } }, { "_id": { $ne: msg.user_id } }, { "is_active": true }] }, { first_name: 1, last_name: 1, user_name: 1, user_image: 1, followers: 1 })
                 .limit(3);
         }
         if (users) {

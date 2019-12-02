@@ -29,6 +29,7 @@ class ListSubscribers extends Component {
         await this.setState({
             show: true
         });
+        this.getSubscribers();
     };
 
     handleClose = async () => {
@@ -81,7 +82,6 @@ class ListSubscribers extends Component {
                         followers={member.followers}
                         followSubscriber={this.handleFollow}
                         unfollowSubscriber={this.handleUnFollow}
-
                     />
                 );
             });
