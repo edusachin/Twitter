@@ -1,5 +1,5 @@
 "use strict";
-const User = require("../../models/users")
+const Users = require("../../models/users")
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 const tweetFormatter = (tweet, user, output) => {
@@ -29,7 +29,7 @@ let getFollowingTweets = async (msg, callback) => {
     let err = {};
     let output = [];
     try {
-        let userTweets = await User.findById(msg.user_id, { following: 1 })
+        let userFollowingTweets = await Users.findById(msg.user_id, { following: 1 })
             .populate({
                 path: "following",
                 select: "first_name last_name user_name tweets retweeted_tweets",
@@ -45,16 +45,27 @@ let getFollowingTweets = async (msg, callback) => {
                     }
                 }
             });
-        if (!userTweets) {
+            let userTweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
+            .populate({
+                path: 'tweets retweeted_tweets',
+                select: 'tweet_text hashtags tweet_owner tweet_date likes replies retweeters tweet_image',
+                populate: {
+                    path: 'tweet_owner',
+                    select: 'first_name last_name user_name user_image'
+                }
+            });
+        if (!userFollowingTweets || !userTweets) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         }
         else {
-            userTweets.following.map(user => {
+            userFollowingTweets.following.map(user => {
                 user.tweets.map(tweet => tweetFormatter(tweet, user, output));
                 user.retweeted_tweets.map(tweet => tweetFormatter(tweet, user, output));
             });
+            userTweets.tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
+            userTweets.retweeted_tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
             output.sort((tweet1, tweet2) => (tweet1.tweet_date < tweet2.tweet_date) ? 1 : -1);
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(output);

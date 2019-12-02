@@ -5,12 +5,15 @@ const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 let activateAccount = async (msg, callback) => {
     let response = {};
     let err = {};
+    let activeUser;
 
     try {
         let user = await Users.findById(msg.user_id);
 
+        if(user){
         user.is_active = true;
-        let activeUser = await user.save();
+        activeUser = await user.save();
+        }
 
         if (activeUser) {
             response.status = STATUS_CODE.SUCCESS;
