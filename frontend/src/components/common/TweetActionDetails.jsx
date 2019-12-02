@@ -13,9 +13,6 @@ class TweetActionDetails extends Component {
             tweetLikes: [],
             retweeters: []
         }
-        this.handleToggleRetweets = this.handleToggleRetweets.bind(this);
-        this.handleToggleLikes = this.handleToggleLikes.bind(this);
-        this.handleClose = this.handleClose.bind(this);
     }
     componentDidMount() {
         let tweet = this.props.data;
@@ -24,7 +21,13 @@ class TweetActionDetails extends Component {
             retweeters: tweet.retweeters
         });
     }
-
+    componentWillReceiveProps(props) {
+        let tweet = props.data;
+        this.setState({
+            likes: tweet.likes,
+            retweeters: tweet.retweeters
+        });
+    }
     handleToggleRetweets = () => {
         if (this.state && this.state.retweeters && this.state.retweeters.length) {
             this.setState({
