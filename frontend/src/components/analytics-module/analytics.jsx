@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar, Pie, Line } from 'react-chartjs-2';
 
 // TODO: To be replaced with httpService
 import axios from 'axios';
@@ -53,6 +53,36 @@ class Analytics extends Component {
                         backgroundColor: []
                     }
                 ]
+            },
+            tweetCountHourly: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            tweetCountDaily: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            tweetCountMonthly: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
             }
         }
     }
@@ -64,7 +94,6 @@ class Analytics extends Component {
         axios.get(`http://localhost:3001/api/analytics/topViewedTweets/${user_id}`)
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response);
                     let tweets = response.data;
                     this.setState({
                         topTweetsByViews: {
@@ -90,7 +119,6 @@ class Analytics extends Component {
             .then(response => {
                 if (response.status === 200) {
                     let tweets = response.data;
-                    console.log(tweets);
                     this.setState({
                         topTweetsByLikes: {
                             labels: Array.from(tweets, tweet => tweet.tweet_text),
@@ -123,6 +151,93 @@ class Analytics extends Component {
                                     label: '',
                                     data: Array.from(tweets, tweet => tweet.retweets_count),
                                     backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+        
+        axios.get(`http://localhost:3001/api/analytics/tweetCountHourly/${user_id}`)
+            .then(response => {
+                if (response.status === 200) {
+                    let counts = response.data;
+                    let hour = 23;
+                    let hours = new Array();
+                    for (let index = 0; index < 23; index++) {
+                        hours[index] = hour-- + "h";
+                    }
+                    this.setState({
+                        tweetCountHourly: {
+                            labels: hours,
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: counts,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+        
+        axios.get(`http://localhost:3001/api/analytics/tweetCountDaily/${user_id}`)
+            .then(response => {
+                if (response.status === 200) {
+                    let counts = response.data;
+                    let day = 30;
+                    let days = new Array();
+                    for (let index = 0; index < 30; index++) {
+                        days[index] = day-- + "d";
+                    }
+                    this.setState({
+                        tweetCountDaily: {
+                            labels: days,
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: counts,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                                }
+                            ]
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                if (err.response && err.response.data) {
+                    console.log(err.response.data);
+                }
+            });
+        
+        axios.get(`http://localhost:3001/api/analytics/tweetCountMonthly/${user_id}`)
+            .then(response => {
+                if (response.status === 200) {
+                    let counts = response.data;
+                    let month = 11;
+                    let months = new Array();
+                    for (let index = 0; index < 11; index++) {
+                        months[index] = month-- + "m";
+                    }
+                    this.setState({
+                        tweetCountMonthly: {
+                            labels: months,
+                            datasets: [
+                                {
+                                    label: '',
+                                    data: counts,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
                                 }
                             ]
                         }
@@ -213,6 +328,64 @@ class Analytics extends Component {
                                         onClick: this.handleClick
                                     }}
                                 />
+
+                                <Line
+                                    data={this.state.tweetCountHourly}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count hourly',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+
+                                <Line
+                                    data={this.state.tweetCountDaily}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count daily',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+
+                                <Line
+                                    data={this.state.tweetCountMonthly}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count monthly',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+
                             </div>
                         </div>
                     </div>

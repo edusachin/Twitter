@@ -2,6 +2,9 @@
 const { getTopViewedTweets } = require("./getTopViewedTweets");
 const { getTopLikedTweets } = require("./getTopLikedTweets");
 const { getTopRetweetedTweets } = require("./getTopRetweetedTweets");
+const { getTweetCountHourly } = require("./getTweetCountHourly");
+const { getTweetCountDaily } = require("./getTweetCountDaily");
+const { getTweetCountMonthly } = require("./getTweetCountMonthly");
 
 function handle_request(msg, callback) {
     switch (msg.route) {
@@ -15,6 +18,18 @@ function handle_request(msg, callback) {
         
         case "get_top_retweeted_tweets":
             getTopRetweetedTweets(msg, callback);
+            break;
+        
+        case "get_tweet_count_hourly":
+            getTweetCountHourly(msg, callback);
+            break;
+        
+        case "get_tweet_count_daily":
+            getTweetCountDaily(msg, callback);
+            break;
+        
+        case "get_tweet_count_monthly":
+            getTweetCountMonthly(msg, callback);
             break;
     }
 }
