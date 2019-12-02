@@ -63,7 +63,7 @@ class RightPanel extends Component {
         if (this.state && this.state.userSuggestions) {
             suggestions = this.state.userSuggestions.map(user => {
                 return (
-                    <div>
+                    <div key={user._id} >
                         <UserCard data={user} />
                         <hr />
                     </div>
