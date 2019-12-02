@@ -35,12 +35,10 @@ class TweetCard extends Component {
         this.onTweetImageClick = this.onTweetImageClick.bind(this);
     }
     componentDidMount = () => {
-        console.log("in tweet card component mount");
         let user_id = localStorage.getItem("user_id");
         this.setState({ tweet: this.props.data, user_id: user_id })
     }
     componentWillReceiveProps(props) {
-        console.log("in tweet card recieve props");
         this.setState({ tweet: props.data });
     }
     onHashtagClick = (e) => {
@@ -128,8 +126,50 @@ class TweetCard extends Component {
             }
         }
     }
+    handleRetweet = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let { tweet, user_id } = this.state;
+        let data = {
+            user_id: user_id,
+            tweet_id: this.state.tweet.tweet_id || this.state.tweet._id
+        }
+        if (tweet.retweeters.includes(user_id) || tweet.retweeters.find(retweet => retweet._id === user_id)) {
+            let result = await apiService.post(`${backendURI}/api/tweets/delete`, data);
+            if (result.status === 200) {
+                if (tweet.showDetails) {
+                    let result = await apiService.get(`${backendURI}/api/tweets/tweet/${data.tweet_id}`);
+                    let tweet = result.data;
+                    tweet.showDetails = true;
+                    this.setState({ tweet: tweet });
+                }
+                else {
+                    tweet.retweets_count -= 1;
+                    tweet.retweeters = tweet.retweeters.filter(retweet => retweet._id === user_id);
+                    this.setState({ tweet: tweet });
+                }
+            }
+        }
+        else {
+            let result = await apiService.post(`${backendURI}/api/tweets/retweet`, data);
+            if (result.status === 200) {
+                if (tweet.showDetails) {
+                    let result = await apiService.get(`${backendURI}/api/tweets/tweet/${data.tweet_id}`);
+                    let tweet = result.data;
+                    tweet.showDetails = true;
+                    this.setState({ tweet: tweet });
+                }
+                else {
+                    tweet.retweets_count += 1;
+                    tweet.retweeters.push(user_id);
+                    this.setState({ tweet: tweet });
+                }
+            }
+        }
+    }
     render() {
         let tweet = this.state.tweet;
+        console.log(tweet);
         let tweetImages, retweetInfo, tweetActionDetails, deleteTweet, bookmarkTweet, hashtags = [];
         let tweetOwnerImage = userPlaceholder;
 
@@ -221,7 +261,7 @@ class TweetCard extends Component {
                     </div>
                     {tweetImages}
                     {tweetActionDetails}
-                    <TweetActions data={tweet} handleLike={this.handleLike} />
+                    <TweetActions data={tweet} handleLike={this.handleLike} handleRetweet={this.handleRetweet} />
                 </div>
             </div>
         );
