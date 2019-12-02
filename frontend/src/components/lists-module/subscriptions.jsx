@@ -9,7 +9,13 @@ class Subscriptions extends Component {
     }
 
     async componentDidMount() {
-        let result = await apiService.get(`${backendURI}/api/list/${localStorage.getItem("user_id")}/subscription`);
+        let target_list_user_id;
+        if (this.props.match.params.user_id) {
+          let user_id = this.props.match.params.user_id;
+          localStorage.setItem("list_user_id", user_id);
+        }
+        target_list_user_id = localStorage.getItem("list_user_id");
+    let result = await apiService.get(`${backendURI}/api/list/${target_list_user_id}/subscription`);
         let subscribed_lists = result.data;
         console.log(subscribed_lists);
         await this.setState({ subscribed_lists });

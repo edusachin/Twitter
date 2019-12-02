@@ -44,7 +44,7 @@ class Sidebar extends Component {
                         </NavLink>
                     </div>
                     <div className="col-sm-12 py-3 sidebarItem">
-                        <NavLink className="p-2 pr-3" to="/lists">
+                        <NavLink className="p-2 pr-3" to={{ pathname: `/lists/${localStorage.getItem("user_id")}`}}>
                             <i className="far fa-list-alt pr-2"></i>
                             Lists
                         </NavLink>
