@@ -25,7 +25,6 @@ let getTweetCountMonthly = async (msg, callback) => {
             let now = new Date();
             let tweetCountsMonthly = new Array();
             let endMonth = now;
-            console.log(tweets);
             for (let monthIndex = 1; monthIndex <= 11; monthIndex++) {
                 let startMonth = new Date();
                 startMonth.setMonth(now.getMonth() - monthIndex);
