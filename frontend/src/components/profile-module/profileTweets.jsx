@@ -5,19 +5,23 @@ import { backendURI } from '../../utils/config';
 import "./profile.css";
 
 class ProfileTweets extends Component {
-    async componentWillReceiveProps() {
+    componentWillReceiveProps() {
+        this.getFeed();
+    }
+
+    getFeed = async () => {
         if (localStorage.getItem("profile_user_id")) {
             let result = await apiService.get(`${backendURI}/api/tweets/user/${localStorage.getItem("profile_user_id")}/1`);
             let user_tweets = result.data;
             await this.setState({ user_tweets });
         }
-    }
+    };
 
     render() {
         let tweetfeed = [];
         if (this.state && this.state.user_tweets && this.state.user_tweets.length) {
             this.state.user_tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} />);
+                tweetfeed.push(<TweetCard data={tweet} getFeed={this.getFeed} />);
                 return 0;
             });
         } else {

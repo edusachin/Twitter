@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import './tweetCard.css';
 import userPlaceholder from './placeholder.jpg';
 import TweetActions from './tweetActions';
 import TweetActionDetails from './TweetActionDetails';
 import apiService from '../../services/httpService';
+import alertService from '../../services/alertService';
 import { backendURI } from '../../utils/config';
 
 class TweetCard extends Component {
@@ -45,30 +46,52 @@ class TweetCard extends Component {
         localStorage.setItem("search_input", e.target.text.replace(/#/g, ''));
     }
     deleteTweet = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         let data = {
             user_id: this.state.user_id,
             tweet_id: this.state.tweet.tweet_id || this.state.tweet._id
         };
         let result = await apiService.post(`${backendURI}/api/tweets/delete`, data);
-        window.location = "/home";
+        if (result.status === 200) {
+            alertService.success("Tweet Deleted");
+            if (this.props.getFeed) {
+                this.props.getFeed();
+            }
+            if (this.props.getBookmarks) {
+                this.props.getBookmarks();
+            }
+            if(this.props.onDelete){
+                this.props.onDelete();
+            }
+        }
     }
 
     bookmarkTweet = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         let data = {
             user_id: this.state.user_id,
             tweet_id: this.state.tweet.tweet_id || this.state.tweet._id
         };
         let result = await apiService.post(`${backendURI}/api/bookmark`, data);
-        window.location = "/bookmarks";
+        if (result.status === 201) {
+            alertService.success("Tweet Bookmarked");
+        }
     }
 
     removeBookmark = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         let data = {
             user_id: this.state.user_id,
             tweet_id: this.state.tweet._id
         };
         let result = await apiService.post(`${backendURI}/api/bookmark/delete`, data);
-        window.location = "/bookmarks";
+        if (result.status === 200) {
+            alertService.success("Bookmarked Removed");
+            this.props.getBookmarks();
+        }
     };
 
     onTweetImageClick = (e) => {
@@ -169,9 +192,11 @@ class TweetCard extends Component {
     }
     render() {
         let tweet = this.state.tweet;
-        console.log(tweet);
-        let tweetImages, retweetInfo, tweetActionDetails, deleteTweet, bookmarkTweet, hashtags = [];
+        let tweetImages, retweetInfo, tweetActionDetails, deleteTweet, bookmarkTweet, redirectVar, hashtags = [];
         let tweetOwnerImage = userPlaceholder;
+
+        if (this.state.deleted)
+            redirectVar = (<Redirect to="/home" />)
 
         if (tweet.tweet_image && tweet.tweet_image.length) {
             tweetImages = (
@@ -216,7 +241,7 @@ class TweetCard extends Component {
             tweetActionDetails = (<TweetActionDetails data={tweet} />)
         }
 
-        if ((tweet.user_id === localStorage.getItem("user_id") || tweet.tweet_owner._id === localStorage.getItem("user_id")) && !tweet.showDetails) {
+        if ((tweet.user_id === localStorage.getItem("user_id") || tweet.tweet_owner._id === localStorage.getItem("user_id"))) {
             deleteTweet = (<a class="dropdown-item" href="" onClick={this.deleteTweet}>Delete Tweet</a>);
         }
 
@@ -274,6 +299,7 @@ class TweetCard extends Component {
         }
         return (
             <div className="row mx-auto tweet-card">
+                {redirectVar}
                 {tweet_content}
             </div>
         );

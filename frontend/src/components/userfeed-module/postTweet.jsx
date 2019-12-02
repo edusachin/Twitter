@@ -34,8 +34,12 @@ class PostTweet extends Component {
         data.append('user_id', localStorage.getItem('user_id'));
         data.append('tweet_image', this.state.tweet_image);
         let result = await apiService.post(`${backendURI}/api/tweets`, data);
-        if (result.status === 200) {
-            window.location = "/home";
+        if (result.status === 200 && this.props.getFeed) {
+            this.props.getFeed();
+            document.getElementById("tweet_text").value = "";
+            this.setState({
+                file: null
+            });
         }
     }
 
@@ -53,7 +57,7 @@ class PostTweet extends Component {
                         </div>
                         <form className="col-sm-11" onSubmit={this.postNewTweet}>
                             <div className="form-group col-sm-12 mt-1">
-                                <input type="text" name="tweet_text" className="form-control" placeholder="What's Happening?" onChange={this.handleTweetText} pattern="^[A-Za-z#.!?()-_ ]{0,255}$" />
+                                <input type="text" id="tweet_text" name="tweet_text" className="form-control" placeholder="What's Happening?" onChange={this.handleTweetText} pattern="^[A-Za-z#.!?()-_ ]{0,255}$" />
                             </div>
                             <div className="image-viewer col-sm-12 ml-4 mb-2">
                                 <img src={this.state.file} className="preview-image" alt="" />
