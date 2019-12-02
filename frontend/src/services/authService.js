@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import apiService from './httpService';
 import { backendURI } from '../utils/config';
 
-apiService.setJwt(getJwt())
+
 
 export async function login(email_id, password) {
     const credentials = {
@@ -11,7 +11,8 @@ export async function login(email_id, password) {
     }
     try {
         const { data: token } = await apiService.post(`${backendURI}/api/login`, credentials);
-        localStorage.setItem("token", token)
+        localStorage.setItem("token", token);
+        apiService.setJwt(token);
         try {
             const authToken = localStorage.getItem("token");
             const jwt = authToken.split(" ")[1]

@@ -18,6 +18,10 @@ class Profile extends Component {
         };
     }
 
+    componentWillUnmount() {
+        localStorage.removeItem("profile_user_id");
+    }
+
     getProfile = async () => {
         if (this.props.match.params.user_id) {
             let user_id = this.props.match.params.user_id;

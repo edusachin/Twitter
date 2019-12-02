@@ -10,7 +10,13 @@ class Owned extends Component {
   }
 
   async componentDidMount() {
-    let result = await apiService.get(`${backendURI}/api/list/${localStorage.getItem("user_id")}/owned`);
+    let target_list_user_id = null;
+    if(localStorage.getItem("profile_user_id")){
+      target_list_user_id = localStorage.getItem("profile_user_id");
+    }else{
+      target_list_user_id = localStorage.getItem("user_id");
+    }
+    let result = await apiService.get(`${backendURI}/api/list/${target_list_user_id}/owned`);
     let owned_lists = result.data;
     console.log(owned_lists);
     await this.setState({ owned_lists });

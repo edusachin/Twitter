@@ -19,7 +19,7 @@ class Lists extends Component {
                     <div className="row">
                         <div className="content-title col-sm-11">
                             <h4 className="col-sm-12">Lists</h4>
-                            <p className="tagline col-sm-12">@{localStorage.getItem("user_name")}</p>
+                            {/* <p className="tagline col-sm-12">@{localStorage.getItem("user_name")}</p> */}
                         </div>
                         <div className="content-title col-sm-1">
                             <CreateList />
