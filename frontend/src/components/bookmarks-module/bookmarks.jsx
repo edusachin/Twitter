@@ -24,9 +24,16 @@ class Bookmarks extends Component {
     async componentDidMount() {
         document.title = "Bookmarks / Twitter";
 
-        let result = await apiService.get(`${backendURI}/api/bookmark/${localStorage.getItem("user_id")}`);
-        if (result.status === 200) {
-            await this.setState({ tweets: result.data });
+        this.getBookmarks();
+    }
+
+    getBookmarks = async () => {
+        if (localStorage.getItem("user_id")) {
+            let user_id = localStorage.getItem("user_id");
+            let result = await apiService.get(`${backendURI}/api/bookmark/${user_id}`);
+            if (result.status === 200) {
+                await this.setState({ tweets: result.data });
+            }
         }
     }
 
@@ -35,7 +42,7 @@ class Bookmarks extends Component {
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweet.bookmarksPage = true;
-                tweetfeed.push(<TweetCard data={tweet} />);
+                tweetfeed.push(<TweetCard data={tweet} getBookmarks={this.getBookmarks}/>);
                 return 0;
             });
         } else {
@@ -44,7 +51,7 @@ class Bookmarks extends Component {
                 <h2 className="error-msg-2 col-sm-12">When you do, they’ll show up here.</h2>
             </div>)
         }
-        if(localStorage.getItem("user_name")){
+        if (localStorage.getItem("user_name")) {
             userName = "@" + localStorage.getItem("user_name");
         }
         return (

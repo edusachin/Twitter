@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import TweetCard from '../common/tweetCard';
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
@@ -19,16 +20,25 @@ class TweetPage extends Component {
                 document.title = "Tweet / Twitter";
         }
     }
+    onDelete = () => {
+        this.setState({
+            deleted: true
+        });
+    }
 
     render() {
-        let tweet, tweetCard;
+        let tweet, tweetCard, redirectVar;
         if (this.state && this.state.tweet) {
             tweet = this.state.tweet;
             tweet.showDetails = true;
-            tweetCard = (<TweetCard data={tweet} />)
+            tweetCard = (<TweetCard data={tweet} onDelete={this.onDelete}/>)
+        }
+        if(this.state && this.state.deleted){
+            redirectVar = (<Redirect to="/home" />);
         }
         return (
             <div className="row tweetpage">
+                {redirectVar}
                 <div className="col-sm-7">
                     <div className="row">
                         <h2 className="content-title col-sm-12">Tweet</h2>
