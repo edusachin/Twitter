@@ -13,13 +13,9 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false
+            showModal: false,
+            logout: false
         };
-        this.followUser = this.followUser.bind(this);
-        this.unfollowUser = this.unfollowUser.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.editProfile = this.editProfile.bind(this);
-        this.getProfile = this.getProfile.bind(this);
     }
 
     getProfile = async () => {
@@ -120,6 +116,32 @@ class Profile extends Component {
         });
     };
 
+    deactivateAccount = async (e) => {
+        let data = {
+            user_id: this.state.user_id
+        }
+        let result = await apiService.post(`${backendURI}/api/account/deactivate`, data);
+        if (result.status === 200) {
+            localStorage.clear();
+            this.setState({
+                logout: true
+            });
+        }
+    }
+
+    deleteAccount = async (e) => {
+        let data = {
+            user_id: this.state.user_id
+        }
+        let result = await apiService.post(`${backendURI}/api/account/delete`, data);
+        if (result.status === 200) {
+            localStorage.clear();
+            this.setState({
+                logout: true
+            });
+        }
+    }
+
     handleClose = () => {
         this.setState({
             showModal: false
@@ -164,8 +186,11 @@ class Profile extends Component {
     };
 
     render() {
-        let user, first_name = "", last_name = "", user_id = "", user_name = "", email_id = "", user_bio = "", location = "";
+        let user, first_name = "", last_name = "", user_id = "", user_name = "", email_id = "", user_bio = "", location = "", redirectVar;
         let locationVar, mailVar, userName, profileDetails, userButton, userImage = placeholder;
+        if(this.state.logout){
+            redirectVar = (<Redirect to="/signin" />);
+        }
         if (this.state && this.state.user_profile) {
             user = this.state.user_profile;
             first_name = user.first_name;
@@ -208,6 +233,7 @@ class Profile extends Component {
 
         return (
             <div className="row profile-section">
+                {redirectVar}
                 <div className="col-sm-7">
                     <div className="row">
                         <h2 className="content-title col-sm-12">Profile</h2>
@@ -343,6 +369,14 @@ class Profile extends Component {
                             </center>
                         </form>
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="warning" onClick={this.deactivateAccount}>
+                            <b>Deactivate Account</b>
+                        </Button>&nbsp;&nbsp;
+                        <Button variant="danger" onClick={this.deleteAccount}>
+                            <b>Delete Account</b>
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
