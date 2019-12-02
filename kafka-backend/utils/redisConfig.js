@@ -1,7 +1,7 @@
 const redis = require("redis");
-const { redisPort } = require("./config");
+const { redisPort , redisHost} = require("./config");
 
-const redisClient = redis.createClient(redisPort);
+const redisClient = redis.createClient(redisPort, redisHost);
 
 redisClient.on("connect", (err) =>  {
     if(err){
