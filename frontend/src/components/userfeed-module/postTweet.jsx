@@ -15,6 +15,7 @@ class PostTweet extends Component {
     }
 
     handleImage = (e) => {
+        console.log(e.target.files);
         this.setState({
             file: URL.createObjectURL(e.target.files[0]),
             tweet_image: e.target.files[0]
@@ -66,7 +67,7 @@ class PostTweet extends Component {
                                 <label for="file-input">
                                     <i class="far fa-image fa-2x ml-4"></i>
                                 </label>
-                                <input type="file" id="file-input" name="tweet_image" onChange={this.handleImage} />
+                                <input type="file" id="file-input" accept="image/*" name="tweet_image" onChange={this.handleImage} />
                                 <button type="submit" className="btn btn-primary mb-3">Tweet</button>
                             </div>
                         </form>

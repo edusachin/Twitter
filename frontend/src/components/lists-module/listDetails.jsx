@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 import TweetCard from '../common/tweetCard';

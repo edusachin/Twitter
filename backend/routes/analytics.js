@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const kafka = require("../kafka/client");
+const { checkAuth } = require("../utils/passport");
 
 /**
  * To get Top 10 tweets by views
  */
-router.get("/topViewedTweets/:user_id", async (req, res) => {
+router.get("/topViewedTweets/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.count = 10,
     msg.route = "get_top_viewed_tweets";
@@ -24,7 +25,7 @@ router.get("/topViewedTweets/:user_id", async (req, res) => {
 /**
  * To get Top 10 tweets by likes
  */
-router.get("/topLikedTweets/:user_id", async (req, res) => {
+router.get("/topLikedTweets/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.count = 10,
     msg.route = "get_top_liked_tweets";
@@ -43,7 +44,7 @@ router.get("/topLikedTweets/:user_id", async (req, res) => {
 /**
  * To get Top 5 tweets by retweets
  */
-router.get("/topRetweetedTweets/:user_id", async (req, res) => {
+router.get("/topRetweetedTweets/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.count = 5;
     msg.route = "get_top_retweeted_tweets";
@@ -62,7 +63,7 @@ router.get("/topRetweetedTweets/:user_id", async (req, res) => {
 /**
  * To get Tweet Count Hourly
  */
-router.get("/tweetCountHourly/:user_id", async (req, res) => {
+router.get("/tweetCountHourly/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_tweet_count_hourly";
     msg.user_id = req.params.user_id;

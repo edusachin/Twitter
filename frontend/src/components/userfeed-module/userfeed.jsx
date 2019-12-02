@@ -7,9 +7,6 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 class Userfeed extends Component {
-    constructor(props){
-        super(props);
-    }
     async componentDidMount() {
         document.title = "Home / Twitter";
         this.getFeed();
