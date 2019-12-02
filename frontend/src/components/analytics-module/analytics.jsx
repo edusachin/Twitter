@@ -82,6 +82,16 @@ class Analytics extends Component {
                         backgroundColor: []
                     }
                 ]
+            },
+            profileViewCountDaily: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
             }
         }
     }
@@ -197,6 +207,28 @@ class Analytics extends Component {
             this.setState({
                 tweetCountMonthly: {
                     labels: months,
+                    datasets: [
+                        {
+                            label: '',
+                            data: counts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/profileViewCountDaily/${user_id}`);
+        if (response.status === 200) {
+            let counts = response.data;
+            let day = 30;
+            let days = [];
+            for (let index = 0; index < 30; index++) {
+                days[index] = day-- + "d";
+            }
+            this.setState({
+                profileViewCountDaily: {
+                    labels: days,
                     datasets: [
                         {
                             label: '',
@@ -325,6 +357,26 @@ class Analytics extends Component {
                                         title: {
                                             display: this.props.displayTitle,
                                             text: 'Tweet count monthly',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+                                <br /> <br /> <br />
+
+                                <Line
+                                    data={this.state.profileViewCountDaily}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Profile View Count daily',
                                             fontSize: 20
                                         },
                                         scales: {
