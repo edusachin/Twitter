@@ -15,7 +15,7 @@ class ListCard extends Component {
         }
         return (
             <div className="list-card row mx-auto ">
-                <Link to={{ pathname: "/listdetails", state: { list_id: list._id } }}>
+                <Link to={{ pathname: "/listdetails", state: { list: list } }}>
                     <div className="row mx-auto mt-2">
                         <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
                             <Link to={{ pathname: '/profile', state: { user_id: list.list_owner._id } }}>

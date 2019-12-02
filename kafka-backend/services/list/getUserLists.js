@@ -38,7 +38,7 @@ async function getUserLists(msg, callback) {
         else {
 
             response.status = STATUS_CODE.SUCCESS;
-            response.data = userLists;
+            response.data = userLists[userArray];
             return callback(null, response);
         }
     } catch (error) {

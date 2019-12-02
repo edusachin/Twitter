@@ -19,6 +19,11 @@
     border-radius: 50%;
 }
 
-.list-card .list-owner >a{
+ .list-owner >a{
     color: black;
  }   
+
+.list-card .btn {
+    border-radius: 2em;
+    font-weight: 800;
+} 
