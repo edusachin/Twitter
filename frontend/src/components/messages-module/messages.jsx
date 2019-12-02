@@ -2,38 +2,82 @@ import React, { Component } from 'react';
 import ConversationsCard from './conversationCard';
 import MessagePane from './messagePane'
 import apiService from '../../services/httpService';
-
+import { Link } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import UserCard from './userCard';
 import "./messages.css";
 
-// TODO: To be replaced with httpService
-import axios from 'axios';
 class Message extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            setModal: false,
             convos: [],
-            flag: 0
+            flag: 0,
+            following: [],
+            msg: {}
         };
     }
 
-    onClickHandler = e => {
-        this.setState({ msg: e, flag: 1 })
+    onClickHandler = async (data) => {
+        await this.setState({ msg: data, flag: 1 });
     }
 
     componentWillMount = async () => {
         document.title = "Messages / Twitter";
-        let result;
-        result = await apiService.get('http://localhost:3001/api/message/5dcc5343817a8f249e122972')
+        this.getConvos();
+    }
+
+    getConvos = async () => {
+        let result, response;
+        let existingConvoUserIds = [];
+        result = await apiService.get(`http://localhost:3001/api/message/${localStorage.getItem("user_id")}`);
+        response = await apiService.get(`http://localhost:3001/api/follow/following/${localStorage.getItem("user_id")}`)
+        await result.data.map(item => {
+            if (item.user1) {
+                existingConvoUserIds.push(item.user1._id);
+            } else if (item.user2) {
+                existingConvoUserIds.push(item.user2._id);
+            }
+            return 0;
+        });
+
         this.setState({
-            convos: result.data ? result.data : ""
+            following: response.data.following ? response.data.following : "",
+            convos: result.data ? result.data : "",
+            existingConvoUserIds
         });
     }
 
+    handleToggle = async () => {
+        this.setState({
+            setModal: true,
+        });
+    }
+
+    handleClose = async () => {
+        this.setState({
+            setModal: false,
+        });
+        await this.getConvos();
+    }
+
     render() {
+        let following = [];
+        if (this.state && this.state.following && this.state.following.length) {
+            this.state.following.map(user => {
+                if (!this.state.existingConvoUserIds.includes(user._id)) {
+                    following.push(<div><UserCard data={user} toggleModal={this.handleClose} /><hr /></div>)
+                }
+                return 0;
+            })
+        }
+
         let conversations = [];
-        if (this.state && this.state.convos) {
+        if (this.state && this.state.convos && this.state.convos.length) {
             this.state.convos.map(cnv => {
-                conversations.push(<ConversationsCard click={this.onClickHandler} data={cnv} />);
+                conversations.push(<ConversationsCard handleClick={this.onClickHandler} data={cnv} />);
+                return 0;
             });
         } else {
             conversations.push(<div className="row">
@@ -44,8 +88,8 @@ class Message extends Component {
         }
         let messagePane;
         if (this.state.flag) {
-            messagePane = (<h2 className="col-sm-12 p-0"><MessagePane
-                cnv_id={this.state.msg._id} user_id={'5dcc5343817a8f249e122972'} /></h2>);
+            messagePane = (<MessagePane
+                cnv_id={this.state.msg._id} user_id={`${localStorage.getItem("user_id")}`} />);
         } else {
             messagePane = (<div>
                 <div className="error-msg">You don’t have a message selected</div>
@@ -54,19 +98,28 @@ class Message extends Component {
         }
 
         return (
-            <div className="row-sm-12 messages-section">
-                <h2 className="row content-title border-right content-root-message">Messages</h2>
-                <div className="row content-messages">
-                    <div className="col-sm-5 border-right">
-                        <h2 className="row content-title">Conversations</h2>
-                        {/* <button className="row-sm-2 size-2"><i class="fas fa-plus"></i></button> */}
+            <div className="row messages-section">
+                <div className="col-sm-4 border-right">
+                    <div className="row border-bottom justify-content-between px-2">
+                        <h2 className="content-title border-0">Messages</h2>
+                        <i className="fas fa-comment-medical custom-icon mr-1" onClick={this.handleToggle}></i>
+                        {/* <button className="new-msg-modal" onClick={this.handleToggle}>new</button> */}
 
-                        <div className="row-sm-8 links">{conversations}</div>
                     </div>
-                    <div className="col-sm-7 border-right p-0">
-                        {messagePane}
-                    </div>
+                    <div className="row">{conversations}</div>
+
                 </div>
+                <div className="col-sm-8 border-right">
+                    {messagePane}
+                </div>
+                <Modal show={this.state.setModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="ml-3"><h5><b>New message</b></h5></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {following.length ? following : "You aleady have conversations with all users you follow"}
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

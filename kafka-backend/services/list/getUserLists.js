@@ -21,7 +21,14 @@ async function getUserLists(msg, callback) {
     }
 
     try {
-        let userLists = await User.findById(msg.user_id, { userArray: 1 }).populate(userArray);
+        let userLists = await User.findById(msg.user_id, { userArray: 1 }).populate({
+            path: userArray,
+            select: 'list_name list_owner list_description members subscribers',
+            populate: {
+                path: 'list_owner',
+                select: 'first_name last_name user_name user_image'
+            }
+        });
 
         if (!userLists) {
             err.status = STATUS_CODE.BAD_REQUEST;
@@ -31,7 +38,7 @@ async function getUserLists(msg, callback) {
         else {
 
             response.status = STATUS_CODE.SUCCESS;
-            response.data = userLists;
+            response.data = userLists[userArray];
             return callback(null, response);
         }
     } catch (error) {

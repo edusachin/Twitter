@@ -16,8 +16,15 @@ let activateAccount = async (msg, callback) => {
         }
 
         if (activeUser) {
+            let userData = {
+                first_name: activeUser.first_name,
+                last_name: activeUser.last_name,
+                user_name: activeUser.user_name,
+                user_image: activeUser.user_image,
+                user_id: activeUser.user_id
+            };
             response.status = STATUS_CODE.SUCCESS;
-            response.data = MESSAGES.SUCCESS;
+            response.data = userData;
             return callback(null, response);
         } else {
             err.status = STATUS_CODE.BAD_REQUEST;

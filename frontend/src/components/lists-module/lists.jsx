@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
+import CreateList from './createList';
 import Owned from './owned';
 import Subscriptions from './subscriptions';
 import Memberships from './memberships';
@@ -16,9 +17,12 @@ class Lists extends Component {
             <div className="row">
                 <div className="col-sm-7">
                     <div className="row">
-                        <div className="content-title col-sm-12">
+                        <div className="content-title col-sm-11">
                             <h4 className="col-sm-12">Lists</h4>
-                            <p className="tagline col-sm-12">@username</p>
+                            {/* <p className="tagline col-sm-12">@{localStorage.getItem("user_name")}</p> */}
+                        </div>
+                        <div className="content-title col-sm-1">
+                            <CreateList />
                         </div>
 
                         <div className="col-sm-12">

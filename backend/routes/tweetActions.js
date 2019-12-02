@@ -3,12 +3,13 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const { validateLikes, validateReplies } = require("../validations/tweetValidations");
 const { STATUS_CODE } = require("../utils/constants");
+const { checkAuth } = require("../utils/passport");
 
 /**
  * To retweet a tweet
  * @param req:user_id, tweet_id
  */
-router.post("/retweet", async (req, res) => {
+router.post("/retweet", checkAuth, async (req, res) => {
     const { error } = false;
     if (error) {
         console.log("-------error: tweet:post/retweet/---------");
@@ -30,7 +31,7 @@ router.post("/retweet", async (req, res) => {
  * To post a like a tweet
  * @param req:  user_id,tweet_id
  */
-router.post("/like", async (req, res) => {
+router.post("/like", checkAuth, async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -52,7 +53,7 @@ router.post("/like", async (req, res) => {
  * To post a unlike a tweet
  * @param req:  user_id,tweet_id
  */
-router.post("/unlike", async (req, res) => {
+router.post("/unlike", checkAuth, async (req, res) => {
     const { error } = validateLikes(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -73,7 +74,7 @@ router.post("/unlike", async (req, res) => {
  * To post a reply on a tweet
  * @param req: user_id, tweet_id, reply_text
  */
-router.post("/replies", async (req, res) => {
+router.post("/replies", checkAuth, async (req, res) => {
     const { error } = validateReplies(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);

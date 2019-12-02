@@ -37,7 +37,7 @@ async function addToList(msg, callback) {
             if (!addCondition) {
                 userUpdated = await User.updateOne({ _id: msg.user_id }, { $push: { [userTargetArray]: msg.list_id } });
                 listUpdated = await List.updateOne({ _id: msg.list_id }, { $push: { [listTargetArray]: msg.user_id } });
-
+                
                 if (userUpdated.ok !== 1 || listUpdated.ok !== 1) {
                     err.status = STATUS_CODE.BAD_REQUEST;
                     err.data = MESSAGES.ACTION_NOT_COMPLETE;

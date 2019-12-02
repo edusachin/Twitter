@@ -34,7 +34,11 @@ router.post("/", async (req, res) => {
           } else {
             const payload = {
               email_id: req.body.email_id,
-              user_id: sqlResult[0][0].user_id
+              user_id: sqlResult[0][0].user_id,
+              first_name: results.data.first_name,
+              last_name: results.data.last_name,
+              user_name: results.data.user_name,
+              user_image: results.data.user_image
             };
             const token = jwt.sign(payload, secret, {
               expiresIn: 900000 // in seconds

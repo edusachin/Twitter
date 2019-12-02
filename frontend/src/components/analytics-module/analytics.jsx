@@ -5,9 +5,9 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 const backgroundColor = [
-    'rgba(255, 99, 132, 0.6)',
     'rgba(54, 162, 235, 0.6)',
     'rgba(255, 206, 86, 0.6)',
+    'rgba(255, 99, 132, 0.6)',
     'rgba(75, 192, 192, 0.6)',
     'rgba(153, 102, 255, 0.6)',
     'rgba(0, 0, 128, 0.6)',
@@ -146,7 +146,7 @@ class Analytics extends Component {
         if (response.status === 200) {
             let counts = response.data;
             let hour = 23;
-            let hours = new Array();
+            let hours = [];
             for (let index = 0; index < 23; index++) {
                 hours[index] = hour-- + "h";
             }
@@ -168,7 +168,7 @@ class Analytics extends Component {
         if (response.status === 200) {
             let counts = response.data;
             let day = 30;
-            let days = new Array();
+            let days = [];
             for (let index = 0; index < 30; index++) {
                 days[index] = day-- + "d";
             }
@@ -190,7 +190,7 @@ class Analytics extends Component {
         if (response.status === 200) {
             let counts = response.data;
             let month = 11;
-            let months = new Array();
+            let months = [];
             for (let index = 0; index < 11; index++) {
                 months[index] = month-- + "m";
             }

@@ -6,7 +6,7 @@ const { checkAuth } = require("../utils/passport");
 const { validateFollow } = require("../validations/followValidations");
 const { STATUS_CODE } = require('../utils/constants');
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth, async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     });
 });
 
-router.post("/unfollow", async (req, res) => {
+router.post("/unfollow", checkAuth, async (req, res) => {
     const { error } = validateFollow(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -42,7 +42,7 @@ router.post("/unfollow", async (req, res) => {
     });
 });
 
-router.get("/followers/:user_id", async (req, res) => {
+router.get("/followers/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_followers";
     msg.user_id = req.params.user_id;
@@ -57,7 +57,7 @@ router.get("/followers/:user_id", async (req, res) => {
     });
 });
 
-router.get("/following/:user_id", async (req, res) => {
+router.get("/following/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_following";
     msg.user_id = req.params.user_id;
@@ -72,7 +72,7 @@ router.get("/following/:user_id", async (req, res) => {
     });
 });
 
-router.get("/users/:user_id", async (req, res) => {
+router.get("/users/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_users_to_follow";
     msg.user_id = req.params.user_id;

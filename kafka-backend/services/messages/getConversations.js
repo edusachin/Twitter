@@ -5,7 +5,6 @@ const Conversation = require("../../models/conversations");
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 
 let getConversations = async (msg, callback) => {
-    console.log(msg);
     let response = {};
     let err = {};
     try {

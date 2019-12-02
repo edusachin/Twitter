@@ -9,7 +9,7 @@ module.exports = {
     },
     MESSAGES: {
         USER_ALREADY_EXISTS: "User Already Exists",
-        USER_NOT_EXIST:  "User does not Exists",
+        USER_NOT_EXIST: "User does not Exists",
         USER_NAME_ALREADY_EXISTS: "User Name already in use",
         INTERNAL_SERVER_ERROR: "Internal Server Error",
         SUCCESS: "Successful",
@@ -20,7 +20,5 @@ module.exports = {
         INVALID_INPUTS: "Invalid Inputs",
         DATA_ALREADY_EXISTS: "Data Already Exists",
         DATA_NOT_FOUND: "Data doesn't Exists"
-
-
     }
 }
