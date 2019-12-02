@@ -17,6 +17,9 @@ let getProfile = async (msg, callback) => {
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
             return callback(err, null);
         } else {
+            user.profile_views.push(Date.now());
+            let savedUser = await user.save();
+            
             let profile = {
                 user_id: user._id,
                 first_name: user.first_name,

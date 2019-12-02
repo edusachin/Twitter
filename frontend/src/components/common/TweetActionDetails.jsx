@@ -29,15 +29,19 @@ class TweetActionDetails extends Component {
         });
     }
     handleToggleRetweets = () => {
-        this.setState({
-            setModalReTweets: true
-        });
+        if (this.state && this.state.retweeters && this.state.retweeters.length) {
+            this.setState({
+                setModalReTweets: true
+            });
+        }
     }
 
     handleToggleLikes = () => {
-        this.setState({
-            setModalLikes: true
-        });
+        if (this.state && this.state.likes && this.state.likes.length) {
+            this.setState({
+                setModalLikes: true
+            });
+        }
     }
 
     handleClose = () => {

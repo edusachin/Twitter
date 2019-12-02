@@ -34,6 +34,7 @@ class Bookmarks extends Component {
         let tweetfeed = [], userName;
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
+                tweet.bookmarksPage = true;
                 tweetfeed.push(<TweetCard data={tweet} />);
                 return 0;
             });

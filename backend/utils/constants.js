@@ -9,6 +9,7 @@ module.exports = {
     MESSAGES: {
         INVALID_CREDENTIALS: "Invalid Credentials",
         INTERNAL_SERVER_ERROR: "Internal Server Error",
-        SUCCESS: "Successful"
+        SUCCESS: "Successful",
+        INVALID_STATE: "State Name is not valid"
     }
 }

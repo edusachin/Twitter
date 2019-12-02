@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import RightPanel from "../right-panel/rightPanel";
-import { Bar, Pie } from 'react-chartjs-2';
-
-// TODO: To be replaced with httpService
-import axios from 'axios';
+import { Bar, Pie, Line } from 'react-chartjs-2';
+import apiService from '../../services/httpService';
+import { backendURI } from '../../utils/config';
 
 const backgroundColor = [
     'rgba(255, 99, 132, 0.6)',
@@ -19,9 +18,9 @@ const backgroundColor = [
 ];
 
 class Analytics extends Component {
+
     constructor() {
         super();
-        this.handleClick = this.handleClick.bind(this);
         this.state = {
             legendPosition: "bottom",
             topTweetsByViews: {
@@ -53,94 +52,162 @@ class Analytics extends Component {
                         backgroundColor: []
                     }
                 ]
+            },
+            tweetCountHourly: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            tweetCountDaily: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
+            },
+            tweetCountMonthly: {
+                labels: [],
+                datasets: [
+                    {
+                        label: '',
+                        data: [],
+                        backgroundColor: []
+                    }
+                ]
             }
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         document.title = "Analytics / Twitter";
         const user_id = localStorage.getItem('user_id');
-        // TODO: Refactor this to reduce lines of code
-        axios.get(`http://localhost:3001/api/analytics/topViewedTweets/${user_id}`)
-            .then(response => {
-                if (response.status === 200) {
-                    console.log(response);
-                    let tweets = response.data;
-                    this.setState({
-                        topTweetsByViews: {
-                            labels: Array.from(tweets, tweet => tweet.tweet_text),
-                            datasets: [
-                                {
-                                    label: '',
-                                    data: Array.from(tweets, tweet => tweet.view_count),
-                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
-                                }
-                            ]
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
-        
-        axios.get(`http://localhost:3001/api/analytics/topLikedTweets/${user_id}`)
-            .then(response => {
-                if (response.status === 200) {
-                    let tweets = response.data;
-                    console.log(tweets);
-                    this.setState({
-                        topTweetsByLikes: {
-                            labels: Array.from(tweets, tweet => tweet.tweet_text),
-                            datasets: [
-                                {
-                                    label: '',
-                                    data: Array.from(tweets, tweet => tweet.likes_count),
-                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
-                                }
-                            ]
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
-        
-        axios.get(`http://localhost:3001/api/analytics/topRetweetedTweets/${user_id}`)
-            .then(response => {
-                if (response.status === 200) {
-                    let tweets = response.data;
-                    this.setState({
-                        topTweetsByRetweets: {
-                            labels: Array.from(tweets, tweet => tweet.tweet_text),
-                            datasets: [
-                                {
-                                    label: '',
-                                    data: Array.from(tweets, tweet => tweet.retweets_count),
-                                    backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
-                                }
-                            ]
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                if (err.response && err.response.data) {
-                    console.log(err.response.data);
-                }
-            });
-        
-    };
 
-    handleClick = (event) => {
-        // Todo :Add code here if we want to show tweet page or a pop up on click
-        console.log("Hello");
-    }
+        let response = await apiService.get(`${backendURI}/api/analytics/topViewedTweets/${user_id}`);
+        if (response.status === 200) {
+            let tweets = response.data;
+            this.setState({
+                topTweetsByViews: {
+                    labels: Array.from(tweets, tweet => tweet.tweet_text),
+                    datasets: [
+                        {
+                            label: '',
+                            data: Array.from(tweets, tweet => tweet.view_count),
+                            backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/topLikedTweets/${user_id}`);
+        if (response.status === 200) {
+            let tweets = response.data;
+            console.log(tweets);
+            this.setState({
+                topTweetsByLikes: {
+                    labels: Array.from(tweets, tweet => tweet.tweet_text),
+                    datasets: [
+                        {
+                            label: '',
+                            data: Array.from(tweets, tweet => tweet.likes_count),
+                            backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/topRetweetedTweets/${user_id}`);
+        if (response.status === 200) {
+            let tweets = response.data;
+            this.setState({
+                topTweetsByRetweets: {
+                    labels: Array.from(tweets, tweet => tweet.tweet_text),
+                    datasets: [
+                        {
+                            label: '',
+                            data: Array.from(tweets, tweet => tweet.retweets_count),
+                            backgroundColor: backgroundColor.slice(0, (tweets.length - 1))
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/tweetCountHourly/${user_id}`);
+        if (response.status === 200) {
+            let counts = response.data;
+            let hour = 23;
+            let hours = new Array();
+            for (let index = 0; index < 23; index++) {
+                hours[index] = hour-- + "h";
+            }
+            this.setState({
+                tweetCountHourly: {
+                    labels: hours,
+                    datasets: [
+                        {
+                            label: '',
+                            data: counts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/tweetCountDaily/${user_id}`);
+        if (response.status === 200) {
+            let counts = response.data;
+            let day = 30;
+            let days = new Array();
+            for (let index = 0; index < 30; index++) {
+                days[index] = day-- + "d";
+            }
+            this.setState({
+                tweetCountDaily: {
+                    labels: days,
+                    datasets: [
+                        {
+                            label: '',
+                            data: counts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        }
+                    ]
+                }
+            });
+        }
+
+        response = await apiService.get(`${backendURI}/api/analytics/tweetCountMonthly/${user_id}`);
+        if (response.status === 200) {
+            let counts = response.data;
+            let month = 11;
+            let months = new Array();
+            for (let index = 0; index < 11; index++) {
+                months[index] = month-- + "m";
+            }
+            this.setState({
+                tweetCountMonthly: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: '',
+                            data: counts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                        }
+                    ]
+                }
+            });
+        }
+    };
 
     static defaultProps = {
         displayTitle: true,
@@ -167,8 +234,7 @@ class Analytics extends Component {
                                         legend: {
                                             display: this.props.displayLegend,
                                             position: this.props.legendPosition
-                                        },
-                                        onClick: this.handleClick
+                                        }
                                     }}
                                 />
                                 <br /> <br /> <br />
@@ -184,8 +250,7 @@ class Analytics extends Component {
                                         legend: {
                                             display: this.props.displayLegend,
                                             position: this.props.legendPosition
-                                        },
-                                        onClick: this.handleClick
+                                        }
                                     }}
                                 />
                                 <br /> <br /> <br />
@@ -209,10 +274,70 @@ class Analytics extends Component {
                                                     stepSize: 1
                                                 }
                                             }]
-                                        },
-                                        onClick: this.handleClick
+                                        }
                                     }}
                                 />
+                                <br /> <br /> <br />
+
+                                <Line
+                                    data={this.state.tweetCountHourly}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count hourly',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+                                <br /> <br /> <br />
+
+                                <Line
+                                    data={this.state.tweetCountDaily}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count daily',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+                                <br /> <br /> <br />
+
+                                <Line
+                                    data={this.state.tweetCountMonthly}
+                                    options={{
+                                        title: {
+                                            display: this.props.displayTitle,
+                                            text: 'Tweet count monthly',
+                                            fontSize: 20
+                                        },
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                                                    stepSize: 1
+                                                }
+                                            }]
+                                        },
+                                    }}
+                                />
+
                             </div>
                         </div>
                     </div>
