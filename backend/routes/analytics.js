@@ -114,4 +114,22 @@ router.get("/tweetCountMonthly/:user_id", async (req, res) => {
     });
 });
 
+/**
+ * To get Profile View Count Daily
+ */
+router.get("/profileViewCountDaily/:user_id", async (req, res) => {
+    let msg = {};
+    msg.route = "get_profile_views_daily";
+    msg.user_id = req.params.user_id;
+    kafka.make_request("analytics", msg, function (err, results) {
+        if (err) {
+            console.log("-------error: tweet:get/:id---------");
+            return res.status(err.status).send(err.data);
+        }
+        else {
+            return res.status(results.status).send(results.data);
+        }
+    });
+});
+
 module.exports = router;
