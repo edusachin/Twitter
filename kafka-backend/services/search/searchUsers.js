@@ -7,7 +7,7 @@ let searchUsers = async (msg, callback) => {
     let err = {};
     try {
         let userRegex = new RegExp(msg.input, 'i')
-        let users = await Users.find({ $and: [{ $or: [{ "first_name": userRegex }, { "last_name": userRegex }, { "user_name": userRegex }] }, { "is_active": true }] }, { first_name: 1, last_name: 1, user_name: 1, user_bio: 1, followers: 1 });
+        let users = await Users.find({ $and: [{ $or: [{ "first_name": userRegex }, { "last_name": userRegex }, { "user_name": userRegex }] }, { "is_active": true }] }, { first_name: 1, last_name: 1, user_name: 1, user_bio: 1, user_image: 1, followers: 1 });
         if (!users) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;
