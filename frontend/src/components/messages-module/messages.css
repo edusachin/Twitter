@@ -46,3 +46,8 @@
 .messages-section .content-root-message {
     margin-bottom: 0px;
 }
+
+.messages-section .custom-icon {
+    color: #38A1F3;
+    margin: auto
+}

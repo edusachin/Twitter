@@ -14,12 +14,13 @@ class Message extends Component {
             setModal: false,
             convos: [],
             flag: 0,
-            following: []
+            following: [],
+            msg: {}
         };
     }
 
-    onClickHandler = e => {
-        this.setState({ msg: e, flag: 1 })
+    onClickHandler = async (data) => {
+        await this.setState({ msg: data, flag: 1 });
     }
 
     componentWillMount = async () => {
@@ -75,7 +76,7 @@ class Message extends Component {
         let conversations = [];
         if (this.state && this.state.convos && this.state.convos.length) {
             this.state.convos.map(cnv => {
-                conversations.push(<ConversationsCard click={this.onClickHandler} data={cnv} />);
+                conversations.push(<ConversationsCard handleClick={this.onClickHandler} data={cnv} />);
                 return 0;
             });
         } else {
@@ -87,8 +88,8 @@ class Message extends Component {
         }
         let messagePane;
         if (this.state.flag) {
-            messagePane = (<h2 className="col-sm-12 p-0"><MessagePane
-                cnv_id={this.state.msg._id} user_id={`${localStorage.getItem("user_id")}`} /></h2>);
+            messagePane = (<MessagePane
+                cnv_id={this.state.msg._id} user_id={`${localStorage.getItem("user_id")}`} />);
         } else {
             messagePane = (<div>
                 <div className="error-msg">You don’t have a message selected</div>
@@ -97,28 +98,28 @@ class Message extends Component {
         }
 
         return (
-            <div className="row-sm-12 messages-section">
-                <h2 className="row content-title border-right content-root-message">Messages</h2>
-                <div className="row content-messages">
-                    <div className="col-sm-5 border-right">
-                        <h2 className="row content-title">Conversations</h2>
-                        <div className="col-sm-3">
-                            <Link className="new-msg-modal" onClick={this.handleToggle}>{}new</Link>
-                        </div>
-                        <div className="links">{conversations}</div>
+            <div className="row messages-section">
+                <div className="col-sm-4 border-right">
+                    <div className="row border-bottom justify-content-between px-2">
+                        <h2 className="content-title border-0">Messages</h2>
+                        <i className="fas fa-comment-medical custom-icon mr-1" onClick={this.handleToggle}></i>
+                        {/* <button className="new-msg-modal" onClick={this.handleToggle}>new</button> */}
+
                     </div>
-                    <div className="col-sm-7 border-right border-bottom p-0">
-                        {messagePane}
-                    </div>
-                    <Modal show={this.state.setModal} onHide={this.handleClose}>
-                        <Modal.Header closeButton>
-                            <Modal.Title className="ml-3"><h5><b>New message</b></h5></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            {following.length ? following : "You aleady have conversations with all users you follow"}
-                        </Modal.Body>
-                    </Modal>
+                    <div className="row">{conversations}</div>
+
                 </div>
+                <div className="col-sm-8 border-right">
+                    {messagePane}
+                </div>
+                <Modal show={this.state.setModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title className="ml-3"><h5><b>New message</b></h5></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {following.length ? following : "You aleady have conversations with all users you follow"}
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
