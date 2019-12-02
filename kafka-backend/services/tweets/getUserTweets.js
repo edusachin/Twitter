@@ -1,7 +1,6 @@
 "use strict";
 const Users = require('../../models/users');
 const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
-const redisClient = require("../../utils/redisConfig");
 
 const tweetFormatter = (tweet, user, output) => {
     let tweetObject = {

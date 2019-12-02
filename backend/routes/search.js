@@ -4,7 +4,7 @@ const router = express.Router();
 const kafka = require("../kafka/client");
 const { checkAuth } = require("../utils/passport");
 
-router.get("/user/:input", async (req, res) => {
+router.get("/user/:input", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "search_users";
     msg.input = req.params.input;
@@ -19,7 +19,7 @@ router.get("/user/:input", async (req, res) => {
     });
 });
 
-router.get("/tweet/:input", async (req, res) => {
+router.get("/tweet/:input", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "search_tweets";
     msg.input = req.params.input;

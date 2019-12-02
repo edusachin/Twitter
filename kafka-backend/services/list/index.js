@@ -5,6 +5,9 @@ const { updateList } = require("./updateList");
 const { deleteList } = require("./deleteList");
 const { addToList } = require("./addToList");
 const { removeFromList } = require("./removeFromList");
+const { getListUsers } = require("./getListUsers");
+const { getMemberTweets } = require("./getMemberTweets");
+const { getList } = require("./getList");
 
 function handle_request(msg, callback) {
     console.log("inside index of list");
@@ -26,6 +29,15 @@ function handle_request(msg, callback) {
             break;
         case "remove_from_list":
             removeFromList(msg, callback);
+            break;
+        case "get_list_users":
+            getListUsers(msg, callback);
+            break;
+        case "get_member_tweets":
+            getMemberTweets(msg, callback);
+            break;
+        case "get_list":
+            getList(msg, callback);
             break;
     }
 }

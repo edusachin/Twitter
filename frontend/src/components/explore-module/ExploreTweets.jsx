@@ -21,8 +21,8 @@ class ExploreTweets extends Component {
     getResults = async () => {
         let search_input = localStorage.getItem("search_input");
         if (search_input) {
-            if (search_input !== "") {
-                let tweetResults = await apiService.get(`${backendURI}/api/search/tweet/${search_input}`);
+            if (search_input.trim() !== "") {
+                let tweetResults = await apiService.get(`${backendURI}/api/search/tweet/${search_input.trim()}`);
                 let tweets = tweetResults.data;
                 this.setState({ tweets });
             }
@@ -34,7 +34,7 @@ class ExploreTweets extends Component {
         if (this.state && this.state.tweets) {
             if (this.state.tweets.length) {
                 this.state.tweets.map(tweet => {
-                    tweetfeed.push(<TweetCard data={tweet} />);
+                    tweetfeed.push(<TweetCard data={tweet} onDelete={this.getResults}/>);
                     return 0;
                 });
             } else {

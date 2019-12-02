@@ -94,6 +94,9 @@ const userSchema = new schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "List"
     }],
+    profile_views: [{
+      type: Date
+    }]
   },
   { versionKey: false }
 );

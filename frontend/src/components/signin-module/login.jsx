@@ -4,7 +4,6 @@ import twitter_icon from "../../twitter_icon.png";
 import "./login.css";
 import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
-import { backendURI } from '../../utils/config';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
 
@@ -18,7 +17,8 @@ class SignIn extends Component {
             firstName: "",
             lastName: "",
             userName: "",
-            alertShow: false
+            alertShow: false,
+            loginSuccess: false
         }
         this.handleToggle = this.handleToggle.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -73,15 +73,9 @@ class SignIn extends Component {
         e.preventDefault();
         let result = await authService.login(this.state.email_id, this.state.password);
         if (result) {
-            let user = await apiService.get(`${backendURI}/api/profile/${localStorage.getItem("user_id")}`);
-            if (user.status === 200) {
-                localStorage.setItem("user_name", user.data.user_name);
-                localStorage.setItem("first_name", user.data.first_name);
-                localStorage.setItem("last_name", user.data.last_name);
-                if (user.data.user_image)
-                    localStorage.setItem("user_image", user.data.user_image);
-            }
-            window.location = "/home";
+            this.setState({
+                loginSuccess: true
+            });
         }
     };
 
@@ -90,7 +84,7 @@ class SignIn extends Component {
     }
     render() {
         let redirectVar = null;
-        if(localStorage.getItem("token")){
+        if (localStorage.getItem("token")) {
             redirectVar = <Redirect to="/home" />;
         }
         return (
@@ -101,7 +95,7 @@ class SignIn extends Component {
                 </div>
                 <div className="col-sm-2 userfield">
                     <div className="input-group mt-5 username">
-                        <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required/>
+                        <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
                     </div>
                     <img src={twitter_icon} className="twitter_icon" alt="" />
                     <h2 className="bodytext1">See what's happening in the world right now</h2>
@@ -110,7 +104,7 @@ class SignIn extends Component {
                 </div>
                 <div className="col-sm-2 passwordfield">
                     <div className="input-group ml-5 mt-5 password">
-                        <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} required/>
+                        <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} required />
                     </div>
                 </div>
                 <div className="col-sm-2 loginbutton">
@@ -126,51 +120,51 @@ class SignIn extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form onSubmit={this.handleSignUp}>
-                        <Alert show={this.state.alertShow} variant='success'>
-                            Sign-up successful.
+                            <Alert show={this.state.alertShow} variant='success'>
+                                Sign-up successful.
                         </Alert>
-                        <div className="input-group mb-2">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
+                                </div>
+                                <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your first name" required />
                             </div>
-                            <input type="text" name="firstName" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your first name" required/>
-                        </div>
 
-                        <div className="input-group mb-2">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
+                                </div>
+                                <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your last name" required />
                             </div>
-                            <input type="text" name="lastName" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z ]{1,20}$" title="Please enter your last name" required/>
-                        </div>
 
-                        <div className="input-group mb-2">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Username</b></span>
+                                </div>
+                                <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required />
                             </div>
-                            <input type="text" name="userName" className="form-control" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[A-Za-z0-9_]{1,20}$" title="Please enter a unique user name. Use only letters, numbers and underscore." required/>
-                        </div>
 
-                        <div className="input-group mb-2">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Email</b></span>
+                                </div>
+                                <input type="email" name="email_id" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter a valid email address" required />
                             </div>
-                            <input type="email" name="email_id" className="form-control" aria-label="Email" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter a valid email address" required />
-                        </div>
 
-                        <div className="input-group mb-2">
-                            <div className="input-group-prepend">
-                                <span className="input-group-text" id="basic-addon1"><b>Password</b></span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1"><b>Password</b></span>
+                                </div>
+                                <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
                             </div>
-                            <input type="password" name="password" className="form-control" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} />
-                        </div>
-                        <center>
-                        <Button variant="primary" type="submit">
-                            <b>Sign Up</b>
-                        </Button> &nbsp; &nbsp;
+                            <center>
+                                <Button variant="primary" type="submit">
+                                    <b>Sign Up</b>
+                                </Button> &nbsp; &nbsp;
                         <Button variant="secondary" onClick={this.handleClose}>
-                            <b>Close</b>
-                        </Button>
-                        </center>
+                                    <b>Close</b>
+                                </Button>
+                            </center>
                         </form>
                     </Modal.Body>
                 </Modal>

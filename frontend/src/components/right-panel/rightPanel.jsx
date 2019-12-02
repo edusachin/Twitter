@@ -9,7 +9,8 @@ class RightPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSearchBar: true
+            showSearchBar: true,
+            userSuggestions: []
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -32,25 +33,29 @@ class RightPanel extends Component {
     };
 
     async componentWillReceiveProps() {
-        let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
-        let userSuggestions = result.data;
-        await this.setState({ userSuggestions });
+        if (localStorage.getItem("user_id")) {
+            let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
+            let userSuggestions = result.data;
+            await this.setState({ userSuggestions });
 
-        if (this.props.hideSearchBar) {
-            this.setState({
-                showSearchBar: false
-            });
+            if (this.props.hideSearchBar) {
+                this.setState({
+                    showSearchBar: false
+                });
+            }
         }
     }
     async componentDidMount() {
-        let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
-        let userSuggestions = result.data;
-        await this.setState({ userSuggestions });
+        if (localStorage.getItem("user_id")) {
+            let result = await apiService.get(`${backendURI}/api/follow/users/${localStorage.getItem("user_id")}`);
+            let userSuggestions = result.data;
+            await this.setState({ userSuggestions });
 
-        if (this.props.hideSearchBar) {
-            this.setState({
-                showSearchBar: false
-            });
+            if (this.props.hideSearchBar) {
+                this.setState({
+                    showSearchBar: false
+                });
+            }
         }
     }
     render() {
@@ -58,7 +63,7 @@ class RightPanel extends Component {
         if (this.state && this.state.userSuggestions) {
             suggestions = this.state.userSuggestions.map(user => {
                 return (
-                    <div>
+                    <div key={user._id} >
                         <UserCard data={user} />
                         <hr />
                     </div>

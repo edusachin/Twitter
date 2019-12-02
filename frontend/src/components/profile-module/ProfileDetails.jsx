@@ -36,15 +36,19 @@ class ProfileDetails extends Component {
     }
 
     handleToggleFollowers = () => {
-        this.setState({
-            setModalFollowers: true
-        });
+        if (this.state && this.state.followers && this.state.followers.length) {
+            this.setState({
+                setModalFollowers: true
+            });
+        }
     }
 
     handleToggleFollowing = () => {
-        this.setState({
-            setModalFollowing: true
-        });
+        if (this.state && this.state.following && this.state.following.length) {
+            this.setState({
+                setModalFollowing: true
+            });
+        }
     }
 
     handleClose = () => {

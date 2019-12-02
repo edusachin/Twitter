@@ -23,10 +23,11 @@
     border-radius: 50%;
 }
 
-.post-tweet .image-viewer {
-    max-width: 60%;
-}
-
 .post-tweet .preview-image {
     border-radius: 5%;
+    max-width: 75%;
+}
+
+.post-tweet .flex {
+    justify-content: space-between;
 }

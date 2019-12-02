@@ -5,16 +5,26 @@ const { STATUS_CODE, MESSAGES } = require("../../utils/constants");
 let activateAccount = async (msg, callback) => {
     let response = {};
     let err = {};
+    let activeUser;
 
     try {
         let user = await Users.findById(msg.user_id);
 
+        if(user){
         user.is_active = true;
-        let activeUser = await user.save();
+        activeUser = await user.save();
+        }
 
         if (activeUser) {
+            let userData = {
+                first_name: activeUser.first_name,
+                last_name: activeUser.last_name,
+                user_name: activeUser.user_name,
+                user_image: activeUser.user_image,
+                user_id: activeUser.user_id
+            };
             response.status = STATUS_CODE.SUCCESS;
-            response.data = MESSAGES.SUCCESS;
+            response.data = userData;
             return callback(null, response);
         } else {
             err.status = STATUS_CODE.BAD_REQUEST;

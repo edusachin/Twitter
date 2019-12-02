@@ -15,11 +15,13 @@ import "./home.css";
 class Home extends Component {
     state = {};
     render() {
+        let redirectVar;
         if (!localStorage.getItem("token")) {
-            window.location = "/signin";
+            redirectVar = <Redirect to="/signin" />;
         }
         return (
             <div className="container-fluid pl-5 home-page">
+                {redirectVar}
                 <div className="row">
                     <div className="col-sm-2">
                         <Sidebar />
@@ -64,7 +66,7 @@ class Home extends Component {
                             />
                             <Redirect
                                 from="/"
-                                to="/home"
+                                to="/signin"
                                 exact
                                 component={Userfeed}
                             />

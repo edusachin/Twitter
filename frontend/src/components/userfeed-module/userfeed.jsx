@@ -9,17 +9,24 @@ import { backendURI } from '../../utils/config';
 class Userfeed extends Component {
     async componentDidMount() {
         document.title = "Home / Twitter";
-
-        let result = await apiService.get(`${backendURI}/api/tweets/following/${localStorage.getItem("user_id")}`);
-        let tweets = result.data;
-
-        await this.setState({ tweets });
+        this.getFeed();
     };
+
+    getFeed = async () => {
+        let user_id = localStorage.getItem("user_id");
+        if (user_id) {
+            let result = await apiService.get(`${backendURI}/api/tweets/following/${user_id}`);
+            let tweets = result.data;
+
+            await this.setState({ tweets });
+        }
+    };
+
     render() {
         let tweetfeed = [];
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
-                tweetfeed.push(<TweetCard data={tweet} />);
+                tweetfeed.push(<TweetCard data={tweet} getFeed={this.getFeed}/>);
                 return 0;
             });
         }
@@ -34,7 +41,7 @@ class Userfeed extends Component {
                 <div className="col-sm-7">
                     <div className="row">
                         <h2 className="content-title col-sm-12">Home</h2>
-                        <div className="col-sm-12"><PostTweet /></div>
+                        <div className="col-sm-12"><PostTweet getFeed={this.getFeed} /></div>
                         {tweetfeed}
                     </div>
                 </div>

@@ -7,11 +7,19 @@ let postTweet = async (msg, callback) => {
     let response = {};
     let err = {};
     try {
+        let regex = /(?:^|\s)(#[a-z0-9]\w*)/gi;
+        let m, resultHashTagArray = [];
+        while(m = regex.exec(msg.tweet_text)) {
+            resultHashTagArray.push(m[1].replace(/#/g,''));
+        }
+        let resultString = "";
+        let regexp = /\#\w\w+\s?/g;
+        resultString = msg.tweet_text.replace(regexp,"");
         let user = await Users.findById(msg.user_id);
         let newTweet = new Tweet({
             tweet_owner: msg.user_id,
-            tweet_text: msg.tweet_text,
-            hashtags: msg.hashtags,
+            tweet_text: resultString,
+            hashtags: resultHashTagArray,
             tweet_image: msg.tweet_image,
             tweet_date: new Date(Date.now())
         });
