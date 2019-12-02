@@ -206,7 +206,7 @@ class TweetCard extends Component {
                     </div>
                     <div id="tweetImageModal" class="modal">
                         <span class="close">&times;</span>
-                        <img class="modal-content" id="tweet_image_modal" />
+                        <img class="modal-content" id="tweet_image_modal" alt=""/>
                         <div id="caption"></div>
                     </div>
                 </div>
@@ -242,13 +242,13 @@ class TweetCard extends Component {
         }
 
         if ((tweet.user_id === localStorage.getItem("user_id") || tweet.tweet_owner._id === localStorage.getItem("user_id"))) {
-            deleteTweet = (<a class="dropdown-item" href="" onClick={this.deleteTweet}>Delete Tweet</a>);
+            deleteTweet = (<div class="dropdown-item" onClick={this.deleteTweet}>Delete Tweet</div>);
         }
 
         if (tweet.bookmarksPage) {
-            bookmarkTweet = (<a class="dropdown-item" href="" onClick={this.removeBookmark}>Remove from Bookmarks</a>);
+            bookmarkTweet = (<div class="dropdown-item" onClick={this.removeBookmark}>Remove from Bookmarks</div>);
         } else {
-            bookmarkTweet = (<a class="dropdown-item" href="" onClick={this.bookmarkTweet}>Bookmark Tweet</a>);
+            bookmarkTweet = (<div class="dropdown-item"  onClick={this.bookmarkTweet}>Bookmark Tweet</div>);
         }
 
         let tweet_content = (

@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 express().use(express.static('public'));
 
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_profile";
     msg.user_id = req.params.user_id;
@@ -70,7 +70,7 @@ router.post("/", upload.single('user_image'), async (req, res) => {
     });
 });
 
-router.post("/password", async (req, res) => {
+router.post("/password", checkAuth, async (req, res) => {
     const { error } = validatePassword(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);

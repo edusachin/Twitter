@@ -6,10 +6,6 @@ import { backendURI } from '../../utils/config';
 import placeholder from '../common/placeholder.jpg';
 
 class UserCard extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     startConvo = async (e) => {
         console.log(this.state.user._id);
         let data = {
@@ -18,7 +14,8 @@ class UserCard extends Component {
             message_content: `Hi, ${localStorage.getItem("first_name")} wants to chat with you. You can reply or ignore this message.`
         };
         let result = await apiService.post(`${backendURI}/api/message`, data);
-        await this.props.toggleModal();
+        if (result.status >= 200)
+            await this.props.toggleModal();
     }
 
     componentDidMount() {
@@ -31,7 +28,7 @@ class UserCard extends Component {
     }
 
     render() {
-        let first_name, last_name, user_name, user_id, followers = [], followButton;
+        let first_name, last_name, user_name, user_id;
         let userImage = placeholder;
         if (this.state && this.state.user) {
             first_name = this.state.user.first_name;

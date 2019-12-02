@@ -6,7 +6,7 @@ const { validateCreateList, validateUpdateList, validateDeleteList, validateAddT
 const { STATUS_CODE } = require('../utils/constants');
 
 //Get List memeber tweets
-router.get("/tweets/:list_id", (req, res) => {
+router.get("/tweets/:list_id", checkAuth, (req, res) => {
     const msg = {
         list_id: req.params.list_id,
         route: "get_member_tweets"
@@ -23,7 +23,7 @@ router.get("/tweets/:list_id", (req, res) => {
 });
 
 //GET user lists
-router.get("/:user_id/:getType", (req, res) => {
+router.get("/:user_id/:getType", checkAuth, (req, res) => {
     const msg = {};
 
     msg.user_id = req.params.user_id;
@@ -42,7 +42,7 @@ router.get("/:user_id/:getType", (req, res) => {
 });
 
 //Create user lists
-router.post("/create", (req, res) => {
+router.post("/create", checkAuth, (req, res) => {
 
     const { error } = validateCreateList(req.body);
     if (error) {
@@ -63,7 +63,7 @@ router.post("/create", (req, res) => {
 });
 
 //Update user lists
-router.post("/update", (req, res) => {
+router.post("/update", checkAuth, (req, res) => {
 
     const { error } = validateUpdateList(req.body);
     if (error) {
@@ -85,7 +85,7 @@ router.post("/update", (req, res) => {
 
 
 //Delete user lists
-router.post("/delete", (req, res) => {
+router.post("/delete", checkAuth, (req, res) => {
 
     const { error } = validateDeleteList(req.body);
     if (error) {
@@ -106,7 +106,7 @@ router.post("/delete", (req, res) => {
 });
 
 //Add member/subscriber list
-router.post("/add", (req, res) => {
+router.post("/add", checkAuth, (req, res) => {
 
     const { error } = validateAddToList(req.body);
     if (error) {
@@ -127,7 +127,7 @@ router.post("/add", (req, res) => {
 });
 
 //Remove member/subscriber list
-router.post("/remove", (req, res) => {
+router.post("/remove", checkAuth, (req, res) => {
 
     const { error } = validateRemoveFromList(req.body);
     if (error) {
@@ -148,7 +148,7 @@ router.post("/remove", (req, res) => {
 });
 
 //GET list users
-router.get("/users/:list_id/:getType", (req, res) => {
+router.get("/users/:list_id/:getType", checkAuth, (req, res) => {
     const msg = {};
     msg.list_id = req.params.list_id;
     msg.route = "get_list_users";
@@ -166,7 +166,7 @@ router.get("/users/:list_id/:getType", (req, res) => {
 });
 
 //GET list
-router.get("/:list_id", (req, res) => {
+router.get("/:list_id", checkAuth, (req, res) => {
     const msg = {};
     msg.list_id = req.params.list_id;
     msg.route = "get_list";

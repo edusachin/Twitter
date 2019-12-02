@@ -242,7 +242,7 @@ class Profile extends Component {
                         </div>
                         <div id="imageModal" class="modal">
                             <span class="close">&times;</span>
-                            <img class="modal-content" id="image_modal" />
+                            <img class="modal-content" id="image_modal" alt=""/>
                             <div id="caption"></div>
                         </div>
                         <div className="col-sm-12">
@@ -301,14 +301,14 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>First Name</b></span>
                                 </div>
-                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z ]{1,20}$" required />
+                                <input type="text" name="first_name" className="form-control" aria-label="FirstName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.first_name} pattern="^[A-Za-z0-9 ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>Last Name</b></span>
                                 </div>
-                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z ]{1,20}$" required />
+                                <input type="text" name="last_name" className="form-control" aria-label="LastName" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.last_name} pattern="^[A-Za-z0-9 ]{1,20}$" required />
                             </div>
 
                             <div className="input-group mb-2">
@@ -322,7 +322,7 @@ class Profile extends Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon1"><b>User Bio</b></span>
                                 </div>
-                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(). ]{1,50}$" required />
+                                <input type="text" name="user_bio" className="form-control" aria-label="UserBio" aria-describedby="basic-addon1" onChange={this.handleChange} defaultValue={this.state.user_bio} pattern="^[A-Za-z0-9_!@#?(/\). ]{1,50}$" required />
                             </div>
 
                             <div className="input-group mb-2">

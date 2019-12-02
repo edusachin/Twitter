@@ -10,7 +10,6 @@ let postTweet = async (msg, callback) => {
         let regex = /(?:^|\s)(#[a-z0-9]\w*)/gi;
         let m, resultHashTagArray = [];
         while(m = regex.exec(msg.tweet_text)) {
-            console.log(m);
             resultHashTagArray.push(m[1].replace(/#/g,''));
         }
         let resultString = "";

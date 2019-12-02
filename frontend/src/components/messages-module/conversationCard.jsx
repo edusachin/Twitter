@@ -3,10 +3,6 @@ import './conversationCard.css';
 import placeholder from '../common/placeholder.jpg';
 
 class conversationCard extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     onClick = e => {
         this.props.click(this.props.data)
     }

@@ -6,7 +6,7 @@ const { checkAuth } = require("../utils/passport");
 const { validateMessage } = require("../validations/messageValidations");
 const { STATUS_CODE } = require('../utils/constants');
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth, async (req, res) => {
     const { error } = validateMessage(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_conversations";
     msg.user_id = req.params.user_id;
@@ -41,7 +41,7 @@ router.get("/:user_id", async (req, res) => {
 });
 
 
-router.get("/searched/:user_id/:target_id", async (req, res) => {
+router.get("/searched/:user_id/:target_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_SearchedConversation";
     msg.user_id = req.params.user_id;
@@ -57,7 +57,7 @@ router.get("/searched/:user_id/:target_id", async (req, res) => {
     });
 });
 
-router.get("/single/:user_id/:conversation_id", async (req, res) => {
+router.get("/single/:user_id/:conversation_id", checkAuth, async (req, res) => {
     let msg = {};
     msg.route = "get_single_conversation";
     msg.conversation_id = req.params.conversation_id;
