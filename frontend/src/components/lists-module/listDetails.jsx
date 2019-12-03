@@ -77,10 +77,10 @@ class ListDetails extends Component {
  
      }
 
-     handleUnsubscribe = async (subscriber) => {
+     handleUnsubscribe = async () => {
         let data = {
             list_id: localStorage.getItem("list_id"),
-            user_id: subscriber._id,
+            user_id: localStorage.getItem("user_id"),
             "type": "subscriber"
         }
 
@@ -93,10 +93,10 @@ class ListDetails extends Component {
 
     }
 
-    handleSubscribe = async (subscriber) => {
+    handleSubscribe = async () => {
         let data = {
             list_id: localStorage.getItem("list_id"),
-            user_id: subscriber._id,
+            user_id: localStorage.getItem("user_id"),
             "type": "subscriber"
         }
 
@@ -126,6 +126,8 @@ class ListDetails extends Component {
     render() {
         const { list_name, list_description, list_owner, list_members, list_subscribers, tweets } = this.state;
 
+        console.log(list_subscribers);
+        console.log(list_subscribers.includes(localStorage.getItem("user_id")));
         let tweetfeed = null;
         if (this.state && this.state.tweets && this.state.tweets.length) {
             tweetfeed = tweets.map(tweet => {
@@ -136,7 +138,7 @@ class ListDetails extends Component {
         }
         let removeButton = null;
         if (list_owner._id !== localStorage.getItem("user_id")) {
-            if (list_subscribers.includes(list_owner._id)) {
+            if (list_subscribers.includes(localStorage.getItem("user_id"))) {
                 removeButton = (
                     <div className="col-sm-4 mt-1">
                         <button type="button" className="btn btn-outline-primary" onClick={this.handleUnsubscribe}><b>Unubscribe</b></button>
@@ -178,8 +180,8 @@ class ListDetails extends Component {
                                 {list_description}
                             </div>
                             <div className="list-owner col-sm-12">
-                                <Link to={{ pathname: '/profile', state: { user_id: list_owner._id } }}><b>{list_owner.first_name} {list_owner.last_name} </b></Link>
-                                <Link to={{ pathname: '/profile', state: { user_id: list_owner._id } }}>@{list_owner.user_name}</Link>
+                                <Link to={{ pathname: `/profile/${list_owner._id}`, state: { user_id: list_owner._id } }}><b>{list_owner.first_name} {list_owner.last_name} </b></Link>
+                                <Link to={{ pathname: `/profile/${list_owner._id}`, state: { user_id: list_owner._id } }}>@{list_owner.user_name}</Link>
                             </div>
                             <div className="row">
                                 <div className="col-sm-6 py-2 text-right">

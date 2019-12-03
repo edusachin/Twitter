@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect, NavLink } from "react-router-dom";
+import { Route, Switch, Redirect, NavLink ,Link} from "react-router-dom";
 import ProfileTweets from './profileTweets';
 import ProfileLikes from './profileLikes';
 import RightPanel from "../right-panel/rightPanel";
@@ -18,9 +18,9 @@ class Profile extends Component {
         };
     }
 
-    componentWillUnmount() {
-        localStorage.removeItem("profile_user_id");
-    }
+    // componentWillUnmount() {
+    //     localStorage.removeItem("profile_user_id");
+    // }
 
     getProfile = async () => {
         if (this.props.match.params.user_id) {
@@ -191,7 +191,7 @@ class Profile extends Component {
 
     render() {
         let user, first_name = "", last_name = "", user_id = "", user_name = "", email_id = "", user_bio = "", location = "", redirectVar;
-        let locationVar, mailVar, userName, profileDetails, userButton, userImage = placeholder;
+        let locationVar, mailVar, userName, profileDetails, userButton, listButton, userImage = placeholder;
         if(this.state.logout){
             redirectVar = (<Redirect to="/signin" />);
         }
@@ -216,23 +216,28 @@ class Profile extends Component {
 
             if (user_id === localStorage.getItem("user_id")) {
                 userButton = (
-                    <div className="col-sm-4 mt-2 follow_button">
+                    <div className="col-sm-6 mt-2 text-left follow_button">
                         <button type="button" className="btn btn-outline-primary" onClick={this.editProfile}><b>Edit Profile</b></button>
                     </div>
                 );
             } else if (user.followers.find(follower => follower._id === localStorage.getItem("user_id"))) {
                 userButton = (
-                    <div className="col-sm-4 mt-2 follow_button">
+                    <div className="col-sm-6 mt-2 text-left follow_button">
                         <button type="button" className="btn btn-outline-primary" onClick={this.unfollowUser}><b>Unfollow</b></button>
                     </div>
                 );
             } else {
                 userButton = (
-                    <div className="col-sm-4 mt-2 follow_button">
+                    <div className="col-sm-6 mt-2 text-left follow_button">
                         <button type="button" className="btn btn-outline-primary" onClick={this.followUser}><b>Follow</b></button>
                     </div>
                 );
             }
+            listButton = (
+                <div className="col-sm-6 mt-2 text-right list_button">
+                    <Link to={{ pathname: `/lists/${user_id}`}} className="btn btn-outline-primary"><b>View Lists</b></Link>
+                </div>
+            );
         }
 
         return (
@@ -257,6 +262,7 @@ class Profile extends Component {
                             {mailVar}
                         </div>
                         {userButton}
+                        {listButton}
                         {profileDetails}
                         <div className="col-sm-12">
                             <div className="nav-tabs row text-center">
