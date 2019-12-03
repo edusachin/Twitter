@@ -286,7 +286,7 @@ class TweetCard extends Component {
                     </div>
                     {tweetImages}
                     {tweetActionDetails}
-                    <TweetActions data={tweet} handleLike={this.handleLike} handleRetweet={this.handleRetweet} />
+                    <TweetActions data={tweet} handleLike={this.handleLike} handleRetweet={this.handleRetweet} getTweet={this.props.getTweet}/>
                 </div>
             </div>
         );

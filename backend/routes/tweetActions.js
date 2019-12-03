@@ -75,10 +75,10 @@ router.post("/unlike", checkAuth, async (req, res) => {
  * @param req: user_id, tweet_id, reply_text
  */
 router.post("/replies", checkAuth, async (req, res) => {
-    const { error } = validateReplies(req.body);
+    /*const { error } = validateReplies(req.body);
     if (error) {
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
-    }
+    }*/
     let msg = req.body;
     msg.route = "post_replies";
     kafka.make_request("tweet_actions", msg, function (err, results) {
