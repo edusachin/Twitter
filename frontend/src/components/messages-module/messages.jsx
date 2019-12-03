@@ -5,6 +5,7 @@ import apiService from '../../services/httpService';
 import { Modal } from 'react-bootstrap';
 import UserCard from './userCard';
 import "./messages.css";
+import { backendURI } from '../../utils/config';
 
 class Message extends Component {
     constructor(props) {
@@ -30,8 +31,8 @@ class Message extends Component {
     getConvos = async () => {
         let result, response;
         let existingConvoUserIds = [];
-        result = await apiService.get(`http://localhost:3001/api/message/${localStorage.getItem("user_id")}`);
-        response = await apiService.get(`http://localhost:3001/api/follow/following/${localStorage.getItem("user_id")}`)
+        result = await apiService.get(`${backendURI}/api/message/${localStorage.getItem("user_id")}`);
+        response = await apiService.get(`${backendURI}/api/follow/following/${localStorage.getItem("user_id")}`)
         await result.data.map(item => {
             if (item.user1) {
                 existingConvoUserIds.push(item.user1._id);

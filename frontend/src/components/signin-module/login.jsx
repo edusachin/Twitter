@@ -6,6 +6,7 @@ import twitter_wallpaper from "../../twitter_wallpaper.PNG";
 import { Modal, Button, Alert } from 'react-bootstrap';
 import apiService from '../../services/httpService';
 import authService from '../../services/authService';
+import { backendURI } from '../../utils/config';
 
 class SignIn extends Component {
     constructor(props) {
@@ -53,7 +54,7 @@ class SignIn extends Component {
             user_name: this.state.userName,
             password: this.state.password
         }
-        apiService.post('http://localhost:3001/api/signup', data)
+        apiService.post(`${backendURI}/api/signup`, data)
             .then(response => {
                 if (response.status === 200) {
                     console.log(response.data);
