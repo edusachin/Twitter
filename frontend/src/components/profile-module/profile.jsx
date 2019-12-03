@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect, NavLink ,Link} from "react-router-dom";
+import { Route, Switch, Redirect, NavLink, Link } from "react-router-dom";
 import ProfileTweets from './profileTweets';
 import ProfileLikes from './profileLikes';
 import RightPanel from "../right-panel/rightPanel";
@@ -192,7 +192,7 @@ class Profile extends Component {
     render() {
         let user, first_name = "", last_name = "", user_id = "", user_name = "", email_id = "", user_bio = "", location = "", redirectVar;
         let locationVar, mailVar, userName, profileDetails, userButton, listButton, userImage = placeholder;
-        if(this.state.logout){
+        if (this.state.logout) {
             redirectVar = (<Redirect to="/signin" />);
         }
         if (this.state && this.state.user_profile) {
@@ -215,27 +215,27 @@ class Profile extends Component {
             profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile} />;
 
             listButton = (
-                <div className="col-sm-6 mt-2 text-right list_button">
-                    <Link to={{ pathname: `/lists/${user_id}`}} className="btn btn-outline-primary"><b>View Lists</b></Link>
+                <div className="col-sm-12 mt-2 list_button">
+                    <Link to={{ pathname: `/lists/${user_id}` }} className="btn btn-outline-primary"><b>View Lists</b></Link>
                 </div>
             );
 
             if (user_id === localStorage.getItem("user_id")) {
                 userButton = (
-                    <div className="col-sm-6 mt-2 text-left follow_button">
+                    <div className="text-left follow_button pr-2">
                         <button type="button" className="btn btn-outline-primary" onClick={this.editProfile}><b>Edit Profile</b></button>
                     </div>
                 );
                 listButton = null;
             } else if (user.followers.find(follower => follower._id === localStorage.getItem("user_id"))) {
                 userButton = (
-                    <div className="col-sm-6 mt-2 text-left follow_button">
+                    <div className="text-left follow_button pr-2">
                         <button type="button" className="btn btn-outline-primary" onClick={this.unfollowUser}><b>Unfollow</b></button>
                     </div>
                 );
             } else {
                 userButton = (
-                    <div className="col-sm-6 mt-2 text-left follow_button">
+                    <div className="text-left follow_button pr-2">
                         <button type="button" className="btn btn-outline-primary" onClick={this.followUser}><b>Follow</b></button>
                     </div>
                 );
@@ -247,13 +247,16 @@ class Profile extends Component {
                 {redirectVar}
                 <div className="col-sm-7">
                     <div className="row">
-                        <h2 className="content-title col-sm-12">Profile</h2>
-                        <div className="col-sm-4 pl-2 p-0 d-flex justify-content-center">
+                        <h2 className="content-title col-sm-12 mb-0">Profile</h2>
+                        <div className="col-sm-12 cover-image">
+                        </div>
+                        <div className="col-sm-12 pl-2 p-0 d-flex justify-content-between image-section">
                             <img id="userImage" src={userImage} className="user_profile_image" onClick={this.onProfileImageClick} alt="" />
+                            {userButton}
                         </div>
                         <div id="imageModal" class="modal">
                             <span class="close">&times;</span>
-                            <img class="modal-content" id="image_modal" alt=""/>
+                            <img class="modal-content" id="image_modal" alt="" />
                             <div id="caption"></div>
                         </div>
                         <div className="col-sm-12">
@@ -263,7 +266,6 @@ class Profile extends Component {
                             {locationVar}
                             {mailVar}
                         </div>
-                        {userButton}
                         {listButton}
                         {profileDetails}
                         <div className="col-sm-12">
