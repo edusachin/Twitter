@@ -72,7 +72,7 @@ router.get("/following/:user_id", checkAuth, async (req, res) => {
     });
 });
 
-router.get("/users/:user_id", checkAuth, async (req, res) => {
+router.get("/users/:user_id", async (req, res) => {
     let msg = {};
     msg.route = "get_users_to_follow";
     msg.user_id = req.params.user_id;

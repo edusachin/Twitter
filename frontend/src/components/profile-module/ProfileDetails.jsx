@@ -86,7 +86,7 @@ class ProfileDetails extends Component {
                         <Link className="following-link" onClick={this.handleToggleFollowing}><b>{following.length}</b> Following</Link>
                     </div>
                 </div>
-                <Modal show={this.state.setModalFollowers} onHide={this.handleClose}>
+                <Modal show={this.state.setModalFollowers} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
                         <Modal.Title className="ml-3"><h5><b>Followed by</b></h5></Modal.Title>
                     </Modal.Header>
@@ -95,7 +95,7 @@ class ProfileDetails extends Component {
                     </Modal.Body>
                 </Modal>
 
-                <Modal show={this.state.setModalFollowing} onHide={this.handleClose}>
+                <Modal show={this.state.setModalFollowing} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
                         <Modal.Title className="ml-3"><h5><b>Following</b></h5></Modal.Title>
                     </Modal.Header>

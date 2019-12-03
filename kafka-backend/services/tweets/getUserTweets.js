@@ -28,8 +28,8 @@ let getUserTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     let output = [];
-    const page_number = msg.page_number;
-    const page_size = 10;
+    let page = msg.page;
+    let pageSize = 10;
     try {
         let userTweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
             .populate({
@@ -38,11 +38,6 @@ let getUserTweets = async (msg, callback) => {
                 populate: {
                     path: 'tweet_owner',
                     select: 'first_name last_name user_name user_image'
-                },
-                options: {
-                    sort: { tweet_date: -1 },
-                    skip: (page_number - 1) * page_size,
-                    limit: page_size
                 }
             });
         if (!userTweets) {
@@ -54,6 +49,16 @@ let getUserTweets = async (msg, callback) => {
             userTweets.tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
             userTweets.retweeted_tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
             output.sort((tweet1, tweet2) => (tweet1.tweet_date < tweet2.tweet_date) ? 1 : -1);
+
+            let pageMax = Math.ceil(output.length / pageSize);
+
+            if (page > pageMax) {
+                page = pageMax;
+            }
+            let start = (page - 1) * pageSize;
+            let end = page * pageSize;
+            output = output.slice(start,end);
+
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(output);
             return callback(null, response);
