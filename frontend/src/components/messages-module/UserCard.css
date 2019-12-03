@@ -8,6 +8,11 @@
   color: black;
 }
 
+.user_card .btn-outline-primary{
+  color: #38A1F3;
+  border-color: #38A1F3;
+}
+
 .user_card .btn-outline-primary:hover {
     background-color: #38A1F3;
     border-color: #38A1F3;
