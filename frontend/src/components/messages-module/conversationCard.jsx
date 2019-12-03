@@ -4,7 +4,8 @@ import placeholder from '../common/placeholder.jpg';
 
 class conversationCard extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state={}
     }
 
     render() {

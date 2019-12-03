@@ -9,6 +9,11 @@
     font-size: 32px;
 }
 
+.user-feed {
+    height: 100%;
+    overflow: scroll;
+}
+
 .user-feed .error-msg {
     color: black;
     text-align: center;

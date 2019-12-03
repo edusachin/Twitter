@@ -89,37 +89,41 @@ class SignIn extends Component {
             redirectVar = <Redirect to="/home" />;
         }
         return (
+            <>
+            {redirectVar}
             <div className="row sign-in">
-                {redirectVar}
                 <div className="col-sm-6">
                     <img src={twitter_wallpaper} className="twitter_wallpaper" alt="" />
                 </div>
-                <div className="col-sm-2 userfield">
-                    <div className="input-group mt-5 username">
-                        <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
-                    </div>
-                    <img src={twitter_icon} className="twitter_icon" alt="" />
-                    <h2 className="bodytext1">See what's happening in the world right now</h2>
-                    <h2 className="bodytext2 mt-5">Join Twitter today</h2>
-                    <button type="button" className="btn btn-outline-primary signup mt-2" onClick={this.handleToggle}>Sign up</button>
-                </div>
-                <div className="col-sm-2 passwordfield">
-                    <div className="input-group ml-5 mt-5 password">
-                        <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} required />
-                    </div>
-                </div>
-                <div className="col-sm-2 loginbutton">
-                    <form onSubmit={this.handleSignIn}>
-                        <div className="input-group mt-5 login">
-                            <button type="submit" className="btn btn-outline-primary">Log in</button>
+                <div className="col-sm-6">
+                   <form className="row " onSubmit={this.handleSignIn}>
+                        <div className="col-sm-4">
+                            <div className="input-group mt-5 username">
+                                <input type="email" className="form-control" name="email_id" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1" onChange={this.handleChange} pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$'%&*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])$" title="Please enter valid email address" required />
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="input-group ml-5 mt-5 password">
+                                <input type="password" className="form-control" name="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" onChange={this.handleChange} required />
+                            </div>
+                        </div>
+                        <div className="col-sm-3 loginbutton">
+                                <div className="input-group mt-5 login">
+                                    <button type="submit" className="btn btn-outline-primary">Log in</button>
+                                </div>   
                         </div>
                     </form>
-                </div>
-                <Modal show={this.state.setModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title><b>Create your account</b></Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+                    
+                    <div className="col-sm-12 signup"> 
+                        <img className="row twitter_icon" src={twitter_icon} alt="" />
+                        <h2 className="row  mt-3 bodytext1">See what's happening in the world right now</h2>
+                        <h2 className="row mt-5 bodytext2 ">Join Twitter today</h2>
+                        <button type="button" className="btn btn-primary signup-button mt-2" onClick={this.handleToggle}>Sign up</button>
+                        <Modal show={this.state.setModal} onHide={this.handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title><b>Create your account</b></Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
                         <form onSubmit={this.handleSignUp}>
                             <Alert show={this.state.alertShow} variant='success'>
                                 Sign-up successful.
@@ -162,14 +166,17 @@ class SignIn extends Component {
                                 <Button variant="primary" type="submit">
                                     <b>Sign Up</b>
                                 </Button> &nbsp; &nbsp;
-                        <Button variant="secondary" onClick={this.handleClose}>
+                                <Button variant="secondary" onClick={this.handleClose}>
                                     <b>Close</b>
                                 </Button>
                             </center>
                         </form>
                     </Modal.Body>
-                </Modal>
+                         </Modal>
+                    </div>
+                </div>
             </div>
+        </>
         )
     }
 }

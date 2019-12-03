@@ -1,15 +1,4 @@
-.conversations-card{
-    padding-left: 0;
-}
-
-
-.conversations-card .links>a:hover {
-    color: black;
-    text-decoration: none;
-}
-
-
 .conversations-card .user-image {
-    width: 100%;
+    width: 160%;
     border-radius: 50%;
 }

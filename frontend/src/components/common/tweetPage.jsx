@@ -4,9 +4,18 @@ import TweetCard from '../common/tweetCard';
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 import RightPanel from "../right-panel/rightPanel";
+import ReplyCard from './replyCard';
 
 class TweetPage extends Component {
     async componentDidMount() {
+        this.getTweet();
+    }
+    onDelete = () => {
+        this.setState({
+            deleted: true
+        });
+    }
+    getTweet = async () => {
         if (this.props.location.state) {
             let tweet_id = this.props.location.state.tweet_id;
             localStorage.setItem("tweet_id", tweet_id);
@@ -20,19 +29,20 @@ class TweetPage extends Component {
                 document.title = "Tweet / Twitter";
         }
     }
-    onDelete = () => {
-        this.setState({
-            deleted: true
-        });
-    }
 
     render() {
-        let tweet, tweetCard, redirectVar;
+        let tweet, tweetCard, redirectVar, replyFeed = [];
         if (this.state && this.state.tweet) {
             tweet = this.state.tweet;
             tweet.showDetails = true;
-            tweetCard = (<TweetCard data={tweet} onDelete={this.onDelete}/>)
+            tweetCard = (<TweetCard data={tweet} onDelete={this.onDelete} getTweet={this.getTweet}/>)
+            tweet.replies.reverse();
+            tweet.replies.map(reply => {
+                replyFeed.push(<ReplyCard data = {reply}/>);
+                return 0;
+            })
         }
+
         if(this.state && this.state.deleted){
             redirectVar = (<Redirect to="/home" />);
         }
@@ -43,6 +53,7 @@ class TweetPage extends Component {
                     <div className="row">
                         <h2 className="content-title col-sm-12">Tweet</h2>
                         {tweetCard}
+                        {replyFeed}
                     </div>
                 </div>
                 <RightPanel />

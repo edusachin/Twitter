@@ -49,10 +49,10 @@ class UserCard extends Component {
         }
     }
 
-    componentWillReceiveProps() {
-        if (this.props.data) {
+    componentWillReceiveProps(props) {
+        if (props.data) {
             this.setState({
-                user: this.props.data
+                user: props.data
             });
         }
     }

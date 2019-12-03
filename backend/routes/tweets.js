@@ -24,7 +24,7 @@ express().use(express.static('public'));
 router.get("/user/:user_id/:page_number", checkAuth, async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
-        page_number: req.params.page_number,
+        page: req.params.page_number || 1,
         route: "get_user_tweets"
     }
 
@@ -43,9 +43,10 @@ router.get("/user/:user_id/:page_number", checkAuth, async (req, res) => {
 /**
  * To get all the tweets of the following of a user
  */
-router.get("/following/:user_id", checkAuth, async (req, res) => {
+router.get("/following/:user_id/:page", async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
+        page: req.params.page || 1,
         route: "get_following_tweets"
     }
 
@@ -64,9 +65,10 @@ router.get("/following/:user_id", checkAuth, async (req, res) => {
 /**
  * To get all the tweets liked by a user
  */
-router.get("/liked/:user_id", checkAuth, async (req, res) => {
+router.get("/liked/:user_id/:page", checkAuth, async (req, res) => {
     let msg = {
         user_id: req.params.user_id,
+        page: req.params.page || 1,
         route: "get_user_liked_tweets"
     }
 
