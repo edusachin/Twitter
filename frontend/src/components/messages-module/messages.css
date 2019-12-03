@@ -51,3 +51,7 @@
     color: #38A1F3;
     margin: auto
 }
+
+.messages-section input[type="text"]:focus{
+    outline: 0;
+}
