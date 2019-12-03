@@ -2,7 +2,7 @@
 const config = {
    secret: "cmpe273_kafka_passport_mongo",
    frontendURI: "http://localhost:3000",
-   kafkaURI: "184.72.81.222:9092,54.144.192.115:9092,54.86.72.238:9092",
+   kafkaURI: "3.82.252.69:9092,54.197.8.135:9092,3.82.218.63:9092",
    // Start 3 servers on local on diff ports for local setup
    //kafkaURI: "localhost:9092,locahost:9093,localhost:9094",
    mysqlUser: "root",
