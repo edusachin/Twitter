@@ -46,12 +46,8 @@ class CreateList extends Component {
 
     render() {
         return (<>
-            <i class="fas fa-plus"
-
-                onClick={this.handleShow}
-            ></i>
-
-
+        <div className=" btn btn-outline-primary " onClick={this.handleShow}> <i class="fas fa-plus"/><b> Create</b></div>
+           
             <Modal
                 size="lg"
                 onHide={this.handleClose}
