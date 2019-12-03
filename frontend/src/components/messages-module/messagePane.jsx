@@ -5,7 +5,8 @@ import { backendURI } from '../../utils/config';
 
 class messagePane extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.state={};
     }
     componentWillMount() {
         this.getMsg();

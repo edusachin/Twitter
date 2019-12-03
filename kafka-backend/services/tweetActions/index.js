@@ -15,7 +15,7 @@ function handle_request(msg, callback) {
         case "post_unlike":
             postUnlike(msg, callback);
             break;
-        case "post_reply":
+        case "post_replies":
             postReply(msg, callback);
             break;
     }

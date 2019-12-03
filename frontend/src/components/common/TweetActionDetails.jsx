@@ -78,7 +78,7 @@ class TweetActionDetails extends Component {
                         <Link className="likes-link" onClick={this.handleToggleLikes}><b>{likes.length}</b> Likes</Link>
                     </div>
                 </div>
-                <Modal show={this.state.setModalReTweets} onHide={this.handleClose}>
+                <Modal show={this.state.setModalReTweets} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
                         <Modal.Title className="ml-3"><h5><b>Retweeted by</b></h5></Modal.Title>
                     </Modal.Header>
@@ -87,7 +87,7 @@ class TweetActionDetails extends Component {
                     </Modal.Body>
                 </Modal>
 
-                <Modal show={this.state.setModalLikes} onHide={this.handleClose}>
+                <Modal show={this.state.setModalLikes} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
                         <Modal.Title className="ml-3"><h5><b>Liked by</b></h5></Modal.Title>
                     </Modal.Header>
