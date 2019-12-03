@@ -125,3 +125,9 @@ body,
 .input-group .input-group-text {
   width: 100%;
 }
+
+.page-item:hover,
+.page-item:focus {
+  text-decoration: none;
+  cursor: pointer;
+}

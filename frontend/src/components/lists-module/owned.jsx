@@ -62,7 +62,7 @@ class Owned extends Component {
 
   return (<>
   <div className="col mt-1 text-center">{addListButton}</div>
-  <div className="row">{listrender};</div>
+  <div className="row">{listrender}</div>
   </>)  }
 }
 
