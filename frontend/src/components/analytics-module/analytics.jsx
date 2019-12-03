@@ -120,7 +120,6 @@ class Analytics extends Component {
         response = await apiService.get(`${backendURI}/api/analytics/topLikedTweets/${user_id}`);
         if (response.status === 200) {
             let tweets = response.data;
-            console.log(tweets);
             this.setState({
                 topTweetsByLikes: {
                     labels: Array.from(tweets, tweet => tweet.tweet_text),
@@ -322,6 +321,7 @@ class Analytics extends Component {
                                         scales: {
                                             yAxes: [{
                                                 ticks: {
+                                                    beginAtZero: true,
                                                     callback: function (value) { if (Number.isInteger(value)) { return value; } },
                                                     stepSize: 1
                                                 }
@@ -342,6 +342,7 @@ class Analytics extends Component {
                                         scales: {
                                             yAxes: [{
                                                 ticks: {
+                                                    beginAtZero: true,
                                                     callback: function (value) { if (Number.isInteger(value)) { return value; } },
                                                     stepSize: 1
                                                 }
@@ -362,6 +363,7 @@ class Analytics extends Component {
                                         scales: {
                                             yAxes: [{
                                                 ticks: {
+                                                    beginAtZero: true,
                                                     callback: function (value) { if (Number.isInteger(value)) { return value; } },
                                                     stepSize: 1
                                                 }
@@ -382,6 +384,7 @@ class Analytics extends Component {
                                         scales: {
                                             yAxes: [{
                                                 ticks: {
+                                                    beginAtZero: true,
                                                     callback: function (value) { if (Number.isInteger(value)) { return value; } },
                                                     stepSize: 1
                                                 }
