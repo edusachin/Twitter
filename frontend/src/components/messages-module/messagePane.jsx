@@ -53,9 +53,8 @@ class messagePane extends Component {
         }
         let user = (this.state && this.state.single_conv.user1) ? this.state.single_conv.user1 : this.state.single_conv.user2;
         let messages = this.state.single_conv.message.map(text => {
-            return (<div className="col-sm-12 user-style">
-                <h6 className="col-sm-12">{text.sender.first_name}</h6>
-                <p className="col-sm-12">{text.message_content}</p>
+            return (<div className="row messages">
+                <h6>{text.sender.first_name} : {text.message_content}</h6>
             </div>)
         })
         return (
@@ -64,10 +63,10 @@ class messagePane extends Component {
                     <h2 className="col-sm-12 content-title border-0">{user.first_name} {user.last_name}</h2>
                 </div>
 
-                <div className="row">{messages}</div>
-                <div className="row">
-                    <div className="col-sm-9 input-form">
-                        <input className="col-sm-8 pr-0 actualbox"
+                <div className="col-sm-12 message-holder">{messages}</div>
+                <div className="col-sm-12 text-and-button content-title">
+                    <div className="row ">
+                        <input className="col-sm-11 margin-10px text-box"
                             type="text"
                             name="msgText"
                             value={this.state.msgText}
@@ -75,7 +74,7 @@ class messagePane extends Component {
                             placeholder="Start a new message"
                             required={true}
                         />
-                        <div className="col-sm-3">
+                        <div className="col-sm-1">
                             <button type="submit" onClick={this.sendMsg}><i className="far fa-paper-plane"></i></button>
                         </div>
                     </div>

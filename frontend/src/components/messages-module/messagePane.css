@@ -1,25 +1,13 @@
-.messagepane-card .actualbox {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    background-color: rgb(230, 236, 240);
-    align-items: stretch;
-    border-bottom-color: rgba(0, 0, 0, 0);
-    text-decoration: none;
-    width: 100%;
-    border-radius: 25px;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding: 0;
-}
+ .messagepane-card .text-box {
+     border: none;
+     background-color: rgb(230, 236, 240);
+     border-radius: 25px;
+     padding: 10px;
+     display: block;
+     height: 32px;
+ }
 
-.messagepane-card .input-form {
-    vertical-align: bottom;
-    padding-right: 0;
-    cursor: pointer;
-}
-
+ 
 .messagepane-card .error {
     color: black;
     text-align: center;
@@ -37,12 +25,18 @@
     font-size: 13px;
     vertical-align: text-bottom;
 }
-
-
-.messagepane-card {
-    padding: 0;
+ .messagepane-card .messages{
+    padding-left: 10px;
+    align-content: stretch;
 }
 
-.messagepane-card .messagepane-name {
-    margin-bottom: 0;
+
+ .messagepane-card .message-holder {
+     position: relative;
+     top: 10px;
+ }
+
+ .messagepane-card .text-and-button {
+    position: absolute;
+    bottom: 10px;
 }

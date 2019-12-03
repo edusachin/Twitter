@@ -105,8 +105,10 @@ class Message extends Component {
                     </div>
                     <div className="row">{conversations}</div>
                 </div>
-                <div className="col-sm-8 border-right">
+                <div className="col-sm-7 border-right">
                     {messagePane}
+                </div>
+                <div className="col-sm-1">
                 </div>
                 <Modal show={this.state.setModal} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
