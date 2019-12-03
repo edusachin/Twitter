@@ -29,7 +29,7 @@ let getConversations = async (msg, callback) => {
             path:"message.sender",
             model:"User",
             select:'first_name'
-        });
+        }).sort({"message.message_time":-1});
 
         if (!userConversations) {
             err.status = STATUS_CODE.BAD_REQUEST;
