@@ -16,3 +16,6 @@
 .tweet-actions .fa-comment {
     margin-right: 5%;
 }
+.tweet-actions .cursor-pointer{
+    cursor: pointer;
+}

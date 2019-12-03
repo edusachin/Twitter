@@ -12,8 +12,8 @@ class TweetActions extends Component {
         this.state = {
             tweet: {},
             user_id: "",
-            setCommentModal : false,
-            reply_text : ""
+            setCommentModal: false,
+            reply_text: ""
         }
         this.handleCommentModal = this.handleCommentModal.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -30,22 +30,22 @@ class TweetActions extends Component {
 
     handleCommentModal = (e) => {
         e.preventDefault();
-        if(this.state.tweet.showDetails){
-        this.setState({
-            setCommentModal : true
-        });
-    }
+        if (this.state.tweet.showDetails) {
+            this.setState({
+                setCommentModal: true
+            });
+        }
     }
 
     handleClose = () => {
         this.setState({
-            setCommentModal : false
+            setCommentModal: false
         })
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
@@ -55,12 +55,12 @@ class TweetActions extends Component {
         let data = {
             user_id: user_id,
             tweet_id: tweet._id,
-            reply_text : this.state.reply_text
+            reply_text: this.state.reply_text
         }
         console.log(data);
 
         let result = await apiService.post(`${backendURI}/api/tweets/replies`, data);
-        if(result.status === 201) {
+        if (result.status === 201) {
             alertService.success('Replied');
         }
         this.handleClose();
@@ -72,23 +72,23 @@ class TweetActions extends Component {
             userImage = localStorage.getItem("user_image");
         }
         let { tweet, user_id } = this.state;
-        let likesClass = "far fa-heart mr-2";
-        let retweetClass = "fas fa-retweet mr-2";
+        let likesClass = "far fa-heart mr-2 cursor-pointer";
+        let retweetClass = "fas fa-retweet mr-2 cursor-pointer";
         if (tweet.likes_count !== 0 && tweet.likes) {
             if (tweet.likes.includes(user_id) || tweet.likes.find(like => like._id === user_id))
-                likesClass = "fas fa-heart custom-color mr-2";
+                likesClass = "fas fa-heart custom-color mr-2 cursor-pointer";
         }
 
         if (tweet.retweets_count !== 0 && tweet.retweeters) {
             if ((tweet.retweeters && tweet.retweeters.includes(user_id)) || tweet.retweeters.find(retweet => retweet._id === user_id))
-                retweetClass = "fas fa-retweet custom-color mr-2";
+                retweetClass = "fas fa-retweet custom-color mr-2 cursor-pointer";
         }
-        if(tweet.showDetails){
+        if (tweet.showDetails) {
             replyIcon = (
-                <div className="col-sm-4 replies" onClick = {this.handleCommentModal}>
-                    <i className="far fa-comment"></i>
-                    <span className = "reply-icon">{tweet.replies_count !== 0 ? tweet.replies_count : ""}</span>
-                </div>  
+                <div className="col-sm-4 replies" onClick={this.handleCommentModal}>
+                    <i className="far fa-comment cursor-pointer"></i>
+                    <span className="reply-icon">{tweet.replies_count !== 0 ? tweet.replies_count : ""}</span>
+                </div>
             );
         } else {
             replyIcon = (
