@@ -6,6 +6,7 @@ import { backendURI } from '../../utils/config';
 class messagePane extends Component {
     constructor(props) {
         super(props);
+        this.state={}
     }
     componentWillMount() {
         this.getMsg();
@@ -44,7 +45,7 @@ class messagePane extends Component {
     }
 
     render() {
-        if (!this.state) {
+        if (!this.state || !this.state.single_conv) {
             return (<div className="messagepane-card">
                 <div className="error">You don’t have a message selected</div>
                 <div className="error2">Choose one from your existing messages, or start a new one.</div>
