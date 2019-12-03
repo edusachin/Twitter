@@ -36,3 +36,7 @@
 .tweet-card .retweet-info {
     font-size: 14px;
 }
+
+.tweet-card .hastag{
+    color: #38A1F3;
+}

@@ -6,7 +6,7 @@ import { backendURI } from '../../utils/config';
 class messagePane extends Component {
     constructor(props) {
         super(props);
-        this.state={}
+        this.state = {}
     }
     componentWillMount() {
         this.getMsg();
@@ -63,20 +63,23 @@ class messagePane extends Component {
                 <div className="col-sm-12 pl-0 border-bottom">
                     <h2 className="col-sm-12 content-title border-0">{user.first_name} {user.last_name}</h2>
                 </div>
-
-                <div className="row">{messages}</div>
-                <div className="row">
-                    <div className="col-sm-9 input-form">
-                        <input className="col-sm-8 pr-0 actualbox"
-                            type="text"
-                            name="msgText"
-                            value={this.state.msgText}
-                            onChange={this.textHandler}
-                            placeholder="Start a new message"
-                            required={true}
-                        />
+                <div className="col-sm-12">
+                    <div className="row">{messages}</div>
+                </div>
+                <div className="col-sm-12">
+                    <div className="row">
+                        <div className="col-sm-9 input-form">
+                            <input className="col-sm-12 actualbox"
+                                type="text"
+                                name="msgText"
+                                value={this.state.msgText}
+                                onChange={this.textHandler}
+                                placeholder="Start a new message"
+                                required={true}
+                            />
+                        </div>
                         <div className="col-sm-3">
-                            <button type="submit" onClick={this.sendMsg}><i className="far fa-paper-plane"></i></button>
+                            <i className="far fa-paper-plane custom-color" onClick={this.sendMsg}></i>
                         </div>
                     </div>
                 </div>

@@ -1,17 +1,15 @@
 .messagepane-card .actualbox {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    background-color: rgb(230, 236, 240);
-    align-items: stretch;
-    border-bottom-color: rgba(0, 0, 0, 0);
+    color: #38A1F3;
+    border: 1px solid #E1f5fe;
+    border-bottom-left-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
     text-decoration: none;
+    background-color: #E1f5fe;
     width: 100%;
-    border-radius: 25px;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding: 0;
 }
 
 .messagepane-card .input-form {
@@ -45,4 +43,9 @@
 
 .messagepane-card .messagepane-name {
     margin-bottom: 0;
+}
+
+.messagepane-card .custom-color {
+    color: #38A1F3;
+    cursor: pointer;
 }

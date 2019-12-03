@@ -61,7 +61,7 @@ class TweetCard extends Component {
             if (this.props.getBookmarks) {
                 this.props.getBookmarks();
             }
-            if(this.props.onDelete){
+            if (this.props.onDelete) {
                 this.props.onDelete();
             }
         }
@@ -206,7 +206,7 @@ class TweetCard extends Component {
                     </div>
                     <div id="tweetImageModal" class="modal">
                         <span class="close">&times;</span>
-                        <img class="modal-content" id="tweet_image_modal" alt=""/>
+                        <img class="modal-content" id="tweet_image_modal" alt="" />
                         <div id="caption"></div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@ class TweetCard extends Component {
             tweet.hashtags.map(hashtag => {
                 hashtag = "#" + hashtag + " ";
                 hashtag = (
-                    <Link to="/explore/tweets" onClick={this.onHashtagClick}>
+                    <Link to="/explore/tweets" className="hastag" onClick={this.onHashtagClick}>
                         {hashtag}
                     </Link>
                 )
@@ -248,7 +248,7 @@ class TweetCard extends Component {
         if (tweet.bookmarksPage) {
             bookmarkTweet = (<div class="dropdown-item" onClick={this.removeBookmark}>Remove from Bookmarks</div>);
         } else {
-            bookmarkTweet = (<div class="dropdown-item"  onClick={this.bookmarkTweet}>Bookmark Tweet</div>);
+            bookmarkTweet = (<div class="dropdown-item" onClick={this.bookmarkTweet}>Bookmark Tweet</div>);
         }
 
         let tweet_content = (
@@ -286,7 +286,7 @@ class TweetCard extends Component {
                     </div>
                     {tweetImages}
                     {tweetActionDetails}
-                    <TweetActions data={tweet} handleLike={this.handleLike} handleRetweet={this.handleRetweet} getTweet={this.props.getTweet}/>
+                    <TweetActions data={tweet} handleLike={this.handleLike} handleRetweet={this.handleRetweet} getTweet={this.props.getTweet} />
                 </div>
             </div>
         );
