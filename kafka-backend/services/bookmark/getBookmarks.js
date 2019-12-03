@@ -18,7 +18,7 @@ let getBookmarks = async (msg, callback) => {
                     populate: {
                         path: 'tweet_owner',
                         model: 'User',
-                        select: 'first_name last_name user_name user_image'
+                        select: 'first_name last_name user_name user_image is_active',
                     }
                 });
 
@@ -28,7 +28,14 @@ let getBookmarks = async (msg, callback) => {
                     return callback(err, null);
                 } else {
                     let formattedBookmarks = [];
-                    bookmarks.bookmarks.map(tweet => {
+                    bookmarks = bookmarks.bookmarks.filter(tweet => tweet.tweet_owner.is_active);
+
+                    if (!bookmarks) {
+                        response.status = STATUS_CODE.SUCCESS;
+                        response.data = null;
+                        return callback(null, response);
+                    }
+                    bookmarks.map(tweet => {
                         formattedBookmarks.push(Object.assign({}, tweet._doc,
                             {
                                 likes_count: tweet.likes.length,
