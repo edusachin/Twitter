@@ -1,7 +1,7 @@
 "use strict";
 const config = {
    secret: "cmpe273_kafka_passport_mongo",
-   frontendURI: "http://localhost:3000",
+   frontendURI: "http://frontend-lb-1202175108.us-east-1.elb.amazonaws.com:3000/",
    kafkaURI: "3.82.252.69:9092,54.197.8.135:9092,3.82.218.63:9092",
    // Start 3 servers on local on diff ports for local setup
    //kafkaURI: "localhost:9092,locahost:9093,localhost:9094",
