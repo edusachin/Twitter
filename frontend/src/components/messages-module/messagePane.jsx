@@ -53,8 +53,8 @@ class messagePane extends Component {
         }
         let user = (this.state && this.state.single_conv.user1) ? this.state.single_conv.user1 : this.state.single_conv.user2;
         let messages = this.state.single_conv.message.map(text => {
-            return (<div className="row messages">
-                <h6>{text.sender.first_name} : {text.message_content}</h6>
+            return (<div className="col-sm-12 messages">
+                <h6 className="col-sm-12">{text.sender.first_name} : {text.message_content}</h6>
             </div>)
         })
         return (
@@ -62,7 +62,7 @@ class messagePane extends Component {
                 <div className="col-sm-12 pl-0 border-bottom">
                     <h2 className="col-sm-12 content-title border-0">{user.first_name} {user.last_name}</h2>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 mt-3">
                     <div className="row">{messages}</div>
                 </div>
                 <div className="col-sm-12">
@@ -77,7 +77,7 @@ class messagePane extends Component {
                                 required={true}
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-3 m-auto">
                             <i className="far fa-paper-plane custom-color" onClick={this.sendMsg}></i>
                         </div>
                     </div>

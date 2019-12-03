@@ -1,5 +1,5 @@
 .messagepane-card .actualbox {
-    color: #38A1F3;
+    color: black;
     border: 1px solid #E1f5fe;
     border-bottom-left-radius: 9999px;
     border-bottom-right-radius: 9999px;
@@ -8,8 +8,6 @@
     text-decoration: none;
     background-color: #E1f5fe;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
 }
 
 .messagepane-card .input-form {
