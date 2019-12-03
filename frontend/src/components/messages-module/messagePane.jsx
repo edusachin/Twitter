@@ -53,9 +53,8 @@ class messagePane extends Component {
         }
         let user = (this.state && this.state.single_conv.user1) ? this.state.single_conv.user1 : this.state.single_conv.user2;
         let messages = this.state.single_conv.message.map(text => {
-            return (<div className="col-sm-12 user-style">
-                <h6 className="col-sm-12">{text.sender.first_name}</h6>
-                <p className="col-sm-12">{text.message_content}</p>
+            return (<div className="row messages">
+                <h6>{text.sender.first_name} : {text.message_content}</h6>
             </div>)
         })
         return (

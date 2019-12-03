@@ -102,21 +102,20 @@ class Message extends Component {
                     <div className="row border-bottom justify-content-between px-2">
                         <h2 className="content-title border-0">Messages</h2>
                         <i className="fas fa-comment-medical custom-icon mr-1" onClick={this.handleToggle}></i>
-                        {/* <button className="new-msg-modal" onClick={this.handleToggle}>new</button> */}
-
                     </div>
                     <div className="row">{conversations}</div>
-
                 </div>
-                <div className="col-sm-8 border-right">
+                <div className="col-sm-7 border-right">
                     {messagePane}
                 </div>
-                <Modal show={this.state.setModal} onHide={this.handleClose}>
+                <div className="col-sm-1">
+                </div>
+                <Modal show={this.state.setModal} onHide={this.handleClose} scrollable={true}>
                     <Modal.Header closeButton>
                         <Modal.Title className="ml-3"><h5><b>New message</b></h5></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {following.length ? following : "You aleady have conversations with all users you follow"}
+                        {following.length ? following : "You either have conversations with all the users you follow or not following anyone yet"}
                     </Modal.Body>
                 </Modal>
             </div>

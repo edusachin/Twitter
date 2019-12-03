@@ -7,7 +7,6 @@ import placeholder from '../common/placeholder.jpg';
 
 class UserCard extends Component {
     startConvo = async (e) => {
-        console.log(this.state.user._id);
         let data = {
             sender_id: localStorage.getItem("user_id"),
             receiver_id: this.state.user._id,
@@ -19,7 +18,6 @@ class UserCard extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         if (this.props.data) {
             this.setState({
                 user: this.props.data
