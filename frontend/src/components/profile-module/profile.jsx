@@ -214,12 +214,19 @@ class Profile extends Component {
             userName = (<div><i class="fas fas fa-at"></i>{user_name}</div>);
             profileDetails = <ProfileDetails data={this.state.user_profile} getProfile={this.getProfile} />;
 
+            listButton = (
+                <div className="col-sm-6 mt-2 text-right list_button">
+                    <Link to={{ pathname: `/lists/${user_id}`}} className="btn btn-outline-primary"><b>View Lists</b></Link>
+                </div>
+            );
+
             if (user_id === localStorage.getItem("user_id")) {
                 userButton = (
                     <div className="col-sm-6 mt-2 text-left follow_button">
                         <button type="button" className="btn btn-outline-primary" onClick={this.editProfile}><b>Edit Profile</b></button>
                     </div>
                 );
+                listButton = null;
             } else if (user.followers.find(follower => follower._id === localStorage.getItem("user_id"))) {
                 userButton = (
                     <div className="col-sm-6 mt-2 text-left follow_button">
@@ -233,11 +240,6 @@ class Profile extends Component {
                     </div>
                 );
             }
-            listButton = (
-                <div className="col-sm-6 mt-2 text-right list_button">
-                    <Link to={{ pathname: `/lists/${user_id}`}} className="btn btn-outline-primary"><b>View Lists</b></Link>
-                </div>
-            );
         }
 
         return (

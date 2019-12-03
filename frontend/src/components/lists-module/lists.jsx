@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect, NavLink } from "react-router-dom";
-import CreateList from "./createList";
 import Owned from "./owned";
 import Subscriptions from "./subscriptions";
 import Memberships from "./memberships";

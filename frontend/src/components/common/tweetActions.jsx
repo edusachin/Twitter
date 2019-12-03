@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './tweetActions.css';
 import { Modal } from 'react-bootstrap';
 import placeholder from '../common/placeholder.jpg';
-import { Link } from "react-router-dom";
 import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 import alertService from '../../services/alertService';
@@ -61,7 +60,7 @@ class TweetActions extends Component {
         console.log(data);
 
         let result = await apiService.post(`${backendURI}/api/tweets/replies`, data);
-        if(result.status == 201) {
+        if(result.status === 201) {
             alertService.success('Replied');
         }
         this.handleClose();

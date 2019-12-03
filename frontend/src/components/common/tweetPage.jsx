@@ -31,7 +31,7 @@ class TweetPage extends Component {
     }
 
     render() {
-        let tweet, tweetCard, redirectVar, replies, replyFeed = [];
+        let tweet, tweetCard, redirectVar, replyFeed = [];
         if (this.state && this.state.tweet) {
             tweet = this.state.tweet;
             tweet.showDetails = true;
