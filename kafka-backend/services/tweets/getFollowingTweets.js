@@ -28,6 +28,8 @@ let getFollowingTweets = async (msg, callback) => {
     let response = {};
     let err = {};
     let output = [];
+    let page = msg.page || 1;
+    let pageSize = 10;
     try {
         let userFollowingTweets = await Users.findById(msg.user_id, { following: 1 })
             .populate({
@@ -45,7 +47,7 @@ let getFollowingTweets = async (msg, callback) => {
                     }
                 }
             });
-            let userTweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
+        let userTweets = await Users.findById(msg.user_id, { first_name: 1, last_name: 1, user_name: 1, tweets: 1, retweeted_tweets: 1 })
             .populate({
                 path: 'tweets retweeted_tweets',
                 select: 'tweet_text hashtags tweet_owner tweet_date likes replies retweeters tweet_image',
@@ -67,6 +69,16 @@ let getFollowingTweets = async (msg, callback) => {
             userTweets.tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
             userTweets.retweeted_tweets.map(tweet => tweetFormatter(tweet, userTweets, output));
             output.sort((tweet1, tweet2) => (tweet1.tweet_date < tweet2.tweet_date) ? 1 : -1);
+
+            let pageMax = Math.ceil(output.length / pageSize);
+
+            if (page > pageMax) {
+                page = pageMax;
+            }
+            let start = (page - 1) * pageSize;
+            let end = page * pageSize;
+            output = output.slice(start,end);
+
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(output);
             return callback(null, response)
