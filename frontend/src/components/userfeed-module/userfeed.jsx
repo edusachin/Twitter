@@ -83,7 +83,7 @@ class Userfeed extends Component {
         }
         return (
             <div className="row user-feed">
-                <div className="col-sm-7">
+                <div className="col-sm-7 user-feed-section">
                     <div className="row">
                         <h2 className="content-title col-sm-12">Home</h2>
                         <div className="col-sm-12"><PostTweet getFeed={this.getFeed} /></div>
