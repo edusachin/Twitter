@@ -7,7 +7,6 @@ import UserCard from './userCard';
 import "./messages.css";
 
 class Message extends Component {
-    timeout = 0;
     constructor(props) {
         super(props);
         this.state = {
@@ -26,11 +25,6 @@ class Message extends Component {
     componentWillMount = async () => {
         document.title = "Messages / Twitter";
         this.getConvos();
-        this.timeout = setInterval(this.getConvos, 3000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timeout);
     }
 
     getConvos = async () => {
