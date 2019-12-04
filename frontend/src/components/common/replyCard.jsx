@@ -28,7 +28,7 @@ class ReplyCard extends Component {
 
         if (reply.user && reply.user.user_image) {
             replierImage = reply.user.user_image;
-
+        }
         reply_content = (
             <div className="row mx-auto mt-2">
                 <div className="col-sm-1 pl-2 p-0 d-flex justify-content-center">
@@ -47,7 +47,7 @@ class ReplyCard extends Component {
                 </div>
             </div>
         );
-        }
+
         return (
             <div className="row mx-auto reply-card py-3">
                 {reply_content}
