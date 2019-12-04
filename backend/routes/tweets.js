@@ -6,6 +6,7 @@ const { STATUS_CODE } = require("../utils/constants");
 const uploadFileToS3 = require('../utils/awsImageUpload');
 const { checkAuth } = require("../utils/passport");
 const multer = require('multer');
+const logger = require("../utils/logger");
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, './uploads');
@@ -30,10 +31,14 @@ router.get("/user/:user_id/:page_number", checkAuth, async (req, res) => {
 
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             console.log("-------error: tweet:get/:id---------");
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -52,10 +57,14 @@ router.get("/following/:user_id/:page", async (req, res) => {
 
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             console.log("-------error: tweet:get_followers_tweets/:id---------");
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -74,10 +83,14 @@ router.get("/liked/:user_id/:page", checkAuth, async (req, res) => {
 
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             console.log("-------error: tweet:get_user_liked_tweets/:id---------");
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -95,10 +108,14 @@ router.get("/tweet/:tweet_id", checkAuth, async (req, res) => {
 
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             console.log("-------error: tweet:get_tweet/:id---------");
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -124,6 +141,8 @@ router.post("/", upload.any(), async (req, res) => {
                 let resp = await uploadFileToS3(req.files[i], 'tweet/' + data, msg.user_id);
                 msg.tweet_image[i] = resp.Location;
             } catch (error) {
+                msg.error = error;
+                logger.info(msg);
                 console.log(error);
             }
         }
@@ -136,9 +155,13 @@ router.post("/", upload.any(), async (req, res) => {
     msg.route = "post_tweet";
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -149,18 +172,25 @@ router.post("/", upload.any(), async (req, res) => {
  * @param req: user_id, tweet_id
  */
 router.post("/delete", checkAuth, async (req, res) => {
+    let msg = req.body;
+    msg.route = "delete_tweet";
     const { error } = false;
     if (error) {
+        msg.error = error.details[0].message;
+        logger.error(msg);
         console.log("-------error: tweet:post/deletetweet/---------");
         return res.status(STATUS_CODE.BAD_REQUEST).send(error.details[0].message);
     }
-    let msg = req.body;
-    msg.route = "delete_tweet";
+
     kafka.make_request("tweets", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
