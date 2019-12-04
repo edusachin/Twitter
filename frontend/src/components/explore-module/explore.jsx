@@ -7,6 +7,7 @@ import RightPanel from "../right-panel/rightPanel";
 class Explore extends Component {
     constructor(props) {
         super(props);
+        this.state = {};
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -38,7 +39,7 @@ class Explore extends Component {
 
     onSubmit = async (e) => {
         e.preventDefault();
-        let searchInput = this.state.searchInput;
+        let searchInput = this.state.searchInput || "";
         localStorage.setItem("search_input", searchInput);
         this.setState({
             formSubmitted: true
