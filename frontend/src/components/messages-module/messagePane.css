@@ -53,3 +53,8 @@
     color: #38A1F3;
     cursor: pointer;
 }
+
+.messagepane-card .input-box{
+    position: absolute;
+    bottom: 5%;
+}
