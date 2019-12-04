@@ -13,7 +13,7 @@ router.get("/user/:input", checkAuth, async (req, res) => {
     kafka.make_request("search", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {
@@ -32,7 +32,7 @@ router.get("/tweet/:input", checkAuth, async (req, res) => {
     kafka.make_request("search", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {
