@@ -29,6 +29,7 @@
     "mysql": "^2.17.1",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "password-hash": "^1.2.2"
+    "password-hash": "^1.2.2",
+    "simple-node-logger": "^18.12.23"
   }
 }

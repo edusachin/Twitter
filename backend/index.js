@@ -14,6 +14,7 @@ const account = require("./routes/account");
 const search = require("./routes/search");
 const list = require("./routes/list");
 const analytics = require("./routes/analytics");
+const displaylogs = require("./routes/displaylogs");
 
 app.use("/api/login", login);
 app.use("/api/signup", signup);
@@ -27,6 +28,7 @@ app.use("/api/account", account);
 app.use("/api/search", search);
 app.use("/api/list", list);
 app.use("/api/analytics", analytics);
+app.use("/api/displaylogs", displaylogs);
 
 const port = process.env.PORT || 3001;
 

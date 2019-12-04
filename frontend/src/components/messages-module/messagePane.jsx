@@ -4,17 +4,25 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 class messagePane extends Component {
+    timeout;
     constructor(props) {
         super(props);
         this.state = {}
     }
+
     componentWillMount() {
         this.getMsg();
+        this.timeout = setInterval(this.getMsg, 3000);
     }
     componentWillReceiveProps(props) {
         this.props = props;
         this.getMsg();
     }
+
+    componentWillUnmount() {
+        clearInterval(this.timeout);
+    }
+
     getMsg = async () => {
         let { data: single_conv } = await apiService.get(`${backendURI}/api/message/single/${this.props.user_id}/${this.props.cnv_id}`)
         await this.setState({ single_conv });
@@ -65,9 +73,9 @@ class messagePane extends Component {
                 <div className="col-sm-12 mt-3">
                     <div className="row">{messages}</div>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 input-box py-2 border-bottom">
                     <div className="row">
-                        <div className="col-sm-9 input-form">
+                        <div className="col-sm-11 input-form">
                             <input className="col-sm-12 actualbox"
                                 type="text"
                                 name="msgText"
@@ -77,7 +85,7 @@ class messagePane extends Component {
                                 required={true}
                             />
                         </div>
-                        <div className="col-sm-3 m-auto">
+                        <div className="col-sm-1 m-auto">
                             <i className="far fa-paper-plane custom-color" onClick={this.sendMsg}></i>
                         </div>
                     </div>

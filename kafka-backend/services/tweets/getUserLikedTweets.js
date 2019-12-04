@@ -33,7 +33,7 @@ let getUserLikedTweets = async (msg, callback) => {
                     }
                 ))
             });
-
+            likedTweets.reverse();
             let pageMax = Math.ceil(likedTweets.length / pageSize);
 
             if (page > pageMax) {
@@ -41,7 +41,7 @@ let getUserLikedTweets = async (msg, callback) => {
             }
             let start = (page - 1) * pageSize;
             let end = page * pageSize;
-            likedTweets = likedTweets.slice(start,end);
+            likedTweets = likedTweets.slice(start, end);
 
             response.status = STATUS_CODE.SUCCESS;
             response.data = JSON.stringify(likedTweets);

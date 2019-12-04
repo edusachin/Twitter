@@ -18,6 +18,7 @@ const tweetFormatter = (tweet, user, output) => {
         replies_count: tweet.replies ? tweet.replies.length : 0,
         retweets_count: tweet.retweeters ? tweet.retweeters.length : 0,
         likes: tweet.likes,
+        hashtags: tweet.hashtags,
         retweeters: tweet.retweeters
     };
     output.push(tweetObject);
@@ -41,7 +42,7 @@ let getMemberTweets = async (msg, callback) => {
                 match: { "is_active": true },
                 populate: {
                     path: "tweets retweeted_tweets",
-                    select: 'tweet_text tweet_owner tweet_date likes replies retweeters tweet_image',
+                    select: 'tweet_text tweet_owner tweet_date likes hashtags replies retweeters tweet_image',
                     model: "Tweet",
                     populate: {
                         path: 'tweet_owner',
@@ -50,7 +51,6 @@ let getMemberTweets = async (msg, callback) => {
                     }
                 }
             });
-        console.log(list);
         if (!list) {
             err.status = STATUS_CODE.BAD_REQUEST;
             err.data = MESSAGES.ACTION_NOT_COMPLETE;

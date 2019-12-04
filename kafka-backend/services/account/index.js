@@ -8,7 +8,7 @@ let handle_request = (msg, callback) => {
     case "deactivate_account":
       deactivateAccount(msg, callback);
       break;
-    case "activate_account":
+    case "login":
       activateAccount(msg, callback);
       break;
     case "delete_account":
