@@ -163,13 +163,16 @@ class ListDetails extends Component {
                 </div>
             )
         }
+        if(list_owner && list_owner.user_name) {
+            list_owner.user_name = "@" + list_owner.user_name;
+        }
         return (
             <div className="row">
                 <div className="col-sm-7">
                     <div className="row">
                         <div className="content-title col-sm-12">
                             <h4 className="col-sm-12">{list_name}</h4>
-                            <p className="tagline col-sm-12">@{list_owner.user_name}</p>
+                            <p className="tagline col-sm-12">{list_owner.user_name}</p>
                         </div>
                         <img src={listPlaceholder} className="list-image" alt="" />
                         <div className="content-title col-sm-12 text-center">
@@ -181,7 +184,7 @@ class ListDetails extends Component {
                             </div>
                             <div className="list-owner col-sm-12">
                                 <Link to={{ pathname: `/profile/${list_owner._id}`, state: { user_id: list_owner._id } }}><b>{list_owner.first_name} {list_owner.last_name} </b></Link>
-                                <Link to={{ pathname: `/profile/${list_owner._id}`, state: { user_id: list_owner._id } }}>@{list_owner.user_name}</Link>
+                                <Link to={{ pathname: `/profile/${list_owner._id}`, state: { user_id: list_owner._id } }}>{list_owner.user_name}</Link>
                             </div>
                             <div className="row">
                                 <div className="col-sm-6 py-2 text-right">
