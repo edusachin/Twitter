@@ -40,7 +40,7 @@ class Bookmarks extends Component {
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweet.bookmarksPage = true;
-                tweetfeed.push(<TweetCard data={tweet} getBookmarks={this.getBookmarks} />);
+                tweetfeed.push(<TweetCard data={tweet} getBookmarks={this.getBookmarks} bookmarksPage={true}/>);
                 return 0;
             });
         } else {
