@@ -4,17 +4,25 @@ import apiService from '../../services/httpService';
 import { backendURI } from '../../utils/config';
 
 class messagePane extends Component {
+    timeout;
     constructor(props) {
         super(props);
         this.state = {}
     }
+
     componentWillMount() {
         this.getMsg();
+        this.timeout = setInterval(this.getMsg, 3000);
     }
     componentWillReceiveProps(props) {
         this.props = props;
         this.getMsg();
     }
+
+    componentWillUnmount() {
+        clearInterval(this.timeout);
+    }
+
     getMsg = async () => {
         let { data: single_conv } = await apiService.get(`${backendURI}/api/message/single/${this.props.user_id}/${this.props.cnv_id}`)
         await this.setState({ single_conv });
