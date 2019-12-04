@@ -65,9 +65,9 @@ class messagePane extends Component {
                 <div className="col-sm-12 mt-3">
                     <div className="row">{messages}</div>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 input-box py-2 border-bottom">
                     <div className="row">
-                        <div className="col-sm-9 input-form">
+                        <div className="col-sm-11 input-form">
                             <input className="col-sm-12 actualbox"
                                 type="text"
                                 name="msgText"
@@ -77,7 +77,7 @@ class messagePane extends Component {
                                 required={true}
                             />
                         </div>
-                        <div className="col-sm-3 m-auto">
+                        <div className="col-sm-1 m-auto">
                             <i className="far fa-paper-plane custom-color" onClick={this.sendMsg}></i>
                         </div>
                     </div>

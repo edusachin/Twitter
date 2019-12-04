@@ -40,7 +40,7 @@ class Bookmarks extends Component {
         if (this.state && this.state.tweets && this.state.tweets.length) {
             this.state.tweets.map(tweet => {
                 tweet.bookmarksPage = true;
-                tweetfeed.push(<TweetCard data={tweet} getBookmarks={this.getBookmarks}/>);
+                tweetfeed.push(<TweetCard data={tweet} getBookmarks={this.getBookmarks} />);
                 return 0;
             });
         } else {
@@ -65,9 +65,14 @@ class Bookmarks extends Component {
                             </div>
                         </div>
                         <div className="content-title col-sm-1">
-                            <p className="clear-button">
-                                <button onClick={this.clearAllBookmarks}><i className="col-sm-12" class="fas fa-ellipsis-h"></i></button>
-                            </p>
+                            <div className="btn-group">
+                                <button type="button" className="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i className="col-sm-12" class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <div className="dropdown-item" onClick={this.clearAllBookmarks}>Delete Bookmarks</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="row">
