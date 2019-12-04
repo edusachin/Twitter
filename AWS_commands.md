@@ -55,6 +55,11 @@ ssh -i twitterkeypair.pem ec2-user@54.173.125.207
 ssh -i twitterkeypair.pem ec2-user@18.234.125.27
 ```
 
+### Redis
+
+```
+config set stop-writes-on-bgsave-error no
+```
 
 
 ### Kafka
