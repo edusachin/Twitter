@@ -31,7 +31,7 @@ router.get("/:user_id", checkAuth, async (req, res) => {
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {
@@ -68,7 +68,7 @@ router.post("/", upload.single('user_image'), async (req, res) => {
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         }
         else {

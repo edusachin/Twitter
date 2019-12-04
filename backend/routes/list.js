@@ -16,7 +16,7 @@ router.get("/tweets/:list_id", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -37,7 +37,7 @@ router.get("/:user_id/:getType", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -63,7 +63,7 @@ router.post("/create", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -89,7 +89,7 @@ router.post("/update", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -117,7 +117,7 @@ router.post("/delete", checkAuth, (req, res) => {
         console.log("in make request call back");
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -142,7 +142,7 @@ router.post("/add", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -168,7 +168,7 @@ router.post("/remove", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            or(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -188,7 +188,7 @@ router.get("/users/:list_id/:getType", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
@@ -207,7 +207,7 @@ router.get("/:list_id", checkAuth, (req, res) => {
     kafka.make_request("list", msg, function (err, results) {
         if (err) {
             msg.error = err.data;
-            logger.err(msg);
+            logger.error(msg);
             return res.status(err.status).send(err.data);
         } else {
             msg.status = results.status;
