@@ -5,7 +5,8 @@ function validateCreateList(user) {
     const schema = {
         list_owner: Joi.string().required(),
         list_name: Joi.string().required(),
-        list_description: Joi.string().required()
+        list_description: Joi.string().required(),
+        route: Joi.string()
     };
     return Joi.validate(user, schema);
 }
@@ -15,7 +16,8 @@ function validateUpdateList(user) {
         list_owner: Joi.string().required(),
         list_id: Joi.string().required(),
         list_name: Joi.string(),
-        list_description: Joi.string()
+        list_description: Joi.string(),
+        route: Joi.string()
     };
     return Joi.validate(user, schema);
 }
@@ -23,7 +25,8 @@ function validateUpdateList(user) {
 function validateDeleteList(user) {
     const schema = {
         list_id: Joi.string().required(),
-        list_owner: Joi.string().required()
+        list_owner: Joi.string().required(),
+        route: Joi.string()
     };
     return Joi.validate(user, schema);
 }
@@ -32,7 +35,8 @@ function validateAddToList(user) {
     const schema = {
         list_id: Joi.string().required(),
         user_id: Joi.string().required(),
-        type: Joi.string().required()
+        type: Joi.string().required(),
+        route: Joi.string()
     };
     return Joi.validate(user, schema);
 }
@@ -41,7 +45,8 @@ function validateRemoveFromList(user) {
     const schema = {
         list_id: Joi.string().required(),
         user_id: Joi.string().required(),
-        type: Joi.string().required()
+        type: Joi.string().required(),
+        route: Joi.string()
     };
     return Joi.validate(user, schema);
 }

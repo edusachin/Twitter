@@ -13,7 +13,8 @@ function validateProfile(user) {
     user_bio: Joi.string(),
     city: Joi.string(),
     state: Joi.string(),
-    zip_code: Joi.string()
+    zip_code: Joi.string(),
+    route: Joi.string()
   };
 
   return Joi.validate(user, schema);
