@@ -7,7 +7,8 @@ function validateMessage(message) {
     sender_id: Joi.string().required(),
     receiver_id: Joi.string().required(),
     message_content: Joi.string().required(),
-    conversation_id: Joi.string()
+    conversation_id: Joi.string(),
+    route: Joi.string()
   };
 
   return Joi.validate(message, schema);

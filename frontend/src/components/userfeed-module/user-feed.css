@@ -22,3 +22,9 @@
     font-size: 16px;
     vertical-align: text-bottom;
 }
+
+.user-feed .user-feed-section{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 740px;
+}

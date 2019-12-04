@@ -12,6 +12,7 @@ const { validatePassword } = require("../validations/passwordValidations");
 const { STATUS_CODE, MESSAGES } = require('../utils/constants');
 const multer = require('multer');
 const path = require('path');
+const logger = require("../utils/logger");
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '..') + '/uploads',
     filename: (req, file, callback) => {
@@ -29,9 +30,13 @@ router.get("/:user_id", checkAuth, async (req, res) => {
 
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.err(msg);
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
@@ -62,9 +67,13 @@ router.post("/", upload.single('user_image'), async (req, res) => {
     console.log('Sending kafka request');
     kafka.make_request("profile", msg, function (err, results) {
         if (err) {
+            msg.error = err.data;
+            logger.err(msg);
             return res.status(err.status).send(err.data);
         }
         else {
+            msg.status = results.status;
+            logger.info(msg);
             return res.status(results.status).send(results.data);
         }
     });
